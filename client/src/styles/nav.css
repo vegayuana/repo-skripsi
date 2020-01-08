@@ -1,0 +1,109 @@
+.navbar{
+  min-height: 80px;   
+  width: 100%; 
+  background-color: #8ee4af;
+  color: white;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+.navbar p{
+  font-size: 2rem;
+  font-weight: 400;
+  font-family: 'Oswald', sans-serif;
+  margin-bottom: 0px;
+}
+.navbar span{
+  color: #05386B;
+}
+.navbar-nav{
+  margin-right: 0px;
+  margin-left: auto;
+}
+.btn-nav{
+  margin: 10px;
+  color:white !important;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 300;
+  font-size: 22px;
+  border-radius: 5px;
+  padding: 8px 15px !important;
+}
+.btn-nav:hover{
+  background-color:#05386B;
+  color:white;
+  animation-duration: 3s;
+  animation-name: slidein;
+}
+.btn-nav:focus{
+  border-color: none;
+}
+a, a:hover{
+  text-decoration: none;
+  text-decoration-line: none;
+  background-color: transparent;
+  color: inherit;
+}
+.navbar .dropdown-menu {
+  width: 450px;
+  padding: 20px;
+  left: auto;
+  right: 0;
+  font-size: 14px;
+  border-color: #e5e5e5;
+  background-color: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+}
+.navbar .login-form .form-control {
+  max-width: 160px;
+  border-radius: 2px;
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  float: left;
+}    	
+.navbar .login-form .btn{
+  background-color: #5cdb95;
+  border: 1px solid #5cdb95;
+  color: white;
+}
+.navbar .login-form .btn:hover{
+  background-color:#379683;
+  border: 1px solid #379683;;
+  color:white;
+  animation-duration: 3s;
+  animation-name: slidein;
+}
+
+@media screen and (max-width: 450px) {
+  .navbar{  
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+  .btn-nav{
+    margin: 10px 0px;
+    text-align: center;
+  }
+  .navbar .dropdown-menu {
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #8ee4af;
+    border: none;
+    box-shadow: none;
+  }
+  .navbar .login-form .form-control {
+    max-width: 100%;
+    margin-bottom: 15px;		
+  }
+  .navbar .login-form .btn {
+    width: 100%;
+    background-color: #379683;
+    border: 1px solid #379683;;
+    
+  }
+}
+@media screen and (min-width: 451px) {
+  .navbar{
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+}

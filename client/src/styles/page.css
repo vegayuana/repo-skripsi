@@ -1,0 +1,240 @@
+html{
+  font-size:100%;
+}
+body{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  /* box-sizing: border-box;
+  overflow-x: hidden; */
+}
+.fullscreen{
+  min-height: 80vh;
+}
+.display-flex{
+  display: flex;
+}
+.float-right{
+  float: right;
+}
+.no-margin{
+  margin: 0px !important;
+}
+.no-padding{
+  padding: 0px;
+}
+.bg1{
+  max-width: 100vw;
+  max-height: 75vh;
+  transform: scaleX(-1);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 60px;
+  z-index: -100;
+}
+.bg2{
+  position: absolute;
+  top: 370px;
+  left: 20px;
+  transform: scaleX(-1);
+  width: 300px;
+  z-index: -99;
+}
+.bg3{
+  position: absolute;
+  top: 300px;
+  right: 100px;
+  width: 400px;
+}
+.search-box{
+  z-index: 100;
+  margin: 20px 85px 10px;
+}
+#button-addon2{
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: white;
+}
+#button-addon2:hover{
+  background-color: #05386B;
+  border-color: #05386B;
+}
+.content{
+  margin: 50px 85px 80px;
+}
+.filter-box{
+  margin: 5px auto;
+}
+.filter{
+  width: 100%;
+  margin: 8px 0px;
+}
+.filter:hover{
+  background-color: #05386B;
+  border-color: #05386B;
+}
+.filter-box> p{
+  color: #05386B;
+  font-weight: 400;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.3rem;
+}
+.list-box{
+  margin: 5px 0px 5px 5px;
+  padding: 18px 30px 10px;
+  box-shadow: 2px 1px #edf5e1;
+  border: 1px solid #edf5e1;
+  border-radius: 5px;
+  background-color: white;
+}
+.list h5{
+  font-weight: 400;
+  font-family: 'Oswald', sans-serif;
+  color: #05386B;
+}
+.list p{
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+.register-box{
+  background-color: white;
+  color:#05386B;
+  max-width: 600px;
+  width: 100%;
+  padding: 50px;
+  margin: 50px auto 100px;
+  border: 1px solid #edf5e1;
+  box-shadow: 2px 1px 1px #edf5e1;
+  font-weight: 500;
+}
+.register-box h3{
+  text-align: center;
+}
+.register-box .btn{
+  background-color: #05386B;
+}
+.register-box label{
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+}
+.register-box .form-control{
+  border: none;
+  border-bottom: 2px solid #edf5e1;
+  border-radius: 0px;
+  padding: 0px;
+}
+.register-box .form-control:focus, .search-box .form-control:focus{
+  box-shadow: none;
+}
+.detail-box{
+  margin: 20px;
+  background-color: white;
+  border-radius: 0px;
+  border: 1px solid #edf5e1;
+  box-shadow: 3px 3px 3px lightgrey;
+  padding: 20px;
+  min-height: 440px;
+}
+.file-box{
+  margin: 20px;
+  background-color: white;
+  border-radius: 0px;
+  border: 1px solid #edf5e1;
+  box-shadow: 3px 3px 3px lightgray;
+  padding: 20px;
+}
+.content hr{
+  background-color: #05386B;
+}
+table{
+  background: white;
+  border: 1px solid #edf5e1;
+}
+thead{
+  border: 1px solid #343a40;
+}
+.btn-handle{
+  background-color: #5cdb95;
+  color: white;
+  margin-left: 5px;
+}
+.btn-handle:hover{
+  background-color: #379683;
+  color: white;
+}
+.card{
+  width: 100%;
+  background-color: white;
+  height: 200px;
+  line-height: 200px;
+  border: 1px solid #edf5e1;
+  border-radius: 3px;
+}
+.card:hover{
+  background-color: white;
+}
+.icon{    
+  font-size: 4rem;
+  color: #379683;
+}
+.card-icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card-text{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 500;
+  height: 200px;
+  color: #05386B;
+  background-color: #edf5e1;
+}
+/*mobile*/
+@media screen and (max-width: 450px) {
+  body{
+    overflow-x: hidden;
+  }
+  .bg2{
+    display:none;
+  }
+  .content{
+    margin: 10px;
+  }
+  .search-box{
+    margin: 10px;
+  }
+  .list-box{
+    margin: 5px 0px;
+    padding: 18px 5px 10px;
+  }
+  .register-box{
+    width: 80vw;
+    padding: 30px 20px; 
+    margin: 20px auto 170px;
+  }
+  .bg3{
+    top: 545px;
+    width: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+@media screen and (min-width: 768px ) and (max-width:999px){
+  .bg3{
+    display: block;
+    top: 600px;;
+    width: 300px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+@media screen and (min-width: 1000px) {
+  .search-box{
+    margin: 20px 85px 10px;
+  }
+  .list-box{
+    margin: 5px 0px 5px 5px;
+    padding: 18px 30px 10px;
+  }
+}

@@ -1,0 +1,38 @@
+.footer{
+  background-color:#05386B;
+  color: #edf5e1;
+  padding: 30px 100px 10px; 
+}
+.logo{
+  max-width: 145px;
+  width: 100%;
+}
+.footer hr{
+  background-color:#edf5e1;
+}
+
+/*mobile*/
+@media screen and (max-width: 450px) {
+  .footer{
+    padding: 30px 20px 10px;
+    text-align: center;
+  }
+  .logo{
+    max-width: 80px;
+  }
+  .footer h5{
+    font-size: 1rem;
+   }
+   .footer h4{
+    font-size: 1.2rem;
+   }
+   .footer p{
+     font-size: 0.8rem;
+   }
+}
+@media screen and (min-width: 451px) {
+  .footer{
+    padding: 30px 100px 10px;
+    text-align: left;
+  }
+}
