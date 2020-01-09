@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 import '../styles/nav.css'
+import { FaUserAlt } from 'react-icons/fa';
 import $ from 'jquery'
 
 export class Nav extends Component {
@@ -34,7 +35,14 @@ export class Nav extends Component {
               </ul>
             </li>
             <li className="nav-item">
-            <Link to='/register' className="btn-nav nav-link">Sign Up</Link>
+              <Link to='/register' className="btn-nav nav-link">Sign Up</Link>
+            </li>
+            <li className="nav-item dropdown">
+              <a className="btn-nav nav-link dropdown" data-toggle="dropdown" ><FaUserAlt/></a>
+              <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <Link to='/profile' className="dropdown-item">Profile</Link>
+                <Link to='/' className="dropdown-item">Log Out</Link>
+              </div>
             </li>
           </ul>          
         </div>

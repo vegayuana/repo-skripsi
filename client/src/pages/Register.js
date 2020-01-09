@@ -5,29 +5,44 @@ export class Register extends Component {
   state={
     users:[]
   }
+  componentDidMount(){
+
+  }
   submit = (e) =>{
     e.preventDefault();
-    
-    let users = this.state.users;
-    let fName = this.refs.fName.value;
-    let lName = this.refs.lName.value;
-    let npm = this.refs.npm.value;
-    let pass = this.refs.pass.value;
-    let ktm = this.refs.ktm.value;
-    let time = new Date().getTime();
-    let user = {
-      fName, lName, npm, pass, ktm, time
-    }
-    
-    users.push(user);
+    var form = this.refs
+    fetch('http://localhost:3000/register', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: form.name.value,
+        npm: form.npm.value,
+        password: form.pass.value,
+        ktm_url: form.ktm.value,
+      })
+    })
 
-    this.setState({
-      users: users,
-    });
-
-    console.log(users)
+    // console.log(typeof(form.ktm.value))
+ 
+    // let users = this.state.users;
+    // let name = this.refs.name.value;
+    // let npm = this.refs.npm.value;
+    // let pass = this.refs.pass.value;
+    // let ktm = this.refs.ktm.value;
+    // let user = {
+    //   name, npm, pass, ktm
+    // }
+    // users.push(user);
+    // this.setState({
+    //   users: users,
+    // });
+   
     this.refs.registerForm.reset();
   }
+ 
   render() {
     return (
     <>
@@ -37,16 +52,12 @@ export class Register extends Component {
           <h3>Register</h3>
           <form ref="registerForm">
             <div className="form-group">
-              <label>First Name</label>
-              <input type="text" ref="fName" id="idFName" className="form-control" placeholder="Enter First Name"/>
-            </div>
-            <div className="form-group">
-              <label>Last Name</label>
-              <input type="text" ref="lName" id="idLName" className="form-control" placeholder="Enter Last Name"/>
+              <label> Name</label>
+              <input type="text" ref="name" id="idFName" className="form-control" placeholder="Name"/>
             </div>
             <div className="form-group">
               <label>NPM</label>
-              <input type="text" ref="npm" id="idNPM" className="form-control" placeholder="Enter NPM"/>
+              <input type="text" ref="npm" id="idNPM" className="form-control" placeholder="NPM"/>
             </div>
             <div className="form-group">
               <label>Password</label>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import 'font-awesome/css/font-awesome.min.css';
 import { FaFileAlt, FaUserCheck } from 'react-icons/fa';
 
 export class Admin extends Component {

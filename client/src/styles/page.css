@@ -190,6 +190,15 @@ thead{
   color: #05386B;
   background-color: #edf5e1;
 }
+.profile-box{
+  background-color: white;
+  padding: 50px;
+  box-shadow: 1px 1px 1px #edf5e1;
+  border: 1px solid #edf5e1;
+  color:#05386B ;
+}
+.skripsi{
+}
 /*mobile*/
 @media screen and (max-width: 450px) {
   body{

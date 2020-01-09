@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export class Unggah extends Component {
+export class Upload extends Component {
   state={
     datas:[]
   }
@@ -66,4 +66,4 @@ export class Unggah extends Component {
   }
 }
 
-export default Unggah
+export default Upload
