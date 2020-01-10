@@ -2,50 +2,46 @@ import React, { Component } from 'react'
 
 export class VerifikasiAkun extends Component {
   state ={
-    users:[
-      {
-        no: 1, 
-        namaD: 'Lala',
-        namaB: 'Asgarov',
-        npm: '1234',
-        ktm: '1',
-        status: 'Menunggu Verifikasi',
-      },
-      {
-        no: 2, 
-        namaD: 'John',
-        namaB: 'Doe',
-        npm: '654',
-        ktm: '2',
-        status: 'Menunggu Verifikasi',
-      },
-      {
-        no: 3, 
-        namaD: 'Apple',
-        namaB: 'tree',
-        npm: '9090',
-        ktm: '5',
-        status: 'Terverifikasi',
+    users: [],
+    isLoaded: true,
+    update:false,
+  }
+
+  componentDidMount(){
+    fetch('http://localhost:3000/user/show')
+    .then(res => res.json())
+    .then(json => {
+      this.setState({ 
+        users: json,
+        isLoaded: true
+      })
+    })
+  }
+
+  delete = (id) => {
+    fetch(`http://localhost:3000/user/delete/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
       }
-    ]
+    }).then(res => {
+      this.forceUpdate()
+    })
   }
 
-  delete = (i) => {
-    let users = this.state.users;
-    users.splice(i,1);
-    this.setState({
-      users: users
-    });
-  }
-
-  update = (i) => {
-    let user = this.state.users[i];
-    user.status='Terverifikasi'
-    this.forceUpdate()
-    console.log(this.state.users)
+  update = (id) => {
+    fetch(`http://localhost:3000/user/update/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }).then(
+      this.forceUpdate()
+    )
   }  
 
   render() {
+    let { isLoaded, users} = this.state
     return (
       <div className="container">
         <div>
@@ -54,8 +50,7 @@ export class VerifikasiAkun extends Component {
         <thead className="thead-dark">
           <tr>
             <th scope="col">No</th>
-            <th scope="col">Nama Depan</th>
-            <th scope="col">Nama Belakang</th>
+            <th scope="col">Nama</th>
             <th scope="col">NPM</th>
             <th scope="col">KTM</th>
             <th scope="col">Status</th>
@@ -63,20 +58,20 @@ export class VerifikasiAkun extends Component {
           </tr>
         </thead>
         <tbody>
-          {this.state.users.map((user, i) =>
+          { isLoaded ? 
+          users.map((user, i) =>
             <tr key={i}>
-              <th scope="row">{user.no}</th>
-              <td>{user.namaD}</td>
-              <td>{user.namaB}</td>
+              <th scope="row">{i+1}</th>
+              <td>{user.name}</td>
               <td>{user.npm}</td>
-              <td>{user.ktm}</td>
-              <td>{user.status}</td>
+              <td>{user.ktm_url}</td>
+              <td>{user.is_active}</td>
               <td>
-                <button onClick={()=>this.delete(i)} className="btn btn-danger">Hapus</button>
-                <button onClick={()=>this.update(i)} className="btn btn-handle">Verifikasi </button>
+                <button onClick={()=>this.delete(user.id)} className="btn btn-danger">Tidak Terverifikasi</button>
+                <button onClick={()=>this.update(user.id)} className="btn btn-handle">Verifikasi </button>
               </td>
-            </tr>
-          )
+            </tr>)
+          : <div> Loading ...</div>
           }
         </tbody>
         </table>

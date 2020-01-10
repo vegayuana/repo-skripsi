@@ -11,7 +11,7 @@ export class Register extends Component {
   submit = (e) =>{
     e.preventDefault();
     var form = this.refs
-    fetch('http://localhost:3000/register', {
+    fetch('http://localhost:3000/user/register', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

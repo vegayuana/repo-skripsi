@@ -13,21 +13,40 @@ import Admin from './pages/Admin'
 import Profile from './pages/Profile'
 
 export class App extends Component {
+  state={
+    user:{
+
+    }
+  }
+
+  componentDidMount() {
+    console.log(this.state.user)
+    this.setState ({
+      user: {}
+    })
+  }
+
+  setUser = (account) => {
+    this.setState ({
+      user: account
+    })
+  }
+  
   render() {
     return (
       <>
       <div className="fullscreen">
       <Router>
-        <Nav/>
+        <Nav setUser={this.setUser}/>
         <img src={bg1} alt="Logo" className="bg1"/>
         <Switch>
-          <Route path='/' exact component={Main}/>
+          <Route path='/' exact component={Main} />
           <Route path='/register' component={Register}/>
           <Route path='/profile' component={Profile}/>
           <Route path='/skripsi-detail' component= {SkripsiDetail}/>
           <Route path='/upload' component={Upload}/>
           <Route path='/admin' component={Admin}/>
-          <Route path='/verifikasi-akun' component={VerifikasiAkun}/>
+          <Route path='/verifikasi-akun' component={VerifikasiAkun} />
         </Switch>
       </Router>
       </div>
