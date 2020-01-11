@@ -1,34 +1,48 @@
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
+// import { connect, useSelector, useDispatch } from 'react-redux'
+// import { Login } from '../action'
 import '../styles/nav.css'
 import { FaUserAlt } from 'react-icons/fa';
+const axios = require('axios');
+
 export class Nav extends Component {
   state={
-    auth: false
+    auth: false,
+    token: ''
   }
   componentDidMount(){
   }
+  mapStateToProps = state => {
+    return {
+       names: state.names 
+    }
+ }
   submitLogin = (e) =>{
     e.preventDefault();
-    var form = this.refs
-    fetch('http://localhost:3000/user/login', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    let token = ''
+    let form = this.refs
+    axios({
+      method: 'post',
+      url: 'http://localhost:3000/user/login',
+      data: {
         npm: form.npm.value,
         password: form.pass.value
-      })
-    }).then(res => res.json()).then(res => {
-      this.props.setUser(res.user)
-      if(res.login) {
+      }
+    })
+    .then( res =>{
+      let datas = res.data.data
+      console.log(res)
+      if(datas.login) {
+        console.log('Login Success')
         this.setState({
-          auth:true
+          auth:true,
+          token: datas.token
         })
+        token = 'Bearer ' + this.state.token
+        console.log(token)
       } else {
-        console.log('gagal')
+        console.log('Login Failed')
       }
     })
   }

@@ -24,22 +24,6 @@ export class Register extends Component {
         ktm_url: form.ktm.value,
       })
     })
-
-    // console.log(typeof(form.ktm.value))
- 
-    // let users = this.state.users;
-    // let name = this.refs.name.value;
-    // let npm = this.refs.npm.value;
-    // let pass = this.refs.pass.value;
-    // let ktm = this.refs.ktm.value;
-    // let user = {
-    //   name, npm, pass, ktm
-    // }
-    // users.push(user);
-    // this.setState({
-    //   users: users,
-    // });
-   
     this.refs.registerForm.reset();
   }
  

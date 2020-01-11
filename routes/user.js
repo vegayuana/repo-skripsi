@@ -2,7 +2,8 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
 const uuid = require('uuid/v4');
-// const jwt = require('jsonwebtoken');
+const jwt = require('json-web-token');
+const utils = require('../utils/templates')
 
 //connect DB
 const db = require('../db/db')
@@ -11,8 +12,6 @@ require('../db/connection')
 //Register
 router.post('/register', async (req, res) =>{  
   try{
-    console.log(req.body)
-   
     let { name, npm, password, ktm_url } = req.body;
     let genId = npm + uuid();
   
@@ -21,7 +20,6 @@ router.post('/register', async (req, res) =>{
       let post = {
         id: genId, 
         is_active: false, 
-        role: '1', 
         name: name, 
         npm: npm, 
         ktm_url: ktm_url, 
@@ -30,14 +28,13 @@ router.post('/register', async (req, res) =>{
       let sql = 'INSERT INTO users SET ?';
       db.query(sql, post, (err, result)=>{
         if (err) console.log(err);
-        console.log(result);
-        res.send("Registered Sucessfully")
+        utils.template_response(res, 200, "Registered Sucessfully", null)
       })
     } else {
-      return res.send("Please Fill In All Fields")
+      return utils.template_response(res, 400, "Please Fill In All Fields" , null)
     }
   }catch(err){
-    res.status(500).send()
+    return utils.template_response(res, 500, "internal service error" , null)
   }
 });
 
@@ -46,69 +43,49 @@ router.post('/login', async (req, res) =>{
   try{
     const findUser ='SELECT * FROM users WHERE npm='+req.body.npm;
     db.query(findUser,async (err, result)=>{
-      if(!err) {
-        if(await bcrypt.compare(req.body.password, result[0].password)) {
-          return res.json({user: result[0], login: true})
-        } else {
-          return res.json({login: false})
+      try{
+        //Check if user exist 
+        if (result.length < 1){
+          return utils.template_response(res, 400, "User not registered" , null)
         }
-      } else {
-        res.json({err})
+        //Check is_active
+        let user = result[0]
+        if (user.is_active != 1){
+          return utils.template_response(res, 400, "Account not activated", null)
+        }
+        //Compare Pass
+        if( await bcrypt.compare(req.body.password, user.password)) { 
+          //Token 
+          var payload = {
+            "iss": "repository.apps",
+            "aud": "world",
+            "iat": 1400062400223,
+            "typ": "repository",
+            "request": {
+              "id": user.id,
+              "npm": user.npm,
+              "role": user.role,
+              "name": user.name,
+            }
+          }
+          var secret = "repository.secret"
+          jwt.encode(secret, payload, function (err, token) {
+            if (err) {
+              utils.template_response(res, 500, "internal api error", null)
+            }
+            utils.template_response(res, 200, "Login success", {token: token, login: true})
+          })
+        }
+        utils.template_response(res, 400, "Password does not match", {token: '', login: false})
+      }
+      catch(err){
+        utils.template_response(res, 500, "internal service error", null)
       }
     })
   }catch (err){
-    res.status(500).send()
+    utils.template_response(res, 500, "internal api error", null)
   }
 });
-
-  //JWT
-
-  // const user = { id: 3};
-  // const token=  jwt.sign({user}, 'my_secret_key');
-  // res.json({
-  //   token:token
-  // })
-
-  // jwt.sign({user}, 'secretkey', { expiresIn: '30s' }, (err, token) => {
-  //   res.json({
-  //     token
-  //   });
-  // });
-
-//Show User 
-router.get('/show', (req, res) =>{  
-  let sql = 'SELECT * FROM USERS WHERE role = 1';
-    db.query(sql, (err, result)=>{
-      if (err) console.log(err);
-      console.log(result);
-      res.send(result)
-    })
-});
-
-//Verification
-router.put('/update/:id', (req, res) =>{  
-  const id = req.params.id;
-  console.log(id)
-  let sql = `UPDATE users SET is_active=${true} where id='${id}'`;
-    db.query(sql, (err, result)=>{
-      if (err) console.log(err);
-      console.log(result);
-      // res.send(req.body)
-      res.json({"updated": true})
-    })
-});
-
-//Unverified
-router.put('/delete/:id', (req, res) =>{  
-  const id = req.params.id;
-  let sql = `UPDATE users SET is_active= ${false} where id='${id}'`;
-    db.query(sql, (err, result)=>{
-      if (err) console.log(err);
-      console.log(result);
-      res.send("delete succes!")
-    })
-});
-
 
 // FORMAT OF TOKEN
 // Authorization: Bearer <access_token>

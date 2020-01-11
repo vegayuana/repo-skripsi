@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+const axios = require('axios');
 
 export class VerifikasiAkun extends Component {
   state ={
@@ -6,31 +7,41 @@ export class VerifikasiAkun extends Component {
     isLoaded: true,
     update:false,
   }
-
   componentDidMount(){
-    fetch('http://localhost:3000/user/show')
-    .then(res => res.json())
-    .then(json => {
+    axios({
+      method: 'get',
+      url: 'http://localhost:3000/admin/show',
+    })
+    .then( res=>{
       this.setState({ 
-        users: json,
+        users: res.data,
         isLoaded: true
       })
     })
+    // fetch('http://localhost:3000/admin/show')
+    // .then(res => res.json())
+    // .then(json => {
+    //   this.setState({ 
+    //     users: json,
+    //     isLoaded: true
+    //   })
+    // })
   }
-
-  delete = (id) => {
-    fetch(`http://localhost:3000/user/delete/${id}`, {
+  unverified = (id) => {
+    fetch(`http://localhost:3000/admin/unverified/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+
       }
-    }).then(res => {
+    }).then(res => res.json())
+    .then(json =>{
       this.forceUpdate()
     })
   }
 
-  update = (id) => {
-    fetch(`http://localhost:3000/user/update/${id}`, {
+  verified = (id) => {
+    fetch(`http://localhost:3000/admin/verified/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -67,8 +78,8 @@ export class VerifikasiAkun extends Component {
               <td>{user.ktm_url}</td>
               <td>{user.is_active}</td>
               <td>
-                <button onClick={()=>this.delete(user.id)} className="btn btn-danger">Tidak Terverifikasi</button>
-                <button onClick={()=>this.update(user.id)} className="btn btn-handle">Verifikasi </button>
+                <button onClick={()=>this.unverified(user.id)} className="btn btn-danger">Tidak Terverifikasi</button>
+                <button onClick={()=>this.verified(user.id)} className="btn btn-handle">Verifikasi </button>
               </td>
             </tr>)
           : <div> Loading ...</div>

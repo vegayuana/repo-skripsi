@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+
 import Nav from './components/Nav'
 import Main from './pages/Main'
 import Upload from './pages/Upload'
@@ -12,43 +13,32 @@ import VerifikasiAkun from './pages/VerifikasiAkun'
 import Admin from './pages/Admin'
 import Profile from './pages/Profile'
 
+import { createStore } from 'redux';
+import allReducers from './reducers';
+import { Provider } from 'react-redux';
+const store = createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
 export class App extends Component {
-  state={
-    user:{
-
-    }
-  }
-
-  componentDidMount() {
-    console.log(this.state.user)
-    this.setState ({
-      user: {}
-    })
-  }
-
-  setUser = (account) => {
-    this.setState ({
-      user: account
-    })
-  }
   
   render() {
     return (
       <>
       <div className="fullscreen">
-      <Router>
-        <Nav setUser={this.setUser}/>
-        <img src={bg1} alt="Logo" className="bg1"/>
-        <Switch>
-          <Route path='/' exact component={Main} />
-          <Route path='/register' component={Register}/>
-          <Route path='/profile' component={Profile}/>
-          <Route path='/skripsi-detail' component= {SkripsiDetail}/>
-          <Route path='/upload' component={Upload}/>
-          <Route path='/admin' component={Admin}/>
-          <Route path='/verifikasi-akun' component={VerifikasiAkun} />
-        </Switch>
-      </Router>
+        <Provider store={store}>
+          <Router>
+            <Nav setUser={this.setUser}/>
+            <img src={bg1} alt="Logo" className="bg1"/>
+            <Switch>
+              <Route path='/' exact component={Main} />
+              <Route path='/register' component={Register}/>
+              <Route path='/profile' component={Profile}/>
+              <Route path='/skripsi-detail' component= {SkripsiDetail}/>
+              <Route path='/upload' component={Upload}/>
+              <Route path='/admin' component={Admin}/>
+              <Route path='/verifikasi-akun' component={VerifikasiAkun} />
+            </Switch>
+          </Router>
+        </Provider>
       </div>
       <Footer></Footer>
       </>
