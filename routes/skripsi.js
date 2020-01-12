@@ -1,21 +1,21 @@
-// var express = require('express');
-// var router = express.Router();
-// var mysql = require('mysql')
+const express = require('express')
+const router = express.Router()
+const utils = require('../utils/templates')
 
-// const db = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'root',
-//   password: '',
-//   database: 'repository'
-// });
+//connect DB
+const db = require('../db/db')
+require('../db/connection')
 
-// //connect db 
-// db.connect((err)=>{
-//   if(err){
-//     throw err;
-//   }
-//   console.log("Mysql Connected...")
-// })
+router.get('/', (req, res) =>{  
+  let sql = `SELECT * FROM skripsi WHERE is_verified =${1}`;
+  db.query(sql, (err, result)=>{
+    if (err) console.log(err)
+    res.send(result)
+  })
+})
+
+module.exports = router;
+
 
 // //Upload
 // router.post('/upload', (req, res) =>{  
@@ -36,5 +36,3 @@
 //     return res.send("Please Fill All Fields")
 //   }
 // });
-
-// module.exports = router;

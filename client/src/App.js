@@ -13,13 +13,10 @@ import VerifikasiAkun from './pages/VerifikasiAkun'
 import Admin from './pages/Admin'
 import Profile from './pages/Profile'
 
-import { createStore } from 'redux';
-import allReducers from './reducers';
-import { Provider } from 'react-redux';
-const store = createStore(allReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+import { Provider } from 'react-redux'
+import store from './store'
 
 export class App extends Component {
-  
   render() {
     return (
       <>
@@ -35,6 +32,7 @@ export class App extends Component {
               <Route path='/skripsi-detail' component= {SkripsiDetail}/>
               <Route path='/upload' component={Upload}/>
               <Route path='/admin' component={Admin}/>
+              <Route path='/verifikasi-akun' component={VerifikasiAkun} />
               <Route path='/verifikasi-akun' component={VerifikasiAkun} />
             </Switch>
           </Router>

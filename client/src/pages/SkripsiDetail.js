@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export class DetailSkripsi extends Component {
+export class SkripsiDetail extends Component {
   render() {
     return (
       <>
@@ -46,4 +46,4 @@ export class DetailSkripsi extends Component {
   }
 }
 
-export default DetailSkripsi
+export default SkripsiDetail

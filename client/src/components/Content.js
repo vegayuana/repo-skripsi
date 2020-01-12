@@ -37,38 +37,7 @@ export class Content extends Component {
         </div>
 
         <div className="col-md-9 col-sm-12">
-          <div className="list-box">
-            <List></List>
-          </div>
-          <div className="list-box">
-            <List></List>
-          </div>
-          <div className="list-box">
-            <List></List>
-          </div>
-          <div className="list-box">
-            <List></List>
-          </div>
-          <div className="list-box">
-            <List></List>
-          </div>
-          <div className="list-box">
-            <List></List>
-          </div>
-          <div className="list-box">
-            <List></List>
-          </div>
-          <div className="list-box">
-            <List></List>
-          </div>
-          <div className="list-box">
-            <List></List>
-          </div>
-          <div className="list-box">
-            <List></List>
-          </div>
-          
-          
+          <List></List>
           {/* <ul class="pagination justify-content-end">
             <li class="page-item"><a class="page-link" href="#">Previous</a></li>
             <li class="page-item"><a class="page-link" href="#">1</a></li>

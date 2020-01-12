@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-const axios = require('axios');
+import { connect } from 'react-redux'
+import { Redirect } from "react-router-dom";
+import axios from 'axios';
 
 export class VerifikasiAkun extends Component {
   state ={
@@ -8,51 +10,51 @@ export class VerifikasiAkun extends Component {
     update:false,
   }
   componentDidMount(){
-    axios({
-      method: 'get',
-      url: 'http://localhost:3000/admin/show',
-    })
-    .then( res=>{
-      this.setState({ 
-        users: res.data,
-        isLoaded: true
+      axios({
+        method: 'get',
+        url: 'http://localhost:3000/admin/show',
+        headers: {
+          Authorization: this.props.token
+        } 
       })
-    })
-    // fetch('http://localhost:3000/admin/show')
-    // .then(res => res.json())
-    // .then(json => {
-    //   this.setState({ 
-    //     users: json,
-    //     isLoaded: true
-    //   })
-    // })
+      .then( res=>{
+        this.setState({ 
+          users: res.data,
+          isLoaded: true
+        })
+      })
   }
   unverified = (id) => {
-    fetch(`http://localhost:3000/admin/unverified/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-
-      }
-    }).then(res => res.json())
-    .then(json =>{
-      this.forceUpdate()
+    var _self = this
+    axios({
+      method: 'put',
+      url: `http://localhost:3000/admin/unverified/${id}`,
+    })
+    .then(res=>{
+      _self.setState({ 
+        update: true
+      })
     })
   }
 
   verified = (id) => {
-    fetch(`http://localhost:3000/admin/verified/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    }).then(
-      this.forceUpdate()
-    )
+    var _self = this
+    axios({
+      method: 'put',
+      url: `http://localhost:3000/admin/verified/${id}`,
+    })
+    .then(res=>{
+      _self.setState({ 
+        update: true
+      })
+    })
   }  
 
   render() {
     let { isLoaded, users} = this.state
+    if (!this.props.token){
+      return <Redirect to={'/'} />
+    }
     return (
       <div className="container">
         <div>
@@ -76,10 +78,26 @@ export class VerifikasiAkun extends Component {
               <td>{user.name}</td>
               <td>{user.npm}</td>
               <td>{user.ktm_url}</td>
-              <td>{user.is_active}</td>
+              <td>{user.is_active === 1 ? <p>Diverifikasi </p> :
+                    user.is_active === 0 ? <p>Tidak Diverifikasi</p> :
+                      <p>Belum Diverifikasi</p>
+              }</td>
               <td>
-                <button onClick={()=>this.unverified(user.id)} className="btn btn-danger">Tidak Terverifikasi</button>
-                <button onClick={()=>this.verified(user.id)} className="btn btn-handle">Verifikasi </button>
+                {user.is_active === 1 ?
+                  <>
+                  <button onClick={()=>this.unverified(user.id)} className="btn btn-danger" >Tidak Terverifikasi</button>
+                  <button onClick={()=>this.verified(user.id)} className="btn btn-handle" disabled>Verifikasi </button>
+                  </>
+                  : user.is_active === 0 ?
+                    <>
+                    <button onClick={()=>this.unverified(user.id)} className="btn btn-danger" disabled >Tidak Terverifikasi</button>
+                    <button onClick={()=>this.verified(user.id)} className="btn btn-handle" >Verifikasi </button>
+                    </>
+                    : <>
+                      <button onClick={()=>this.unverified(user.id)} className="btn btn-danger">Tidak Terverifikasi</button>
+                      <button onClick={()=>this.verified(user.id)} className="btn btn-handle" >Verifikasi </button>
+                      </>
+                }
               </td>
             </tr>)
           : <div> Loading ...</div>
@@ -91,5 +109,10 @@ export class VerifikasiAkun extends Component {
     )
   }
 }
+const mapStateToProps = state => {
+  return{
+    token : state.auth.token
+  }
+};
+export default connect(mapStateToProps, null)(VerifikasiAkun);
 
-export default VerifikasiAkun

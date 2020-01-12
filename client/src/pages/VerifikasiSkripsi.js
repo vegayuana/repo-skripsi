@@ -1,34 +1,6 @@
 import React, { Component } from 'react'
 
 export class VerifikasiSkripsi extends Component {
-  state ={
-    users:[
-      {
-        no: 1, 
-        namaD: 'Lala',
-        namaB: 'Asgarov',
-        npm: '1234',
-        ktm: '1',
-        status: 'Menunggu Verifikasi',
-      },
-      {
-        no: 2, 
-        namaD: 'John',
-        namaB: 'Doe',
-        npm: '654',
-        ktm: '2',
-        status: 'Menunggu Verifikasi',
-      },
-      {
-        no: 3, 
-        namaD: 'Apple',
-        namaB: 'tree',
-        npm: '9090',
-        ktm: '5',
-        status: 'Terverifikasi',
-      }
-    ]
-  }
 
   delete = (i) => {
     let users = this.state.users;
