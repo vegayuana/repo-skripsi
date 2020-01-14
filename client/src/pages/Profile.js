@@ -5,9 +5,10 @@ export class Profile extends Component {
   render() {
     return (
       <div className="">
-        <div className="row no-margin">
+        <div className="row main-box">
           <div className="col-md-6">
-            <div className="content profile-box">
+            <div className="profile-box">
+            <div className="ribbon"><h2 className="no-margin">Profile</h2></div>
               <p>Nama Lengkap</p>
               <p>NPM</p>
               <p>KTM</p>
@@ -42,7 +43,9 @@ export class Profile extends Component {
             </div>
           </div>
           <div className="col-md-6">
-            <div className="content profile-box">
+            <div className="profile-box">
+              <h5>Skripsi</h5>
+              <hr/>
               <p>Judul</p>
               <p>Status</p>
               <div>File</div>

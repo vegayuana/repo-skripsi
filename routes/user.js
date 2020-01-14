@@ -19,7 +19,6 @@ router.post('/register', async (req, res) =>{
       password = await bcrypt.hash(password, 10);
       let post = {
         id: genId, 
-        is_active: false, 
         name: name, 
         npm: npm, 
         ktm_url: ktm_url, 
@@ -59,6 +58,7 @@ router.post('/login', async (req, res) =>{
           var payload = {
             "iss": "repository.apps",
             "aud": "world",
+            "exp": 1592244331,
             "iat": 1400062400223,
             "typ": "repository",
             "request": {
@@ -73,10 +73,10 @@ router.post('/login', async (req, res) =>{
             if (err) {
               utils.template_response(res, 500, "internal api error", null)
             }
-            utils.template_response(res, 200, "Login success", {token: token, login: true})
+            utils.template_response(res, 200, "Login success", {token: token, isLogged:true, role:user.role})
           })
         }
-        utils.template_response(res, 400, "Password does not match", {token: '', login: false})
+        utils.template_response(res, 400, "Password does not match", {token: '', isLogged:false})
       }
       catch(err){
         utils.template_response(res, 500, "internal service error", null)

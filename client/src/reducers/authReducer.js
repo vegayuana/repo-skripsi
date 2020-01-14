@@ -1,10 +1,8 @@
 import axios from "axios";
 
 const initialState = {
-  user: '',
   role:'',
-  token:'',
-  isLogged: false
+  token:''
 }
 
 export const setToken = (npm, password) => {
@@ -17,10 +15,10 @@ export const setToken = (npm, password) => {
         password: password
       }
     }).then(res => {
-      let datas = res.data.data
-      console.log (datas)
-      if (datas.login) {
-        dispatch({ type: "SET_TOKEN", payload: "Bearer " + datas.token })
+      let user = res.data.data
+      console.log (user)
+      if (user.isLogged) {
+        dispatch({ type: "SET_TOKEN", payload: user })
       } else {
         console.log("Login Failed")
       }
@@ -28,22 +26,28 @@ export const setToken = (npm, password) => {
   }
 } 
 
+export const delToken = ()=>{
+  return dispatch => {
+    dispatch({ type: "DEL_TOKEN", payload: "" })
+  }
+}
+
 //reducer
-const loggedReducer = (state = initialState, action) =>{
+const authReducer = (state = initialState, action) =>{
   switch(action.type){
-    case 'SET_LOGIN': 
-      return {
-        ...state,
-        isLogged: true 
-      }
     case 'SET_TOKEN':
       return {
         ...state,
-        token: action.payload,
-        isLogged:true
+        role: action.payload.role,
+        token: 'Bearer ' + action.payload.token
+      }
+    case 'DEL_TOKEN' :
+      return{
+        ...state,
+        token:action.payload
       }
     default: 
       return state
   }
 }
-export default loggedReducer
+export default authReducer

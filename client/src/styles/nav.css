@@ -5,6 +5,7 @@
   color: white;
   padding-left: 100px;
   padding-right: 100px;
+  font-family: 'Oswald', sans-serif;
 }
 .navbar p{
   font-size: 2rem;
@@ -21,21 +22,24 @@
 }
 .btn-nav{
   margin: 10px;
-  color:white !important;
-  font-family: 'Oswald', sans-serif;
-  font-weight: 300;
-  font-size: 22px;
-  border-radius: 5px;
-  padding: 8px 15px !important;
-}
-.btn-nav:hover{
-  background-color:#05386B;
   color:white;
-  animation-duration: 3s;
-  animation-name: slidein;
+  font-weight: 300;
+  font-size: 1.5rem;
+  line-height: 1.7rem;
+  transition: 0.5s;
 }
-.btn-nav:focus{
-  border-color: none;
+.btn-nav:hover , .btn-nav:active {
+  color:#05386B;
+  border: none;
+  box-shadow: none;
+}
+.btnNav:hover, .btNav:active{
+  font-size: 1.7rem;
+  font-weight: 300;
+}
+.btn-nav:focus, .btn-nav:visited{
+  box-shadow: none;
+  border: none;
 }
 a, a:hover{
   text-decoration: none;
@@ -43,13 +47,36 @@ a, a:hover{
   background-color: transparent;
   color: inherit;
 }
-.navbar .dropdown-menu {
+.user-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px 0px;
+  height: 100vh;
+  width: 0;
+  border-color:#edf5e1;
+  background-color:#8ee4af;
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  overflow-x: hidden;
+  transition: 0.3s;
+  box-shadow: -5px 10px 8px rgba(0,0,0,.05)
+}
+.user-menu a{
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+  color: white ;
+}
+.user-menu.show{
+  width: 200px;
+}
+.navbar .login-form {
   width: 450px;
   padding: 20px;
   left: auto;
   right: 0;
   font-size: 14px;
-  border-color: #e5e5e5;
+  border-color: #edf5e1;
   background-color: white;
   box-shadow: 0 2px 8px rgba(0,0,0,.05);
 }
@@ -64,16 +91,15 @@ a, a:hover{
 .navbar .login-form .btn{
   background-color: #5cdb95;
   border: 1px solid #5cdb95;
+  font-family: 'Montserrat', sans-serif;
   color: white;
+  transition: 0.5s;
 }
 .navbar .login-form .btn:hover{
   background-color:#379683;
   border: 1px solid #379683;;
   color:white;
-  animation-duration: 3s;
-  animation-name: slidein;
 }
-
 @media screen and (max-width: 450px) {
   .navbar{  
     padding-left: 25px;
@@ -82,6 +108,20 @@ a, a:hover{
   .btn-nav{
     margin: 10px 0px;
     text-align: center;
+  }
+  .navbar-collapse{
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 80px;
+    right: 0;
+    overflow-x: hidden;
+    transition: 0.5s;
+    background-color: #8ee4af;
+    box-shadow: -5px 10px 8px rgba(0,0,0,.05)
+  }
+  .navbar-collapse.show{
+    width: 50vw;
   }
   .navbar .dropdown-menu {
     width: 100%;
@@ -97,13 +137,6 @@ a, a:hover{
   .navbar .login-form .btn {
     width: 100%;
     background-color: #379683;
-    border: 1px solid #379683;;
-    
-  }
-}
-@media screen and (min-width: 451px) {
-  .navbar{
-    padding-left: 100px;
-    padding-right: 100px;
+    border: 1px solid #379683;
   }
 }

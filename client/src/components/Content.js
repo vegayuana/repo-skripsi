@@ -5,7 +5,7 @@ import '../styles/page.css';
 export class Content extends Component {
   render() {
     return (
-      <div className="content row">
+      <div className="main-box row">
         <div className="col-md-3 col-sm-12 filter-box">
           <p className="no-margin">Saring Berdasarkan</p>
           <div className="row">
@@ -15,9 +15,9 @@ export class Content extends Component {
                   Topik
                 </button>
                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a className="dropdown-item" href="#">Artificial Inteligence</a>
-                  <a className="dropdown-item" href="#">Jaringan Komputer</a>
-                  <a className="dropdown-item" href="#">Sistem Informasi</a>
+                  <button className="dropdown-item">Artificial Inteligence</button>
+                  <button className="dropdown-item">Jaringan Komputer</button>
+                  <button className="dropdown-item">Sistem Informasi</button>
                 </div>
               </div>
             </div>
@@ -27,9 +27,9 @@ export class Content extends Component {
                   Tahun
                 </button>
                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a className="dropdown-item" href="#">2012</a>
-                  <a className="dropdown-item" href="#">2013</a>
-                  <a className="dropdown-item" href="#">2014</a>
+                  <button className="dropdown-item">2012</button>
+                  <button className="dropdown-item">2013</button>
+                  <button className="dropdown-item">2014</button>
                 </div>
               </div>
             </div>
@@ -37,6 +37,7 @@ export class Content extends Component {
         </div>
 
         <div className="col-md-9 col-sm-12">
+          
           <List></List>
           {/* <ul class="pagination justify-content-end">
             <li class="page-item"><a class="page-link" href="#">Previous</a></li>

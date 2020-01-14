@@ -2,16 +2,17 @@ import React, { Component } from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import Nav from './components/Nav'
-import Main from './pages/Main'
-import Upload from './pages/Upload'
-import SkripsiDetail from './pages/SkripsiDetail'
-import Register from './pages/Register'
 import Footer from './components/Footer'
+import Main from './pages/Main'
+import Register from './pages/Register'
+import SkripsiDetail from './pages/SkripsiDetail'
+import Profile from './pages/Profile'
+import Upload from './pages/Upload'
+import Admin from './pages/Admin'
+import AccountVerification from './pages/AccountVerification'
+import SkripsiVerification from './pages/SkripsiVerification'
 import bg1 from './icons/bg.png'
 import './styles/page.css'
-import VerifikasiAkun from './pages/VerifikasiAkun'
-import Admin from './pages/Admin'
-import Profile from './pages/Profile'
 
 import { Provider } from 'react-redux'
 import store from './store'
@@ -29,11 +30,11 @@ export class App extends Component {
               <Route path='/' exact component={Main} />
               <Route path='/register' component={Register}/>
               <Route path='/profile' component={Profile}/>
-              <Route path='/skripsi-detail' component= {SkripsiDetail}/>
+              <Route path='/skripsi-detail/:id' component= {SkripsiDetail}/>
               <Route path='/upload' component={Upload}/>
               <Route path='/admin' component={Admin}/>
-              <Route path='/verifikasi-akun' component={VerifikasiAkun} />
-              <Route path='/verifikasi-akun' component={VerifikasiAkun} />
+              <Route path='/account-verification' component={AccountVerification} />
+              <Route path='/skripsi-verification' component={SkripsiVerification} />
             </Switch>
           </Router>
         </Provider>

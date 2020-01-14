@@ -1,11 +1,18 @@
+/* color
+#05386B blue 
+#379683 dark green 
+#5cdb95 green 
+#8ee4af light green
+#edf5e1 grey
+box-shadow: 0 2px 8px rgba(0,0,0,.05);
+*/
+
 html{
   font-size:100%;
 }
 body{
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
-  /* box-sizing: border-box;
-  overflow-x: hidden; */
 }
 .fullscreen{
   min-height: 80vh;
@@ -15,6 +22,10 @@ body{
 }
 .float-right{
   float: right;
+}
+.right{
+  margin-left: auto;
+  margin-right: 0px;
 }
 .no-margin{
   margin: 0px !important;
@@ -59,7 +70,17 @@ body{
   background-color: #05386B;
   border-color: #05386B;
 }
-.content{
+.btn-primary{
+  background-color: #05386B;
+  border: 1px solid #05386B;
+  transition: 0.3s;
+}
+.btn-primary:hover ,.btn-primary:active, .btn-primary:focus {
+  background-color: #032649 !important;
+  border: 1px solid #032649;
+  box-shadow: none;
+}
+.main-box{
   margin: 50px 85px 80px;
 }
 .filter-box{
@@ -82,7 +103,8 @@ body{
 .list-box{
   margin: 5px 0px 5px 5px;
   padding: 18px 30px 10px;
-  box-shadow: 2px 1px #edf5e1;
+  /* box-shadow: 2px 1px #edf5e1; */
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
   border: 1px solid #edf5e1;
   border-radius: 5px;
   background-color: white;
@@ -104,7 +126,8 @@ body{
   padding: 50px;
   margin: 50px auto 100px;
   border: 1px solid #edf5e1;
-  box-shadow: 2px 1px 1px #edf5e1;
+  /* box-shadow: 2px 1px 1px #edf5e1; */
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
   font-weight: 500;
 }
 .register-box h3{
@@ -131,7 +154,8 @@ body{
   background-color: white;
   border-radius: 0px;
   border: 1px solid #edf5e1;
-  box-shadow: 3px 3px 3px lightgrey;
+  /* box-shadow: 3px 3px 3px lightgrey; */
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
   padding: 20px;
   min-height: 440px;
 }
@@ -140,18 +164,28 @@ body{
   background-color: white;
   border-radius: 0px;
   border: 1px solid #edf5e1;
-  box-shadow: 3px 3px 3px lightgray;
+  /* box-shadow: 3px 3px 3px lightgray; */
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
   padding: 20px;
 }
-.content hr{
+.main-box hr{
   background-color: #05386B;
 }
 table{
   background: white;
-  border: 1px solid #edf5e1;
 }
-thead{
-  border: 1px solid #343a40;
+.table td,.table th{
+  vertical-align: middle;
+  padding: 15px 5px;
+}
+.table td{
+  min-width: 150px;
+}
+.btn-table{
+  border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 5px;
 }
 .btn-handle{
   background-color: #5cdb95;
@@ -169,6 +203,7 @@ thead{
   line-height: 200px;
   border: 1px solid #edf5e1;
   border-radius: 3px;
+  box-shadow: 1px 3px 8px rgba(0,0,0,.05)
 }
 .card:hover{
   background-color: white;
@@ -191,11 +226,23 @@ thead{
   background-color: #edf5e1;
 }
 .profile-box{
+  position: relative;
   background-color: white;
   padding: 50px;
-  box-shadow: 1px 1px 1px #edf5e1;
+  /* box-shadow: 1px 1px 1px #edf5e1; */
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
   border: 1px solid #edf5e1;
   color:#05386B ;
+}
+.ribbon{
+  position: absolute;
+  top: -20px;
+  background-color: #05386B;
+  color: white;
+  /* box-shadow: 3px 3px 2px #c0c0c0; */
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  padding: 5px 10px;
+  border-radius: 2px;
 }
 .skripsi{
 }
@@ -207,7 +254,7 @@ thead{
   .bg2{
     display:none;
   }
-  .content{
+  .main-box{
     margin: 10px;
   }
   .search-box{
@@ -217,13 +264,16 @@ thead{
     margin: 5px 0px;
     padding: 18px 5px 10px;
   }
+  .list h5{
+    font-size: 0.8rem;
+  }
   .register-box{
     width: 80vw;
     padding: 30px 20px; 
     margin: 20px auto 170px;
   }
   .bg3{
-    top: 545px;
+    top: 570px;
     width: 200px;
     left: 50%;
     transform: translateX(-50%);
