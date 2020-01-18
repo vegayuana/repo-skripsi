@@ -14,7 +14,7 @@ const auth = {
 				return
 			}
 			next()
-    });
+    })
 	},
 
 	users (req, res, next){
@@ -28,7 +28,17 @@ const auth = {
 				return
 			}
 			next()
-    });
-	}
+    })
+  }
+  
+  // gen(req, res, next){
+  //   jwt.decode(secret, req.headers.authorization, function (err, decodedPayload, decodedHeader) {
+  //     if (err) {
+  //      	utils.template_response(res, 401, "failed to authorize token", null)
+	// 			return
+  //     }
+	// 		next()
+  //   })
+  // }
 }
 module.exports = auth;

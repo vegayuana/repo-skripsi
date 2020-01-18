@@ -1,28 +1,11 @@
-import axios from "axios";
-
 const initialState = {
   role:'',
   token:''
 }
 
-export const setToken = (npm, password) => {
+export const setToken = (loginInfo) => {
   return dispatch => {
-    axios({
-      method: "post",
-      url: "http://localhost:3000/user/login",
-      data: {
-        npm: npm,
-        password: password
-      }
-    }).then(res => {
-      let user = res.data.data
-      console.log (user)
-      if (user.isLogged) {
-        dispatch({ type: "SET_TOKEN", payload: user })
-      } else {
-        console.log("Login Failed")
-      }
-    })
+    dispatch({ type: "SET_TOKEN", payload: loginInfo })
   }
 } 
 
@@ -39,12 +22,19 @@ const authReducer = (state = initialState, action) =>{
       return {
         ...state,
         role: action.payload.role,
-        token: 'Bearer ' + action.payload.token
+        token: action.payload.token
       }
     case 'DEL_TOKEN' :
       return{
         ...state,
+        role:'',
         token:action.payload
+      }
+      case 'DTOKEN' :
+      return{
+        ...state,
+        role:action.payload.rl,
+        token:action.payload.tkn
       }
     default: 
       return state

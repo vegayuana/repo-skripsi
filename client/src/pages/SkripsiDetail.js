@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { Spinner } from 'react-bootstrap'
 import axios from 'axios'
+import { connect } from 'react-redux'
 export class SkripsiDetail extends Component {
   state={
     skripsi:[], 
@@ -10,8 +12,9 @@ export class SkripsiDetail extends Component {
     axios({
       method: 'get',
       url: `http://localhost:3000/skripsi/detail/${id}`,
-      Headers: {
-      }
+      headers: {
+        Authorization: this.props.token
+      } 
     })
     .then(res=>{
       this.setState({ 
@@ -20,78 +23,62 @@ export class SkripsiDetail extends Component {
       })
     })
   }
-
   componentDidMount(){
     this.getData()
   }
   render() {
-    
-    let { isLoaded, skripsi, skripsiId} = this.state
-    console.log(skripsiId, 'ini id ')
-    console.log(skripsi)
+    let { isLoaded, skripsi } = this.state
     return (
       <div className="main-box">      
-        { !isLoaded ? 
-          <div className="row">
-            <div className="col-md-4 col-sm-12">
-              <div className="detail-box">
-                <div className="text-center">
-                  <div className="spinner-border" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-8 col-sm-12">
-              <div className="detail-box">
-                <div className="text-center">
-                  <div className="spinner-border" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
-                </div>
-              </div>
+        <div className="row">
+          <div className="col-md-4 col-sm-12">
+            <div className="line"></div>
+            <div className="detail-box">
+              { !isLoaded ? <Spinner animation="border" variant="secondary" /> :
+              <>
+              <h4>IDENTITAS</h4>
+              <hr/>
+              <h5>Judul</h5>
+              <p>{skripsi.title}</p>
+              <h5>Pengarang</h5>
+              <p>{skripsi.name}</p>
+              <h5>Tahun</h5>
+              <p>{skripsi.published_year}</p>
+              <h5>Kategori</h5>
+              <p>{skripsi.category}</p>
+              </>}
             </div>
           </div>
-        : 
-          <>
-          <div className="row">
-            <div className="col-md-4 col-sm-12">
-              <div className="detail-box">
-                <h4>Identitas</h4>
-                <hr/>
-                <h5>Judul</h5>
-                <p>{skripsi.title}</p>
-                <h5>Pengarang</h5>
-                <p>{skripsi.name}</p>
-                {/* <h5>Pembimbing</h5>
-                <p>Nama Pembimbing</p> */}
-                <h5>Tahun</h5>
-                <p>{skripsi.published_year}</p>
-                <h5>Kategori</h5>
-                <p>{skripsi.category}</p>
-              </div>
-            </div>
-            <div className="col-md-8 col-sm-12">
-              <div className="detail-box">
-                <h4>Abstrak</h4>
-                <hr/>
-                <p>{skripsi.abstract}</p>
-              </div>
+          <div className="col-md-8 col-sm-12">
+            <div className="line" style={{backgroundColor: '#05386B'}}></div>
+            <div className="detail-box abstrak">
+              {!isLoaded ? <Spinner animation="border" variant="secondary" /> :
+              <>
+              <h4>ABSTRAK</h4>
+              <hr/>
+              <p>{skripsi.abstract}</p>
+              </>}
             </div>
           </div>
-          <div className="row">
-            <div className="col-sm-12">
-              <div className="file-box">
-                <h5>File</h5>
-                <hr/>
-                <p>{skripsi.file_url}</p>
-              </div>
+        </div>
+        <div className="row">
+          <div className="col-sm-12">
+            <div className="line" style={{marginTop:'1rem', backgroundColor:'#5cdb95'}}></div>
+            <div className="file-box">
+              <h5>FILE</h5>
+              <hr/>
+              <p>{skripsi.file_url}</p>
             </div>
           </div>
-          </>
-        }
+        </div>
       </div>
     )
   }
 }
-export default SkripsiDetail
+const mapStateToProps = state => {
+  return{
+    token : state.auth.token,
+    role: state.auth.role
+  }
+}
+export default connect(mapStateToProps, null)(SkripsiDetail)

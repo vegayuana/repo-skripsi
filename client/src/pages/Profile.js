@@ -1,60 +1,76 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import ProfileInfo from '../components/ProfileInfo'
+import SkripsiStatus from '../components/SkripsiStatus'
 
 export class Profile extends Component {
-  
+  state={
+    user:{},
+    isLoaded:false,
+    menu1:true,
+    style1:{
+      backgroundColor:'#379683',
+      zIndex: '1'
+    },
+    style2:{
+      backgroundColor:'#05386B',
+      zIndex: '0'
+    }
+  }
+  // getData= ()=>{
+  //   axios({
+  //     method: 'get',
+  //     url: `http://localhost:3000/user/profile/`,
+  //     headers: {
+  //       Authorization: this.props.token
+  //     } 
+  //   })
+  //   .then(res=>{
+  //     this.setState({ 
+  //       user: res.data,
+  //       isLoaded: true
+  //     })
+  //   })
+  // }
+  componentDidMount(){
+    // this.getData()
+  }
+  selectMenu = (e)=>{
+    let {style1, style2, menu1} = this.state
+    if(e.target.id==='profile' || e.target.id==='skripsi'){
+      let styleTemp= style1
+      this.setState({
+        menu1:!menu1,
+        style1:style2,
+        style2:styleTemp
+      })
+    }
+  }
   render() {
+    let { style1, style2 } = this.state
     return (
-      <div className="">
-        <div className="row main-box">
-          <div className="col-md-6">
-            <div className="profile-box">
-            <div className="ribbon"><h2 className="no-margin">Profile</h2></div>
-              <p>Nama Lengkap</p>
-              <p>NPM</p>
-              <p>KTM</p>
-              <p>Password</p>
-              <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Edit Password</button>
-              <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5 className="modal-title" id="exampleModalLabel">Edit Password</h5>
-                      <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div className="modal-body">
-                      <form>
-                      <div className="form-group">
-                        <label>Password Lama</label>
-                        <input type="password" ref="old-pass" id="old-pass" className="form-control" placeholder="Password"/>
-                      </div>
-                      <div className="form-group">
-                        <label>Password Baru</label>
-                        <input type="password" ref="new-pass" id="new-pass" className="form-control" placeholder="Password"/>
-                      </div>
-                      <button type="button" className="btn btn-secondary mr-2" data-dismiss="modal">Close</button>
-                      <button type="button" className="btn btn-primary">Save changes</button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
+      <div className=''>
+        <div className='row main-box'>
+          <div className='col-md-12'>
+            <div className='ribbon' id='profile' onClick={this.selectMenu} style={style1}>Profile</div>
+            <div className='ribbon ribbon-right' id='skripsi' onClick={this.selectMenu} style={style2}>Skripsi</div>
+            <div className='line'></div>
+            <div className='profile-box'>
+              {this.state.menu1===true?
+              <ProfileInfo></ProfileInfo>:
+              <SkripsiStatus></SkripsiStatus>
+              }
             </div>
-          </div>
-          <div className="col-md-6">
-            <div className="profile-box">
-              <h5>Skripsi</h5>
-              <hr/>
-              <p>Judul</p>
-              <p>Status</p>
-              <div>File</div>
-            </div>
-          </div>
+          </div>         
         </div>
       </div>
     )
   }
 }
-
-export default Profile
+const mapStateToProps = state => {
+  return{
+    token : state.auth.token,
+    role: state.auth.role
+  }
+}
+export default connect(mapStateToProps, null)(Profile)

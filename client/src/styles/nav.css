@@ -1,6 +1,5 @@
 .navbar{
   min-height: 80px;   
-  width: 100%; 
   background-color: #8ee4af;
   color: white;
   padding-left: 100px;
@@ -64,11 +63,18 @@ a, a:hover{
 .user-menu a{
   font-family: 'Montserrat', sans-serif;
   font-size: 1rem;
-  font-weight: 300;
+  font-weight: 500;
   color: white ;
+}
+.user-menu a:active, .user-menu a:hover, .user-menu a:focus {
+  background-color: #edf5e1 ;
+  color: #05386B ;
+  font-family: 'Montserrat', sans-serif;
+  box-shadow: none;
 }
 .user-menu.show{
   width: 200px;
+  transition: 0.3s;
 }
 .navbar .login-form {
   width: 450px;
@@ -99,6 +105,14 @@ a, a:hover{
   background-color:#379683;
   border: 1px solid #379683;;
   color:white;
+}
+.login-alert{
+  width: 100%;
+  margin-bottom: 0px;
+  width: 100%;
+  font-size: 1.1rem;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 100;
 }
 @media screen and (max-width: 450px) {
   .navbar{  

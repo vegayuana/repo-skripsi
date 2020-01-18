@@ -1,11 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import List from './List'
 import '../styles/page.css';
 
-export class Content extends Component {
-  render() {
-    return (
-      <div className="main-box row">
+export default function Content() {
+  return (
+    <div className="main-box row">
         <div className="col-md-3 col-sm-12 filter-box">
           <p className="no-margin">Saring Berdasarkan</p>
           <div className="row">
@@ -37,7 +36,6 @@ export class Content extends Component {
         </div>
 
         <div className="col-md-9 col-sm-12">
-          
           <List></List>
           {/* <ul class="pagination justify-content-end">
             <li class="page-item"><a class="page-link" href="#">Previous</a></li>
@@ -47,10 +45,6 @@ export class Content extends Component {
             <li class="page-item"><a class="page-link" href="#">Next</a></li>
           </ul> */}
         </div>
-        
       </div>
-    )
-  }
+  )
 }
-
-export default Content

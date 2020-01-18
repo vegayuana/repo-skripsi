@@ -37,14 +37,14 @@ router.put('/unverified/:id', (req, res) =>{
 
 //Show Skripsi
 router.get('/show-skripsi', (req, res) =>{  
-  let sql = `SELECT skripsi.id, skripsi.user_id, skripsi.title, skripsi.published_year, skripsi.category, skripsi.file_url, skripsi.created_at, users.name 
+  let sql = `SELECT skripsi.id, skripsi.user_id, skripsi.title, skripsi.published_year, skripsi.category, skripsi.file_url, skripsi.created_at,  skripsi.is_approved, users.name 
             FROM skripsi join users where skripsi.user_id = users.id`;
     db.query(sql, (err, result)=>{
       if (err) console.log(err);
       console.log(result);
       res.send(result)
     })
-});
+})
 
 //Approve Skripsi
 router.put('/approved/:id', (req, res) =>{  

@@ -1,28 +1,45 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
-import { setToken, delToken } from '../reducers/authReducer'
+import UserMenu from '../components/UserMenu'
+import AdminMenu from '../components/AdminMenu'
+import { Link, Redirect } from 'react-router-dom'
+import { setToken, delToken} from '../reducers/authReducer'
+import { Cookies } from 'react-cookie';
 import { connect } from 'react-redux'
 import '../styles/nav.css'
-import { FaUserAlt } from 'react-icons/fa'
-import $ from 'jquery'
+import axios from 'axios'
+
+const cookies = new Cookies();
 export class Nav extends Component {
+  
   state = {
     npm: '',
     pass: '',
-    token: ''
+    token: '',
+    role: '',
+    message: '',
+    status: null
   }
   componentDidMount(){
-    
+    // if(cookies.get('token')){
+    //   this.setState({
+    //     token: cookies.get('token'),
+    //     role: cookies.get('role')
+    //   })
+    // }
   }
   componentDidUpdate(prevProps){
     if(prevProps.token!== this.props.token){
       this.setState({
-        token : this.props.token
+        token : this.props.token,
+        role : this.props.role
       })
+      cookies.set('token', this.props.token, {path: '/'})
+      cookies.set('role', this.props.role, {path: '/'})
+      console.log('cookies :'+cookies.get('token'))
+      if (this.props.token===''){
+        cookies.remove('token')
+      }
     }
-    $('.collapse a').click(function(event){
-      $('.collapse').removeClass( "show" )
-    })
   }
   handleChange = (e) =>{
     this.setState({
@@ -30,25 +47,44 @@ export class Nav extends Component {
     })
   }
   submitLogin = e => {
-    e.preventDefault();
-    this.props.login(this.state.npm, this.state.pass);
-  };
-  logout = e =>{
-    this.props.logout();
+    e.preventDefault()
+    axios({
+      method: "post",
+      url: "http://localhost:3000/login",
+      data: {
+        npm: this.state.npm,
+        password: this.state.pass
+      }
+    }).then(res => {
+      let loginInfo = res.data.data
+      console.log (loginInfo)
+      if (loginInfo.isLogged) {
+        this.props.login(loginInfo)
+      }
+    }).catch((err) => { 
+      this.setState({
+        message:err.response.data.message,
+        status:err.response.data.status,
+      })
+    }) 
+  }
+  logout = () =>{
+    this.props.logout()
   }
 
   render() {
+    let { token, role, message, status} = this.state
     return (
       <>
-        <nav className="navbar navbar-expand-md sticky-top navbar-dark">
-          {/*Brand Name*/}
-          <Link to="/" className="navbar-brand">
-            <p>
-              REPO<span>SKRIPSI</span>
-            </p>
-          </Link>
-          
-          {!this.state.token ? 
+      <nav className="navbar navbar-expand-md sticky-top navbar-dark">
+        {/*Brand Name*/}
+        <Link to="/" className="navbar-brand">
+          <p>
+            REPO<span>SKRIPSI</span>
+          </p>
+        </Link>
+      
+        {!token ? 
           <>
           {/*Toggler*/}
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#toggle1" aria-controls="toggle" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,6 +102,16 @@ export class Nav extends Component {
                     <button type="submit" className="btn" onClick={e => this.submitLogin(e)}>
                       Login
                     </button>
+                    {status===400? 
+                    <div className="alert alert-danger login-alert" role="alert">
+                      <strong>{message}</strong>
+                    </div>
+                    : status===500 ?
+                    <div className="alert alert-warning login-alert" role="alert">
+                      <strong>Something goes wrong</strong>please try again
+                    </div>
+                    : <></>
+                    }
                   </form>
                 </ul>
               </li>
@@ -77,30 +123,12 @@ export class Nav extends Component {
             </ul>
           </div>
           </>
-          : 
-          <div className="right">
-          <button className="btn btn-nav" id="tes" data-toggle="collapse" data-target="#userMenu" aria-expanded="false" aria-controls="userMenu">
-            <FaUserAlt />
-          </button>
-          <li className="nav-item navbar-nav">
-            <div className="collapse user-menu" id="userMenu">
-              <div className="right">
-              <button className="btn btn-nav" id="tes" data-toggle="collapse" data-target="#userMenu" aria-expanded="false" aria-controls="userMenu">
-              x
-              </button>
-              </div>
-              <Link to="/profile" className="dropdown-item">
-                Profil
-              </Link>
-              <Link to="/upload" className="dropdown-item">
-                Unggah Skripsi
-              </Link>
-              <Link to="/" className="dropdown-item" onClick={()=>this.logout()}>
-                Log Out
-              </Link>
-            </div>
-          </li>
-          </div>
+          : role === 'admin' ?
+            <>
+            <Redirect to={'/admin'} />
+            <AdminMenu logout={this.logout}></AdminMenu>
+            </> :
+            <UserMenu logout={this.logout}></UserMenu>
           }
         </nav>
       </>
@@ -110,15 +138,17 @@ export class Nav extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    login: (npm, password) => dispatch(setToken(npm, password)),
+    // login: (npm, password) => dispatch(setToken(npm, password)),
+    login: (loginInfo) => dispatch(setToken(loginInfo)),
     logout: () => dispatch(delToken())
-  };
-};
+  }
+}
 
 const mapStateToProps = state => {
   return{
-    token : state.auth.token
+    token : state.auth.token,
+    role: state.auth.role
   }
-};
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Nav);
