@@ -12,17 +12,17 @@ export default class UserMenu extends Component {
   render() {
     return (
       <div className="right">
-        <button className="btn btn-nav" id="tes" data-toggle="collapse" data-target="#userMenu" aria-expanded="false" aria-controls="userMenu">
+        <button className="btn btn-nav btn-user" id="tes" data-toggle="collapse" data-target="#userMenu" aria-expanded="false" aria-controls="userMenu" style={{zIndex:1}}>
           <FaUserAlt />
         </button>
         <li className="nav-item navbar-nav">
           <div className="collapse user-menu" id="userMenu">
             <div className="right">
-            <button className="btn btn-nav" id="tes" data-toggle="collapse" data-target="#userMenu" aria-expanded="false" aria-controls="userMenu">
+            {/* <button className="btn btn-nav" id="tes" data-toggle="collapse" data-target="#userMenu" aria-expanded="false" aria-controls="userMenu">
             x
-            </button>
+            </button> */}
             </div>
-            <Link to="/profile" className="dropdown-item">
+            <Link to="/profile" className="dropdown-item" style={{marginTop:'80px'}}>
               Profil
             </Link>
             <Link to="/upload" className="dropdown-item">

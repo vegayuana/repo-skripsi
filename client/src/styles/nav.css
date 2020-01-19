@@ -27,8 +27,13 @@
   line-height: 1.7rem;
   transition: 0.5s;
 }
-.btn-nav:hover , .btn-nav:active {
+.btn-nav:hover {
   color:#05386B;
+  border: none;
+  box-shadow: none;
+}
+.btn-nav:active, .btn-nav:visited {
+  color:white;
   border: none;
   box-shadow: none;
 }
@@ -46,6 +51,9 @@ a, a:hover{
   background-color: transparent;
   color: inherit;
 }
+.btn-user{
+  margin-right: 40px;
+}
 .user-menu {
   position: absolute;
   top: 0;
@@ -58,12 +66,14 @@ a, a:hover{
   box-shadow: 0 2px 8px rgba(0,0,0,.05);
   overflow-x: hidden;
   transition: 0.3s;
-  box-shadow: -5px 10px 8px rgba(0,0,0,.05)
+  box-shadow: -5px 10px 8px rgba(0,0,0,.05);
+  z-index: -1;
 }
 .user-menu a{
   font-family: 'Montserrat', sans-serif;
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 1.1rem;
+  font-weight: 300;
+  padding: 20px;
   color: white ;
 }
 .user-menu a:active, .user-menu a:hover, .user-menu a:focus {
@@ -114,6 +124,19 @@ a, a:hover{
   font-family: 'Oswald', sans-serif;
   font-weight: 100;
 }
+.admin-menu .dropdown-menu.show{
+  left: auto !important;
+  right: 0px;
+  border: 1px solid #edf5e1;
+}
+.admin-menu a{
+  font-weight: 300;
+  font-size: 1.1rem;
+}
+.admin-menu a:hover, .admin-menu a:active, .admin-menu a:focus{
+  background-color: #edf5e1;
+  color: black;
+}
 @media screen and (max-width: 450px) {
   .navbar{  
     padding-left: 25px;
@@ -144,6 +167,12 @@ a, a:hover{
     border: none;
     box-shadow: none;
   }
+  .navbar .admin-menu .dropdown-menu {
+    width: 100%;
+    background-color: white;
+    border: none;
+    box-shadow: none;
+  }
   .navbar .login-form .form-control {
     max-width: 100%;
     margin-bottom: 15px;		
@@ -152,5 +181,9 @@ a, a:hover{
     width: 100%;
     background-color: #379683;
     border: 1px solid #379683;
+  }
+  .user-menu a{
+    text-align: right;
+    padding-right: 30px;
   }
 }

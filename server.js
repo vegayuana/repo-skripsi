@@ -1,6 +1,7 @@
-require("dotenv").config();
-const express = require('express');
-const app = express();
+require('dotenv').config()
+const express = require('express')
+var path = require('path')
+const app = express()
 const routes = require('./routes')
 const registerRoutes = require('./routes/register')
 const authRoutes = require('./routes/auth')
@@ -8,11 +9,11 @@ const skripsiRoutes = require('./routes/skripsi')
 const skripsiDetailRoutes = require('./routes/skripsiDetail')
 const userRoutes = require('./routes/user')
 const adminRoutes = require('./routes/admin')
-//middle
+//middleware
 const auth = require('./middleware/auth')
 
 //Bodyparser Middleware
-app.use(express.json());
+app.use(express.json())
 
 app.use((req, res, next) =>{
   console.log("go to middleware")
@@ -22,10 +23,14 @@ app.use('/test', routes)
 app.use('/', registerRoutes)
 app.use('/', authRoutes)
 app.use('/skripsi', skripsiRoutes)
-app.use('/skripsi', skripsiDetailRoutes)
-app.use('/user', userRoutes)
+app.use('/skripsi', auth.gen, skripsiDetailRoutes)
+app.use('/user', auth.users, userRoutes)
 app.use('/admin', auth.admin, adminRoutes)
 
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404))
+})
 
 // error handler
 app.use(function(err, req, res, next) {

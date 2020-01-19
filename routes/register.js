@@ -1,10 +1,14 @@
 const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
-const uuid = require('uuid/v4');
+const uuid = require('uuid/v4')
 const utils = require('../utils/templates')
 const asyncHandler = require('express-async-handler')
-const { check, validationResult } = require('express-validator');
+const { check, validationResult } = require('express-validator')
+const fileUpload = require('express-fileupload');
+const app = express()
+
+app.use(fileUpload())
 //connect DB
 const db = require('../db/db')
 require('../db/connection') 
@@ -22,7 +26,7 @@ router.post('/register', [check('npm').isLength({ min: 12 })], (req, res) =>{
   //check if npm is already registered
   let findUser = `SELECT npm FROM users where role="user" && npm=${npm}`;
   db.query(findUser, asyncHandler(async(err, data)=>{
-    if (err) console.log(err)
+    if (err) console.log(err.response)
     if(data.length>0){
       return utils.template_response(res, 422, "NPM is already registered" , null)
     }
@@ -49,4 +53,23 @@ router.post('/register', [check('npm').isLength({ min: 12 })], (req, res) =>{
     }
   }))
 })
+
+router.post('/image', (req, res) =>{
+  if (req.files === null) {
+    console.log('nofile')
+    return res.status(400).json({ msg: 'No file uploaded' })
+  }
+  
+  const file = req.files.file;
+  console.log('tes')
+  file.mv(`${__dirname}/client/public/ktm/${file.name}`, err => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send(err);
+    }
+  })
+  res.json({ fileName: file.name, filePath: `/ktm/${file.name}` });
+
+})
+
 module.exports = router;

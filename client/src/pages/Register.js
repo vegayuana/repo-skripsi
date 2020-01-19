@@ -10,37 +10,56 @@ export class Register extends Component {
     ktm:'',
     passCheck: '', 
     message: '', 
-    status:''
+    status:'',
+    file:null,
+    fileName:''
   }
-  submit = (e) =>{
-    console.log({e})
-    let {name, npm, pass, ktm }= this.state
-    const data = new FormData()
-    data.append('file',ktm)
+  submit = async(e) =>{
     e.preventDefault();
-    console.log(this.state)
-    axios({
-      method: "post",
-      url: "http://localhost:3000/register",
-      data: {
-        name: name, 
-        npm: npm,
-        password: pass,
-        ktm_url: ktm,
-      }
-    }).then((res) =>{
-      this.setState({
-        message:res.data.message,
-        status:res.data.status,
+    let {name, npm, pass, fileName, file}= this.state
+    const data = new FormData()
+    data.append('file', file)
+    try {
+      axios({
+        method: "post",
+        url: "http://localhost:3000/image",
+        data: data,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
       })
-      this.refs.registerForm.reset();
-    })
-    .catch((err) => { 
-      this.setState({
-        message:err.response.data.message,
-        status:err.response.data.status,
-      })
-    })
+    }
+    catch(err){
+      console.log(err.response)
+    }
+    // const regis = {
+    //   'name': name, 
+    //   'npm': npm,
+    //   'password': pass,
+    //   'ktm_url': fileName,
+    // }
+    // data.append('file',)
+    // e.preventDefault();
+    // console.log(this.state)
+    // axios({
+    //   method: "post",
+    //   url: "http://localhost:3000/register",
+    //   data: {
+       
+    //   }
+    // }).then((res) =>{
+    //   this.setState({
+    //     message:res.data.message,
+    //     status:res.data.status,
+    //   })
+    //   this.refs.registerForm.reset();
+    // })
+    // .catch((err) => { 
+    //   this.setState({
+    //     message:err.response.data.message,
+    //     status:err.response.data.status,
+    //   })
+    // })
   }
   handleInput = (e) =>{
     this.setState({
@@ -60,36 +79,16 @@ export class Register extends Component {
       })
     }
   }
-  fileToBase64 = (e) =>{
-    // let reader = new FileReader();
-    // let file = e.target.files[0]
-    // reader.readAsDataURL(file)
-    // console.log(reader)
-    // reader.onload = ()=>{
-    //   this.setState({
-    //     ktm:reader.result
-    //   })
-    //   console.log(this.state.ktm)
-    // }
-    // reader.onerror =  (error)=> {
-    //   console.log('Error: ', error)
-    // }
-
-    // this.setState({
-    //   ktm:e.target.name
-    // })
-
-
-
-    // let file = e.target.files[0]
-    // const formData = new FormData();
-    // formData.append('file', file);
-    
-    // let file = e.target.files[0]
-    
+  handleFile=(e)=>{
+    this.setState({
+      file:e.target.files[0],
+      fileName: e.target.files[0].name
+    })
   }
   render() {
     let {npm, passCheck, message, status} =this.state
+    
+    console.log('ini file', this.state.file)
     return (
     <>
       <img src={bg3} alt="Logo" className="bg3"/>
@@ -124,7 +123,7 @@ export class Register extends Component {
             </div> : <></>}
             <div className="form-group">
               <label>Foto KTM</label>
-              <input type="file" id="ktm" onChange={this.fileToBase64} className="form-control-file" accept=".png, .jpg, .jpeg"/>
+              <input type="file" id="ktm" onChange={this.handleFile} className="form-control-file" accept=".png, .jpg, .jpeg"/>
             </div>
             <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)}> Submit</button>
             { message ==='' ? <></> :

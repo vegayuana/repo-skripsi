@@ -75,12 +75,14 @@ body{
 .btn-green{
   background-color: #379683;
   border: 1px solid #379683;
+  color: white;
   transition: 0.3s;
 }
 .btn-green:hover ,.btn-green:active, .btn-green:focus, .show>.btn-green.dropdown-toggle {
   background-color: #05386B !important;
   border: 1px solid #05386B;
   box-shadow: none !important;
+  color: white;
 }
 .main-box{
   margin: 50px 85px 80px;
@@ -115,7 +117,7 @@ body{
 }
 /* List  */
 .list-box{
-  margin: 5px 0px 5px 5px;
+  margin: 5px 0px 1rem 5px;
   padding: 18px 30px 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,.05);
   border: 1px solid #edf5e1;
@@ -135,17 +137,17 @@ body{
   font-size: 15px;
   margin-bottom: 4px;
 }
-.modal-content{
+.list-skripsi .modal-content{
   border:none;
   border-radius: 5px;
 }
-.modal-header{
+.list-skripsi .modal-header{
   border:none;
   position: absolute;
   right: 0px;
   z-index: 1;
 }
-.modal-body{
+.list-skripsi .modal-body{
   text-align: center;
   line-height: 60px;
   height: 100px;
@@ -161,6 +163,7 @@ body{
   box-shadow: 0 3px 20px rgba(0,0,0,.05);
   padding: 20px;
   min-height: 440px;
+  margin-bottom: 1rem;
 }
 .detail-box h4 {
   color: #05386B;
@@ -237,15 +240,15 @@ table td, table th{
   min-width: 200px;
 }
 .btn-table{
-  border: none;
+  border: 1px solid lightgrey;
   border-radius: 4px;
   font-size: 14px;
-  padding: 5px;
+  padding: 5px;   
+  margin-left: 0.5rem; 
 }
 .btn-handle{
   background-color: #5cdb95;
   color: white;
-  margin-left: 5px;
 }
 .btn-handle:hover{
   background-color: #379683;
@@ -259,14 +262,13 @@ table td, table th{
   min-height: 45vh;
 }
 .card{
-  width: 100%;
   background-color: white;
-  height: 200px;
   line-height: 200px;
   border: 1px solid #edf5e1;
   border-radius: 3px;
   box-shadow: 1px 3px 8px rgba(0,0,0,.05);
   transition: 0.5s;
+  margin: 1rem;
 }
 .card:hover{
   background-color: white;
@@ -288,7 +290,6 @@ table td, table th{
   font-family: 'Montserrat', sans-serif;
   font-size: 1.2rem;
   font-weight: 500;
-  height: 200px;
   color: #05386B;
   background-color: #edf5e1;
 }
@@ -320,7 +321,11 @@ table td, table th{
 }
 .ribbon-right{
   left:-10px;
-
+}
+.icon-check{
+  color:#5cdb95;
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 .table-box Table{
   border: 1px solid #edf5e1;
@@ -328,8 +333,6 @@ table td, table th{
 .breadcrumb a{
   color: #05386B;
   font-weight: 500;
-}
-.skripsi{
 }
 ::-webkit-scrollbar {
   width: 12px;
@@ -364,11 +367,11 @@ table td, table th{
     margin: 10px;
   }
   .list-box{
-    margin: 5px 0px;
-    padding: 18px 5px 10px;
+    margin: 5px 0px 1rem 5px;
+    padding: 18px 10px;
   }
   .list h5{
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
   .register-box{
     width: 80vw;
@@ -381,6 +384,10 @@ table td, table th{
     left: 50%;
     transform: translateX(-50%);
   }
+  .card-text {
+    line-height: 150px;
+    text-align: center;
+  }
 }
 @media screen and (min-width: 768px ) and (max-width:999px){
   .bg3{
@@ -389,14 +396,5 @@ table td, table th{
     width: 300px;
     left: 50%;
     transform: translateX(-50%);
-  }
-}
-@media screen and (min-width: 1000px) {
-  .search-box{
-    margin: 20px 85px 10px;
-  }
-  .list-box{
-    margin: 5px 0px 5px 5px;
-    padding: 18px 30px 10px;
   }
 }

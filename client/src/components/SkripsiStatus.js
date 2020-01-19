@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import {Spinner} from 'react-bootstrap'
+import { FaRegCheckCircle } from 'react-icons/fa'
+import { IoMdCloseCircleOutline } from 'react-icons/io';
 
 export class SkripsiStatus extends Component {
   state={
@@ -36,7 +38,9 @@ export class SkripsiStatus extends Component {
         {!isLoaded? <Spinner animation="border" variant="secondary" />: 
         <>
         <p>{skripsi.title}</p>
-        <p>{skripsi.is_approved}</p>
+        {skripsi.is_approved===1 ? <div className='icon-check'><FaRegCheckCircle/> Dipublikasikan</div> :
+         skripsi.is_approved===0 ? <div className='icon-check text-danger'><IoMdCloseCircleOutline/> Ditolak</div>: <>Belum Ditinjau</>}
+        <div>{skripsi.abstract}</div>
         <div>{skripsi.file_url}</div>
         </>
         }

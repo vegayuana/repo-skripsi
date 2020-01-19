@@ -48,9 +48,7 @@ export class AccountVerification extends Component {
     this.getData()
   }  
   render() {
-    let { isLoaded, users} = this.state;
-    let btnDisabled = "btn-table"
-    console.table(users)
+    let { isLoaded, users} = this.state
     if (!this.props.token || this.props.role==='user'){
       return <Redirect to={'/'} />
     }
@@ -84,31 +82,15 @@ export class AccountVerification extends Component {
                 <th scope="row">{i+1}</th>
                 <td>{user.name}</td>
                 <td>{user.npm}</td>
-                <td><img src={user.ktm_url}/></td>
+                <td><img alt="ktm" src={user.ktm_url}/></td>
                 <td>{user.created_at}</td>
                 <td>{user.is_active === 1 ? <>Diverifikasi </> :
                       user.is_active === 0 ? <>Tidak Diverifikasi</> :
                         <>Belum Diverifikasi</>
                 }</td>
                 <td>
-                <>
-                    <button onClick={()=>this.unverified( user.id)} className={user.is_active===2 ? "btn-table btn-danger" : btnDisabled} disabled={ user.is_active===2 ? false: true} >Tidak Terverifikasi</button>
-                    <button onClick={()=>this.verified( user.id)} className={user.is_active===2 ?  "btn-table btn-handle" :btnDisabled}disabled={user.is_active===2 ? false:true} >Verifikasi </button>
-                    </>                  {/* {user.is_active === 1 ?
-                    <>
-                    <button onClick={()=>this.unverified( user.id)} className="btn-table btn-danger" >Tidak Terverifikasi</button>
-                    <button onClick={()=>this.verified( user.id)} className="btn-table btn-handle" disabled>Verifikasi </button>
-                    </>
-                    : user.is_active === 0 ?
-                      <>
-                      <button onClick={()=>this.unverified( user.id)} className="btn-table btn-danger" disabled >Tidak Terverifikasi</button>
-                      <button onClick={()=>this.verified( user.id)} className="btn-table btn-handle" >Verifikasi </button>
-                      </>
-                      : <>
-                        <button onClick={()=>this.unverified( user.id)} className="btn-table btn-danger">Tidak Terverifikasi</button>
-                        <button onClick={()=>this.verified( user.id)} className="btn-table btn-handle" >Verifikasi </button>
-                        </>
-                  } */}
+                  <button onClick={()=>this.unverified( user.id)} className={ user.is_active === 0? "btn-table" : "btn-table btn-danger" }  disabled={ user.is_active === 0? true : false}>Tidak Terverifikasi</button>
+                  <button onClick={()=>this.verified( user.id)} className={ user.is_active === 1? "btn-table": "btn-table btn-handle"} disabled={ user.is_active === 1? true : false}>Verifikasi</button>
                 </td>
               </tr>
               )

@@ -17,24 +17,6 @@ export class Profile extends Component {
       zIndex: '0'
     }
   }
-  // getData= ()=>{
-  //   axios({
-  //     method: 'get',
-  //     url: `http://localhost:3000/user/profile/`,
-  //     headers: {
-  //       Authorization: this.props.token
-  //     } 
-  //   })
-  //   .then(res=>{
-  //     this.setState({ 
-  //       user: res.data,
-  //       isLoaded: true
-  //     })
-  //   })
-  // }
-  componentDidMount(){
-    // this.getData()
-  }
   selectMenu = (e)=>{
     let {style1, style2, menu1} = this.state
     if(e.target.id==='profile' || e.target.id==='skripsi'){
@@ -57,8 +39,8 @@ export class Profile extends Component {
             <div className='line'></div>
             <div className='profile-box'>
               {this.state.menu1===true?
-              <ProfileInfo></ProfileInfo>:
-              <SkripsiStatus></SkripsiStatus>
+              <ProfileInfo></ProfileInfo> :
+              <SkripsiStatus></SkripsiStatus> 
               }
             </div>
           </div>         

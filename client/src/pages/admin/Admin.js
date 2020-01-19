@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux'
-import AdminCard from '../components/AdminCard'
+import AdminCard from '../../components/AdminCard'
 
 export class Admin extends Component {
   render() {
@@ -11,12 +11,12 @@ export class Admin extends Component {
     return (
       <div className="main-box admin-page">
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-12 col-md-4">
             <Link to='/account-verification' className="card">
               <AdminCard menu='Verifikasi Akun' icon='Akun'/>
             </Link>
           </div>
-          <div className="col-md-4">
+          <div className="col-12 col-md-4">
             <Link to='/skripsi-verification' className="card">
               <AdminCard menu='Verifikasi Skripsi' icon='Skripsi'/>
             </Link>

@@ -8,15 +8,15 @@ export default function Skripsi(props) {
   const handleShow = () => setShow(true);
 
   return (
-    <div>
+    <div className="list-skripsi">
       <div className="list-box" onClick={handleShow}>
         <div className="list row">
-          <div className="col-sm-10">
+          <div className="col-10">
             <b><h5>{skripsi.title}</h5></b>
             <p>{skripsi.name}</p>
             <p><i>{skripsi.category}</i></p>
           </div>
-          <div className="col-sm-2 float-right">
+          <div className="col-2 float-right">
             <h5 className="float-right">{skripsi.published_year}</h5>
           </div> 
         </div>

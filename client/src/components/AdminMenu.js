@@ -1,20 +1,19 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Dropdown } from 'react-bootstrap'
 import { FaUserAlt } from 'react-icons/fa'
 
 export default function AdminMenu(props) {
   return (
-    <div className="right">
-      <Dropdown>
-        <Dropdown.Toggle className="btn-green" id="dropdown-basic">
+    <div className="right admin-menu">
+      <div className="dropdown">
+        <button className="btn btn-green dropdown-toggle" type="button" id="dropdownAdminMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <FaUserAlt/>  ADMIN
-        </Dropdown.Toggle>
-        <Dropdown.Menu>
-          <Dropdown.Item ><Link to='/admin'>Admin Page</Link></Dropdown.Item>
-          <Dropdown.Item href="/" onClick={()=>props.logout()} >Log Out</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+        </button>
+        <div className="dropdown-menu" aria-labelledby="dropdownAdminMenu">
+          <Link to='/admin' className="dropdown-item" style={{marginBottom:'0.5rem'}}>Admin Page</Link>
+          <Link to='/' className="dropdown-item" onClick={()=>props.logout()} >Log Out</Link>
+        </div>
+      </div>
     </div>
   )
 }

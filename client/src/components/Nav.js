@@ -3,10 +3,11 @@ import UserMenu from '../components/UserMenu'
 import AdminMenu from '../components/AdminMenu'
 import { Link, Redirect } from 'react-router-dom'
 import { setToken, delToken} from '../reducers/authReducer'
-import { Cookies } from 'react-cookie';
+import { Cookies } from 'react-cookie'
 import { connect } from 'react-redux'
 import '../styles/nav.css'
 import axios from 'axios'
+import $ from 'jquery'
 
 const cookies = new Cookies();
 export class Nav extends Component {
@@ -26,6 +27,9 @@ export class Nav extends Component {
     //     role: cookies.get('role')
     //   })
     // }
+    $('a').click(()=>{
+      $('.collapse').removeClass( "show" )
+    })
   }
   componentDidUpdate(prevProps){
     if(prevProps.token!== this.props.token){
@@ -138,7 +142,6 @@ export class Nav extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    // login: (npm, password) => dispatch(setToken(npm, password)),
     login: (loginInfo) => dispatch(setToken(loginInfo)),
     logout: () => dispatch(delToken())
   }
@@ -146,7 +149,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return{
-    token : state.auth.token,
+    token: state.auth.token,
     role: state.auth.role
   }
 }

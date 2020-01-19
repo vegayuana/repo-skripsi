@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Spinner } from 'react-bootstrap'
 import axios from 'axios'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 export class SkripsiDetail extends Component {
   state={
     skripsi:[], 
@@ -22,16 +23,22 @@ export class SkripsiDetail extends Component {
         isLoaded: true
       })
     })
+    .catch(err=>{
+      console.log(err.response)
+    })
   }
   componentDidMount(){
     this.getData()
   }
   render() {
     let { isLoaded, skripsi } = this.state
+    if (!this.props.token){
+      return <Redirect to={'/'} />
+    }
     return (
       <div className="main-box">      
         <div className="row">
-          <div className="col-md-4 col-sm-12">
+          <div className="col-12 col-md-4">
             <div className="line"></div>
             <div className="detail-box">
               { !isLoaded ? <Spinner animation="border" variant="secondary" /> :
@@ -49,7 +56,7 @@ export class SkripsiDetail extends Component {
               </>}
             </div>
           </div>
-          <div className="col-md-8 col-sm-12">
+          <div className="col-12 col-md-8">
             <div className="line" style={{backgroundColor: '#05386B'}}></div>
             <div className="detail-box abstrak">
               {!isLoaded ? <Spinner animation="border" variant="secondary" /> :
@@ -62,7 +69,7 @@ export class SkripsiDetail extends Component {
           </div>
         </div>
         <div className="row">
-          <div className="col-sm-12">
+          <div className="col-12">
             <div className="line" style={{marginTop:'1rem', backgroundColor:'#5cdb95'}}></div>
             <div className="file-box">
               <h5>FILE</h5>

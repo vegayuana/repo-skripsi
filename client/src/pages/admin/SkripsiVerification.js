@@ -9,7 +9,6 @@ export class SkripsiVerification extends Component {
     skripsiColl: [],
     isLoaded: false,
   }
-
   getData= ()=>{
     axios({
       method: 'get',
@@ -25,11 +24,9 @@ export class SkripsiVerification extends Component {
       })
     })
   }
-
   componentDidMount(){
     this.getData()
   }
-
   unapproved = (id) => {
     axios({
       method: 'put',
@@ -40,7 +37,6 @@ export class SkripsiVerification extends Component {
     })
     this.getData()
   }
-
   approved = (id) => {
     axios({
       method: 'put',
@@ -53,7 +49,6 @@ export class SkripsiVerification extends Component {
   }  
   render() {
     let { isLoaded, skripsiColl} = this.state
-
     if (!this.props.token || this.props.role==='user'){
       return <Redirect to={'/'} />
     }
@@ -101,25 +96,12 @@ export class SkripsiVerification extends Component {
                         }</td>
                   <td>{skripsi.created_at}</td>
                   <td>
-                  {skripsi.is_approved === 1 ?
-                      <>
-                      <button onClick={()=>this.unapproved(skripsi.id)} className="btn-table btn-danger" >Tolak</button>
-                      <button onClick={()=>this.approved(skripsi.id)} className="btn-table btn-handle" disabled>Publikasikan</button>
-                      </>
-                      : skripsi.is_approved === 0 ?
-                        <>
-                        <button onClick={()=>this.unapproved(skripsi.id)} className="btn-table btn-danger" disabled>Tolak</button>
-                        <button onClick={()=>this.approved(skripsi.id)} className="btn-table btn-handle" >Publikasikan</button>
-                        </>
-                        : <>
-                          <button onClick={()=>this.unapproved(skripsi.id)} className="btn-table btn-danger">Tolak</button>
-                          <button onClick={()=>this.approved(skripsi.id)} className="btn-table btn-handle">Publikasikan</button>
-                          </>
-                    }
+                    <button onClick={()=>this.unapproved(skripsi.id)} className={ skripsi.is_approved === 0? "btn-table" : "btn-table btn-danger" }  disabled={ skripsi.is_approved === 0? true : false}>Tolak</button>
+                    <button onClick={()=>this.approved(skripsi.id)} className={ skripsi.is_approved === 1? "btn-table": "btn-table btn-handle"} disabled={ skripsi.is_approved === 1? true : false}>Publikasikan</button>
                   </td>
                 </tr>
               )
-              }
+            }
             </tbody>
           </Table>
         </div>
@@ -129,7 +111,7 @@ export class SkripsiVerification extends Component {
 }
 const mapStateToProps = state => {
   return{
-    token : state.auth.token,
+    token: state.auth.token,
     role: state.auth.role
   }
 }
