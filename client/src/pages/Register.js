@@ -14,24 +14,36 @@ export class Register extends Component {
     file:null,
     fileName:''
   }
-  submit = async(e) =>{
+  submit = (e) =>{
     e.preventDefault();
     let {name, npm, pass, fileName, file}= this.state
-    const data = new FormData()
-    data.append('file', file)
-    try {
+
       axios({
-        method: "post",
+        mode: 'no-cors',
+        method: "POST",
         url: "http://localhost:3000/image",
-        data: data,
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        },
+        data: file,
+        headers:{
+          'Content-Type':'multipart/form-data',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'PUT, GET, POST'
+        }
       })
-    }
-    catch(err){
-      console.log(err.response)
-    }
+      .then(function (res) {
+        console.log(res.data)
+        if (res.ok) {
+          alert("Perfect!")
+          const formData = new FormData()
+          formData.append('ktm', file)
+        } else if (res.status == 401) {
+          alert("Oops!")
+        }
+      }, function (e) {
+        alert("Error submitting form!");
+      });
+    // catch(err){
+    //   console.log(err.response)
+    // }
     // const regis = {
     //   'name': name, 
     //   'npm': npm,

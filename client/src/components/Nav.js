@@ -52,6 +52,7 @@ export class Nav extends Component {
   }
   submitLogin = e => {
     e.preventDefault()
+    console.log(this.state.npm)
     axios({
       method: "post",
       url: "http://localhost:3000/login",
@@ -62,6 +63,9 @@ export class Nav extends Component {
     }).then(res => {
       let loginInfo = res.data.data
       console.log (loginInfo)
+      this.setState({
+        status:''
+      })
       if (loginInfo.isLogged) {
         this.props.login(loginInfo)
       }
@@ -112,7 +116,7 @@ export class Nav extends Component {
                     </div>
                     : status===500 ?
                     <div className="alert alert-warning login-alert" role="alert">
-                      <strong>Something goes wrong</strong>please try again
+                      <strong>Something goes wrong </strong>please try again
                     </div>
                     : <></>
                     }

@@ -36,11 +36,11 @@ export class Upload extends Component {
               <label>Judul </label>
                 <input type="text" ref="judul" className="form-control" id="idjudul" placeholder="Input Judul"/>
               </div>
-            
+{/*             
             <div className="form-group">
               <label>Subjek</label>
               <input type="text" ref="subjek" className="form-control" id="idsubjek" placeholder="Input Subjek"/>
-            </div>
+            </div> */}
             <div className="form-group">
               <label>Tahun</label>
               <input type="text" ref="tahun" className="form-control" id="idtahun" placeholder="Input Tahun"/>

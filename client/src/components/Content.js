@@ -74,14 +74,14 @@ export class Content extends Component {
           <div className="row">
             <div className="col-6 col-12">
               <div className="dropdown">
-                <button className="btn filter btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {/* <button className="btn filter btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Topik
                 </button>
                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <button className="dropdown-item">Artificial Inteligence</button>
                   <button className="dropdown-item">Jaringan Komputer</button>
                   <button className="dropdown-item">Sistem Informasi</button>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="col-6 col-md-12"> 

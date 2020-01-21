@@ -59,16 +59,19 @@ router.post('/image', (req, res) =>{
     console.log('nofile')
     return res.status(400).json({ msg: 'No file uploaded' })
   }
-  
-  const file = req.files.file;
   console.log('tes')
-  file.mv(`${__dirname}/client/public/ktm/${file.name}`, err => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send(err);
-    }
-  })
-  res.json({ fileName: file.name, filePath: `/ktm/${file.name}` });
+  res.sendFile(req.files.ktm)
+  console.log(req.body.ktm)
+  const file = req.files.ktm;
+  // console.log('tes')
+  // file.mv(`${__dirname}/client/public/ktm/${file.name}`, err => {
+  //   if (err) {
+  //     console.error(err);
+  //     return res.status(500).send(err);
+  //   }
+  //   console.log('Disimpan');
+  // })
+  // res.json({ fileName: file.name, filePath: `/ktm/${file.name}` });
 
 })
 
