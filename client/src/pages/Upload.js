@@ -1,31 +1,75 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import axios from 'axios'
 
 export class Upload extends Component {
   state={
-    datas:[]
+    datas:{},
+    file:null
   }
+  // submit = (e) =>{
+  //   e.preventDefault();
+  //   let {name, npm, pass, file}= this.state
+  //   const formData = new FormData()
+  //   formData.append('ktm', file)
+  //   formData.append('name', name)
+  //   formData.append('npm', npm)
+  //   formData.append('password', pass)
+  //   axios({
+  //     method: "POST",
+  //     url: "/register",
+  //     data: formData,
+  //     headers:{
+  //       'Content-Type':'multipart/form-data'
+  //     }
+  //   }).then((res) =>{
+  //     this.setState(this.initialState)
+  //     this.setState({
+  //       message:res.data.message,
+  //       status:res.data.status,
+  //     })
+  //     this.refs.registerForm.reset();
+  //   })
+  //   .catch((err) => { 
+  //     this.setState({
+  //       message:err.response.data.message,
+  //       status:err.response.data.status,
+  //     })
+  //   })
+  // }
   submit = (e) =>{
     e.preventDefault();
+    let title = this.refs.title.value;
+    let year = this.refs.year.value;
+    let abstract = this.refs.abstract.value;
+    let {file} = this.state
+
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('title', title)
+    formData.append('year', year)
+    formData.append('abstract', abstract)  
     
-    let datas = this.state.datas;
-    let judul = this.refs.judul.value;
-    let penulis = this.refs.penulis.value;
-    let subjek = this.refs.subjek.value;
-    let tahun = this.refs.tahun.value;
-    let abstrak = this.refs.abstrak.value;
-    let file = this.refs.file.value;
-
-    let data = {
-        judul, penulis, subjek, tahun, abstrak, file
+    axios({
+      method: "POST",
+      url: `/user/upload/${this.props.token}`,
+      data: formData,
+      headers:{
+        'Content-Type':'multipart/form-data',
       }
-      datas.push(data);
+    }).then((res) =>{
 
+    })
+
+
+  }
+  handleFile=(e)=>{
     this.setState({
-      datas: datas,
-    });
-    console.log(datas)
+      file:e.target.files[0]
+    })
   }
   render() {
+    console.log('ini file', this.props.token)
     return (
       <div>
       <div className="row no-margin">
@@ -34,7 +78,7 @@ export class Upload extends Component {
           <form >
             <div className="form-group">
               <label>Judul </label>
-                <input type="text" ref="judul" className="form-control" id="idjudul" placeholder="Input Judul"/>
+                <input type="text" ref="title" className="form-control" id="title" placeholder="Input Judul"/>
               </div>
 {/*             
             <div className="form-group">
@@ -43,15 +87,15 @@ export class Upload extends Component {
             </div> */}
             <div className="form-group">
               <label>Tahun</label>
-              <input type="text" ref="tahun" className="form-control" id="idtahun" placeholder="Input Tahun"/>
+              <input type="text" ref="year" className="form-control" id="year" placeholder="Input Tahun"/>
             </div>
             <div className="form-group">
             <label>Abstrak</label>
-              <input type="text" ref="abstrak" className="form-control" id="idabstrak" placeholder="Input Abstrak"/>
+              <textarea ref="abstract" className="form-control" id="abstract" placeholder="Input Abstrak"/>
             </div>
             <div className="form-group">
               <label>File</label>
-              <input type="file" ref="file" className="form-control-file" id="idfile"/>
+              <input type="file" ref="file" onChange={this.handleFile} className="form-control-file" id="file" accept=".pdf"/>
             </div> 
             <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)}>Submit</button>
           </form>
@@ -62,5 +106,10 @@ export class Upload extends Component {
     )
   }
 }
-
-export default Upload
+const mapStateToProps = state => {
+  return{
+    token : state.auth.token,
+    role: state.auth.role
+  }
+}
+export default connect(mapStateToProps, null)(Upload)

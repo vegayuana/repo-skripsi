@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const utils = require('../utils/templates')
 var jwt = require('json-web-token')
 var secret = "repository.secret"
+const uuid = require('uuid/v4')
 
 //connect DB
 const db = require('../db/db')
@@ -82,15 +83,64 @@ router.get('/skripsi', (req, res) =>{
   })
 })
 
+
+//Multer : Handle Uploaded Files
+const multer  = require('multer')
+
+// Set The Storage Engine
+const storage = multer.diskStorage({
+  destination: 'files/skripsi/',
+  filename: function(req, file, cb){
+    cb(null, Date.now() + file.originalname)
+  }
+})
+
+//Check Image type
+const fileFilter = (req, file, cb) => {
+  // if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' ) {
+  //   cb(null, true);
+  // } else {
+  //   cb(null, false);
+  // }
+}
+
+//Init Upload
+const upload = multer({
+  storage: storage,
+}).single('file')
+
 // upload skripsi
-router.post('/upload', (req, res) =>{  
-  // let id = req.params.id
-  // let sql = `SELECT skripsi.id, skripsi.user_id, skripsi.title, skripsi.abstract, skripsi.file_url, skripsi.published_year, skripsi.category, users.name 
-  //             FROM skripsi join users on users.id = skripsi.user_id where skripsi.is_approved=${1} and skripsi.id='${id}' limit 1`
-  // db.query(sql, (err, result)=>{
-  //   if (err) console.log(err)
-  //   res.send(result)
-  // })
+router.post('/upload/:token', (req, res) =>{  
+  
+  let token = req.params.token
+  let payload={}
+  jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
+    payload=decodedPayload.request
+  })
+  upload(req, res, (err) => {
+    console.log(payload.id)
+  
+    console.log(req.file)
+    console.log(req.body)
+    console.log(payload.id)
+
+    let { title, year, abstract} = req.body
+    let post = {
+      id: uuid(), 
+      user_id: payload.id,
+      title: title,
+      abstract: abstract,
+      published_year: year, 
+      file_url: req.file.path
+    }
+
+    let sql = 'INSERT INTO users SET ?'
+    db.query(sql, post, (err, result)=>{
+    if (err) console.log(err)
+    res.send(result)
+    })
+  })
+ 
 })
 
 module.exports = router;

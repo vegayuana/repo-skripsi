@@ -12,7 +12,7 @@ export class SkripsiVerification extends Component {
   getData= ()=>{
     axios({
       method: 'get',
-      url: 'http://localhost:3000/admin/show-skripsi',
+      url: '/admin/show-skripsi',
       headers: {
         Authorization: this.props.token
       } 
@@ -30,7 +30,7 @@ export class SkripsiVerification extends Component {
   unapproved = (id) => {
     axios({
       method: 'put',
-      url: `http://localhost:3000/admin/unapproved/${id}`,
+      url: `/admin/unapproved/${id}`,
       headers: {
         Authorization: this.props.token
       } 
@@ -40,7 +40,7 @@ export class SkripsiVerification extends Component {
   approved = (id) => {
     axios({
       method: 'put',
-      url: `http://localhost:3000/admin/approved/${id}`,
+      url: `/admin/approved/${id}`,
       headers: {
         Authorization: this.props.token
       } 
@@ -67,7 +67,7 @@ export class SkripsiVerification extends Component {
                 <th scope="col">No</th>
                 <th scope="col" className="td-lg">Judul</th>
                 <th scope="col" className="td-lg">Penulis</th>
-                <th scope="col" className="td-md">Kategori</th>
+                {/* <th scope="col" className="td-md">Kategori</th> */}
                 <th scope="col" className="td-sm">Tahun</th>
                 <th scope="col" className="td-lg">Abstract</th>
                 <th scope="col" className="td-sm">File</th>
@@ -86,10 +86,12 @@ export class SkripsiVerification extends Component {
                   <th scope="row">{i+1}</th>
                   <td>{skripsi.title}</td>
                   <td>{skripsi.name}</td>
-                  <td>{skripsi.category}</td>
+                  {/* <td>{skripsi.category}</td> */}
                   <td>{skripsi.published_year}</td>
-                  <td>{skripsi.abstract}</td>
-                  <td>{skripsi.file_url}</td>
+                  <td><div style={{height:'200px', overflowY:'scroll'}}>{skripsi.abstract}</div></td>
+                  <td>
+                    {/* {skripsi.file_url} */}
+                    </td>
                   <td>{ skripsi.is_approved === 1 ? <>Dipublikasikan</> : 
                           skripsi.is_approved === 0 ? <>Ditolak</> :
                             <>Perlu Ditinjau</>

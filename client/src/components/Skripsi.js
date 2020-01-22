@@ -8,13 +8,13 @@ export default function Skripsi(props) {
   const handleShow = () => setShow(true);
 
   return (
-    <div className="list-skripsi">
+    <div>
       <div className="list-box" onClick={handleShow}>
         <div className="list row">
           <div className="col-10">
             <b><h5>{skripsi.title}</h5></b>
             <p>{skripsi.name}</p>
-            <p><i>{skripsi.category}</i></p>
+            {/* <p><i>{skripsi.category}</i></p> */}
           </div>
           <div className="col-2 float-right">
             <h5 className="float-right">{skripsi.published_year}</h5>
@@ -22,7 +22,7 @@ export default function Skripsi(props) {
         </div>
       </div>
       {/* Pop Up */}
-      <Modal show={showModal} onHide={handleClose} centered>
+      <Modal className="list-skripsi" show={showModal} onHide={handleClose} centered>
         <div className="line" style={{backgroundColor:'#5cdb95'}}></div>
         <Modal.Header closeButton></Modal.Header>
         <Modal.Body>Log in to get full access</Modal.Body>

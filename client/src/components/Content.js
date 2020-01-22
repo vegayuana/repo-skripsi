@@ -4,6 +4,13 @@ import List from './List'
 import '../styles/page.css'
 import {FaSearch} from 'react-icons/fa'
 
+const years=[
+  2016, 
+  2017, 
+  2018,
+  2019,
+  2020
+]
 export class Content extends Component {
   state={
     isLoaded: false,
@@ -14,7 +21,7 @@ export class Content extends Component {
   componentDidMount(){
     axios({
       method: 'get',
-      url: 'http://localhost:3000/skripsi/list',
+      url: '/skripsi/list',
       Headers: {
       }
     })
@@ -91,9 +98,9 @@ export class Content extends Component {
                 </button>
                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <button className="dropdown-item" onClick={this.yearFilter} id="Tahun">All</button>
-                  <button className="dropdown-item" onClick={this.yearFilter} id="2020">2020</button>
-                  <button className="dropdown-item" onClick={this.yearFilter} id="2013">2013</button>
-                  <button className="dropdown-item" onClick={this.yearFilter} id="2014">2014</button>
+                  {years.map((year, i)=>
+                    <button key={i} className="dropdown-item" onClick={this.yearFilter} id={year}>{year}</button>
+                  )}
                 </div>
               </div>
             </div>

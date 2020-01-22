@@ -12,7 +12,7 @@ export class AccountVerification extends Component {
   getData = () =>{
     axios({
       method: 'get',
-      url: 'http://localhost:3000/admin/show-acc',
+      url: '/admin/show-acc',
       headers: {
         Authorization: this.props.token
       } 
@@ -30,7 +30,7 @@ export class AccountVerification extends Component {
   unverified = (id) => {
     axios({
       method: 'put',
-      url: `http://localhost:3000/admin/unverified/${id}`,
+      url: `/admin/unverified/${id}`,
       headers: {
         Authorization: this.props.token
       } 
@@ -40,7 +40,7 @@ export class AccountVerification extends Component {
   verified = (id) => {
     axios({
       method: 'put',
-      url: `http://localhost:3000/admin/verified/${id}`,
+      url: `/admin/verified/${id}`,
       headers:{
         Authorization: this.props.token
       }
@@ -82,7 +82,9 @@ export class AccountVerification extends Component {
                 <th scope="row">{i+1}</th>
                 <td>{user.name}</td>
                 <td>{user.npm}</td>
-                <td><img alt="ktm" src={user.ktm_url}/></td>
+                <td>
+                  {/* <img alt="ktm" src={user.ktm_url}/> */}
+                </td>
                 <td>{user.created_at}</td>
                 <td>{user.is_active === 1 ? <>Diverifikasi </> :
                       user.is_active === 0 ? <>Tidak Diverifikasi</> :

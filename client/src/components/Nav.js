@@ -55,7 +55,7 @@ export class Nav extends Component {
     console.log(this.state.npm)
     axios({
       method: "post",
-      url: "http://localhost:3000/login",
+      url: "/login",
       data: {
         npm: this.state.npm,
         password: this.state.pass

@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import bg3 from '../icons/bg3.png'
 import axios from 'axios'
 export class Register extends Component {
-  state={
-    users:[],
+  initialState = {
     name: '',
     npm: '', 
     pass: '', 
@@ -11,67 +10,38 @@ export class Register extends Component {
     passCheck: '', 
     message: '', 
     status:'',
-    file:null,
-    fileName:''
+    file:null
   }
+  state=this.initialState
   submit = (e) =>{
     e.preventDefault();
-    let {name, npm, pass, fileName, file}= this.state
-
-      axios({
-        mode: 'no-cors',
-        method: "POST",
-        url: "http://localhost:3000/image",
-        data: file,
-        headers:{
-          'Content-Type':'multipart/form-data',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'PUT, GET, POST'
-        }
+    let {name, npm, pass, file}= this.state
+    const formData = new FormData()
+    formData.append('ktm', file)
+    formData.append('name', name)
+    formData.append('npm', npm)
+    formData.append('password', pass)
+    axios({
+      method: "POST",
+      url: "/register",
+      data: formData,
+      headers:{
+        'Content-Type':'multipart/form-data'
+      }
+    }).then((res) =>{
+      this.setState(this.initialState)
+      this.setState({
+        message:res.data.message,
+        status:res.data.status,
       })
-      .then(function (res) {
-        console.log(res.data)
-        if (res.ok) {
-          alert("Perfect!")
-          const formData = new FormData()
-          formData.append('ktm', file)
-        } else if (res.status == 401) {
-          alert("Oops!")
-        }
-      }, function (e) {
-        alert("Error submitting form!");
-      });
-    // catch(err){
-    //   console.log(err.response)
-    // }
-    // const regis = {
-    //   'name': name, 
-    //   'npm': npm,
-    //   'password': pass,
-    //   'ktm_url': fileName,
-    // }
-    // data.append('file',)
-    // e.preventDefault();
-    // console.log(this.state)
-    // axios({
-    //   method: "post",
-    //   url: "http://localhost:3000/register",
-    //   data: {
-       
-    //   }
-    // }).then((res) =>{
-    //   this.setState({
-    //     message:res.data.message,
-    //     status:res.data.status,
-    //   })
-    //   this.refs.registerForm.reset();
-    // })
-    // .catch((err) => { 
-    //   this.setState({
-    //     message:err.response.data.message,
-    //     status:err.response.data.status,
-    //   })
-    // })
+      this.refs.registerForm.reset();
+    })
+    .catch((err) => { 
+      this.setState({
+        message:err.response.data.message,
+        status:err.response.data.status,
+      })
+    })
   }
   handleInput = (e) =>{
     this.setState({
@@ -99,8 +69,6 @@ export class Register extends Component {
   }
   render() {
     let {npm, passCheck, message, status} =this.state
-    
-    console.log('ini file', this.state.file)
     return (
     <>
       <img src={bg3} alt="Logo" className="bg3"/>
@@ -137,7 +105,7 @@ export class Register extends Component {
               <label>Foto KTM</label>
               <input type="file" id="ktm" onChange={this.handleFile} className="form-control-file" accept=".png, .jpg, .jpeg"/>
             </div>
-            <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)}> Submit</button>
+            <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)} disabled={!passCheck}> Submit</button>
             { message ==='' ? <></> :
                 status===200 ?
                   <div className="alert alert-success" role="alert">

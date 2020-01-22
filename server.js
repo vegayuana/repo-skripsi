@@ -24,8 +24,12 @@ app.use('/', registerRoutes)
 app.use('/', authRoutes)
 app.use('/skripsi', skripsiRoutes)
 app.use('/skripsi', auth.gen, skripsiDetailRoutes)
-app.use('/user', auth.users, userRoutes)
+app.use('/user', userRoutes)
 app.use('/admin', auth.admin, adminRoutes)
+
+//static
+app.use(express.static('files'));
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -4,34 +4,62 @@ const bcrypt = require('bcrypt')
 const uuid = require('uuid/v4')
 const utils = require('../utils/templates')
 const asyncHandler = require('express-async-handler')
-const { check, validationResult } = require('express-validator')
-const fileUpload = require('express-fileupload');
-const app = express()
 
-app.use(fileUpload())
 //connect DB
 const db = require('../db/db')
 require('../db/connection') 
 
-//Register
-router.post('/register', [check('npm').isLength({ min: 12 })], (req, res) =>{
-  let { name, npm, password, ktm_url } = req.body
-  let genId = npm + uuid()
-  const errors = validationResult(req);
+//Multer : Handle Uploaded Files
+const multer  = require('multer')
 
-  //validate request
-  if (!name || !npm || !ktm_url || !password) {
-    return utils.template_response(res, 400, "All fields need to be filled in" , null)
+// Set The Storage Engine
+const storage = multer.diskStorage({
+  destination: 'files/ktm/',
+  filename: function(req, file, cb){
+    cb(null, Date.now() + file.originalname)
   }
-  //check if npm is already registered
-  let findUser = `SELECT npm FROM users where role="user" && npm=${npm}`;
-  db.query(findUser, asyncHandler(async(err, data)=>{
-    if (err) console.log(err.response)
-    if(data.length>0){
-      return utils.template_response(res, 422, "NPM is already registered" , null)
+})
+
+//Check Image type
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+}
+
+//Init Upload
+const upload = multer({
+  storage: storage,
+  limits:{fileSize: 1024 * 1024 * 5}, 
+  fileFilter:fileFilter
+}).single('ktm')
+
+//Register
+router.post('/register', (req, res) =>{
+  upload(req, res, (err) => {
+    let { name, npm, password } = req.body
+    let genId = npm + uuid()
+
+    //Check Fields
+    if (!name || !npm || !password || !req.file) {
+      return utils.template_response(res, 400, "All fields need to be filled in" , null)
     }
-    else{
-      if(!errors.isEmpty()) {
+    //Check error in upload middleware
+    if(err){
+      console.log(err)
+      return utils.template_response(res, 500, err.message , null)
+    } 
+    
+    //Check if npm is already registered
+    let findUser = `SELECT npm FROM users where role="user" && npm=${npm}`;
+    db.query(findUser, asyncHandler(async(err, data)=>{
+      if (err) console.log(err.response)
+      if(data.length>0){
+        return utils.template_response(res, 422, "NPM is already registered" , null)
+      }
+      if(npm.length<12) {
         return utils.template_response(res, 422, "NPM is incorrect. Require min 12 digits" , null)
       }
       password = await bcrypt.hash(password, 10)
@@ -39,7 +67,7 @@ router.post('/register', [check('npm').isLength({ min: 12 })], (req, res) =>{
         id: genId, 
         name: name, 
         npm: npm, 
-        ktm_url: ktm_url, 
+        ktm_url: req.file.path, 
         password: password
       }
       let sql = 'INSERT INTO users SET ?'
@@ -50,29 +78,8 @@ router.post('/register', [check('npm').isLength({ min: 12 })], (req, res) =>{
         }
         utils.template_response(res, 200, "Registered Sucessfully", null)
       })
-    }
-  }))
-})
-
-router.post('/image', (req, res) =>{
-  if (req.files === null) {
-    console.log('nofile')
-    return res.status(400).json({ msg: 'No file uploaded' })
-  }
-  console.log('tes')
-  res.sendFile(req.files.ktm)
-  console.log(req.body.ktm)
-  const file = req.files.ktm;
-  // console.log('tes')
-  // file.mv(`${__dirname}/client/public/ktm/${file.name}`, err => {
-  //   if (err) {
-  //     console.error(err);
-  //     return res.status(500).send(err);
-  //   }
-  //   console.log('Disimpan');
-  // })
-  // res.json({ fileName: file.name, filePath: `/ktm/${file.name}` });
-
+    }))
+  })
 })
 
 module.exports = router;
