@@ -3,10 +3,7 @@ import bg3 from '../icons/bg3.png'
 import axios from 'axios'
 export class Register extends Component {
   initialState = {
-    name: '',
     npm: '', 
-    pass: '', 
-    ktm:'',
     passCheck: '', 
     message: '', 
     status:'',
@@ -14,8 +11,12 @@ export class Register extends Component {
   }
   state=this.initialState
   submit = (e) =>{
-    e.preventDefault();
-    let {name, npm, pass, file}= this.state
+    e.preventDefault()
+    let {npm, file}= this.state
+    let name = this.refs.name.value
+    let pass = this.refs.pass.value
+    console.log(typeof(npm))
+    console.log(this.state)
     const formData = new FormData()
     formData.append('ktm', file)
     formData.append('name', name)
@@ -50,7 +51,7 @@ export class Register extends Component {
   }
   handleRetype = (e) =>{
     console.log(this.state.passCheck)
-    if (e.target.value !== this.state.pass){
+    if (e.target.value !== this.refs.pass.value){
       this.setState({
         passCheck: false
       })
@@ -62,24 +63,40 @@ export class Register extends Component {
     }
   }
   handleFile=(e)=>{
-    this.setState({
-      file:e.target.files[0],
-      fileName: e.target.files[0].name
-    })
+    if (e.target.files[0]){
+      this.setState({
+        file:e.target.files[0]
+      })
+    }
+    else{
+      this.setState({
+        file:''
+      })
+    }
+  }
+  shouldComponentUpdate(nextProps, nextState){
+    if((nextState.message!==this.state.message) || (nextState.status!==this.state.status)){
+      return true
+    }
+    
+    if(nextState.passCheck === this.state.passCheck){
+      return false
+    }
+    return true
   }
   render() {
+    console.log('render')
     let {npm, passCheck, message, status} =this.state
     return (
     <>
       <img src={bg3} alt="Logo" className="bg3"/>
       <div className="row no-margin">
-  
         <div className="col-xl-9 col-lg-12 register-box">
           <h3>Register</h3>
           <form ref="registerForm">
             <div className="form-group">
               <label> Name</label>
-              <input type="text" id="name" onChange={this.handleInput} className="form-control" placeholder="Name"/>
+              <input type="text" ref='name' className="form-control" placeholder="Name"/>
             </div>
             <div className="form-group">
               <label>NPM</label>
@@ -91,11 +108,11 @@ export class Register extends Component {
             </div> : <></>}
             <div className="form-group">
               <label>Password</label>
-              <input type="password" id="pass" onChange={this.handleInput} className="form-control" placeholder="Password"/>
+              <input type="password" ref='pass' id="pass" className="form-control" placeholder="Password"/>
             </div>
             <div className="form-group">
               <label>Confirm Password</label>
-              <input type="password" id="repass" onChange={this.handleRetype} className="form-control" placeholder="Password"/>
+              <input type="password" onChange={this.handleRetype} className="form-control" placeholder="Password"/>
             </div>
             { passCheck === false ?
             <div className="alert alert-warning" role="alert">

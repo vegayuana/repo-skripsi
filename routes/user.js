@@ -12,7 +12,8 @@ require('../db/connection')
 
 //Get profile 
 router.get('/profile', (req, res) =>{  
-  let token = req.headers.authorization
+  let bearer = req.headers.authorization
+  let token = bearer.split(' ')[1]
   let payload={}
   jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
     payload=decodedPayload.request
@@ -23,10 +24,12 @@ router.get('/profile', (req, res) =>{
     res.send(result[0])
   })
 })
+
 //edit password 
 router.put('/edit-pass', async(req, res) =>{  
   try{
-    let token = req.headers.authorization
+    let bearer = req.headers.authorization
+    let token = bearer.split(' ')[1]
     let {newPass, oldPass} = req.body
     let payload={}
     jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
@@ -42,21 +45,19 @@ router.put('/edit-pass', async(req, res) =>{
         if( await bcrypt.compare(oldPass, result[0].password)){
           console.log('Old password matches the database')
           if (oldPass===newPass){
-            utils.template_response(res, 400, "The new password must be different from the old password", null)
+            return utils.template_response(res, 400, "The new password must be different from the old password", null)
           }
           else{
             let password = await bcrypt.hash(newPass, 10)
             let sql = `UPDATE users SET password='${password}' where id='${payload.id}'`;
             db.query(sql, (err, result)=>{
               if (err) console.log(err)
-              console.log('sukses diganti')
-              utils.template_response(res, 200, "Changing Password Sucessfully", null)
+              return utils.template_response(res, 200, "Changing Password Sucessfully", null)
             })
           }
         }
         else{
-          console.log('not match')
-          utils.template_response(res, 400, "Old password does not match the database", null)
+          return utils.template_response(res, 400, "Old password does not match the database", null)
         }
       }
       catch(err){
@@ -71,7 +72,8 @@ router.put('/edit-pass', async(req, res) =>{
 
 //get status skripsi 
 router.get('/skripsi', (req, res) =>{  
-  let token = req.headers.authorization
+  let bearer = req.headers.authorization
+  let token = bearer.split(' ')[1]
   let payload={}
   jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
     payload=decodedPayload.request
@@ -83,10 +85,8 @@ router.get('/skripsi', (req, res) =>{
   })
 })
 
-
 //Multer : Handle Uploaded Files
 const multer  = require('multer')
-
 // Set The Storage Engine
 const storage = multer.diskStorage({
   destination: 'files/skripsi/',
@@ -94,53 +94,73 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + file.originalname)
   }
 })
-
 //Check Image type
 const fileFilter = (req, file, cb) => {
-  // if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' ) {
-  //   cb(null, true);
-  // } else {
-  //   cb(null, false);
-  // }
+  if (file.mimetype === 'application/pdf') {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
 }
-
 //Init Upload
 const upload = multer({
   storage: storage,
+  limits:{fileSize: 1024 * 1024* 5}, 
+  fileFilter:fileFilter
 }).single('file')
 
 // upload skripsi
-router.post('/upload/:token', (req, res) =>{  
-  
-  let token = req.params.token
-  let payload={}
-  jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
-    payload=decodedPayload.request
-  })
+router.post('/upload/', (req, res) =>{  
   upload(req, res, (err) => {
-    console.log(payload.id)
-  
-    console.log(req.file)
-    console.log(req.body)
-    console.log(payload.id)
-
+    //Check error in upload middleware
+    if(err){
+      console.log(err)
+      return utils.template_response(res, 500, err.message , null)
+    } 
+    
+    //Check Fields
     let { title, year, abstract} = req.body
-    let post = {
-      id: uuid(), 
-      user_id: payload.id,
-      title: title,
-      abstract: abstract,
-      published_year: year, 
-      file_url: req.file.path
+    if (!title || !year || !abstract || !req.file) {
+      return utils.template_response(res, 400, "All fields need to be filled in" , null)
     }
-
-    let sql = 'INSERT INTO users SET ?'
-    db.query(sql, post, (err, result)=>{
-    if (err) console.log(err)
-    res.send(result)
+    //Get user id
+    let bearer = req.get('Authorization')
+    let token = bearer.split(' ')[1]
+    let payload={}
+    jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
+      payload=decodedPayload.request
     })
+    //Check if user has uploaded 
+    let checkSkripsi =`SELECT * FROM skripsi WHERE user_id='${payload.id}' LIMIT 1`
+    db.query(checkSkripsi, (err, skripsi)=>{
+      if (err){
+        return utils.template_response(res, 400, err.response, null)
+      }  
+      if(skripsi.length>0){
+        return utils.template_response(res, 422, "User has uploaded a file" , null)
+      }
+      let path = req.file.path
+      let post = {
+        id: uuid(), 
+        user_id: payload.id,
+        title: title,
+        abstract: abstract,
+        published_year: year, 
+        file_url: path
+      }
+      let sql = 'INSERT INTO skripsi SET ?'
+      db.query(sql, post, (err, result)=>{
+        if(err){
+          console.log(err)
+          return utils.template_response(res, 500, err.message , null)
+        } 
+      console.log('success!')  
+      return utils.template_response(res, 200, "Upload Successfully", null)
+      })
+    })   
   })
- 
 })
+
+
 
 module.exports = router;

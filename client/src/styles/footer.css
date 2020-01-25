@@ -4,11 +4,14 @@
   padding: 30px 100px 10px; 
 }
 .logo{
-  max-width: 145px;
+  max-width: 130px;
   width: 100%;
 }
 .footer hr{
   background-color:#edf5e1;
+}
+.footer p{
+  font-size: 0.8rem;
 }
 
 /*mobile*/

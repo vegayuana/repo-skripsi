@@ -15,5 +15,4 @@ router.get('/list', (req, res) =>{
     res.send(result)
   })
 })
-
 module.exports = router;

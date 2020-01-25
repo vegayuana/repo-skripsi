@@ -3,10 +3,12 @@ import { connect } from 'react-redux'
 import { Spinner, Table, Breadcrumb} from 'react-bootstrap'
 import { Redirect, Link } from 'react-router-dom'
 import axios from 'axios'
+import {scrollToTop} from '../../helpers/autoScroll'
+import { FaFilePdf, FaCheck, FaTimes} from 'react-icons/fa'
 
 export class SkripsiVerification extends Component {
   state ={
-    skripsiColl: [],
+    skripsi: [],
     isLoaded: false,
   }
   getData= ()=>{
@@ -16,16 +18,18 @@ export class SkripsiVerification extends Component {
       headers: {
         Authorization: this.props.token
       } 
-    })
-    .then(res=>{
+    }).then(res=>{
       this.setState({ 
-        skripsiColl: res.data,
+        skripsi: res.data,
         isLoaded: true
       })
+    }).catch((err) => { 
+      console.log(err.response.statusText)
     })
   }
   componentDidMount(){
     this.getData()
+    scrollToTop()
   }
   unapproved = (id) => {
     axios({
@@ -34,6 +38,8 @@ export class SkripsiVerification extends Component {
       headers: {
         Authorization: this.props.token
       } 
+    }).catch((err) => { 
+      console.log(err.response.statusText)
     })
     this.getData()
   }
@@ -44,12 +50,14 @@ export class SkripsiVerification extends Component {
       headers: {
         Authorization: this.props.token
       } 
+    }).catch((err) => { 
+      console.log(err.response.statusText)
     })
     this.getData()
   }  
   render() {
-    let { isLoaded, skripsiColl} = this.state
-    if (!this.props.token || this.props.role==='user'){
+    let { isLoaded, skripsi} = this.state
+    if (!localStorage.getItem('token')|| this.props.role==='user'){
       return <Redirect to={'/'} />
     }
     return (
@@ -72,34 +80,33 @@ export class SkripsiVerification extends Component {
                 <th scope="col" className="td-lg">Abstract</th>
                 <th scope="col" className="td-sm">File</th>
                 <th scope="col" className="td-md">Status</th>
-                <th scope="col" className="td-md">Waktu Upload</th>
+                <th scope="col" className="td-md">Waktu Unggah</th>
+                <th scope="col" className="td-md">Waktu Diproses</th>
                 <th scope="col" className="td-lg">Handle</th>
               </tr>
             </thead>
             <tbody>
             { !isLoaded ? <tr><td colSpan="10" className="text-center"><Spinner animation="border" variant="secondary" /></td></tr>
-              :
-              skripsiColl ===undefined || skripsiColl ===[] ? <tr><td colSpan="10" className="text-center">No Data</td></tr> 
-              :
-              skripsiColl.map((skripsi, i) => 
+              : !skripsi ? <tr><td colSpan="10" className="text-center">No Data</td></tr> 
+                : skripsi.map((item, i) => 
                 <tr key={i}>
                   <th scope="row">{i+1}</th>
-                  <td>{skripsi.title}</td>
-                  <td>{skripsi.name}</td>
-                  {/* <td>{skripsi.category}</td> */}
-                  <td>{skripsi.published_year}</td>
-                  <td><div style={{height:'200px', overflowY:'scroll'}}>{skripsi.abstract}</div></td>
+                  <td>{item.title}</td>
+                  <td>{item.name}</td>
+                  <td>{item.published_year}</td>
+                  <td><div style={{height:'200px', overflowY:'scroll'}}>{item.abstract}</div></td>
                   <td>
-                    {/* {skripsi.file_url} */}
-                    </td>
-                  <td>{ skripsi.is_approved === 1 ? <>Dipublikasikan</> : 
-                          skripsi.is_approved === 0 ? <>Ditolak</> :
+                    <a href={'http://localhost:5000/'+item.file_url} target='_blank'><FaFilePdf className='icons'/>click</a>
+                  </td>
+                  <td>{ item.is_approved === 1 ? <div style={{color:'#379683'}}><FaCheck/> Dipublikasikan</div> : 
+                          item.is_approved === 0 ? <div className='text-danger'><FaTimes/> Ditolak</div> :
                             <>Perlu Ditinjau</>
                         }</td>
-                  <td>{skripsi.created_at}</td>
+                  <td><p>{item.uploaded_at.split('T')[0]} {item.uploaded_at.split('T')[1].split('.000Z')}</p></td>
+                  <td>{item.is_approved===2 ? <></> : <p>{item.processed_at.split('T')[0]} {item.processed_at.split('T')[1].split('.000Z')}</p>}</td>
                   <td>
-                    <button onClick={()=>this.unapproved(skripsi.id)} className={ skripsi.is_approved === 0? "btn-table" : "btn-table btn-danger" }  disabled={ skripsi.is_approved === 0? true : false}>Tolak</button>
-                    <button onClick={()=>this.approved(skripsi.id)} className={ skripsi.is_approved === 1? "btn-table": "btn-table btn-handle"} disabled={ skripsi.is_approved === 1? true : false}>Publikasikan</button>
+                    <button onClick={()=>this.unapproved(item.id)} className={ item.is_approved === 0? "btn-table" : "btn-table btn-danger" }  disabled={ item.is_approved === 0? true : false}>Tolak</button>
+                    <button onClick={()=>this.approved(item.id)} className={ item.is_approved === 1? "btn-table": "btn-table btn-handle"} disabled={ item.is_approved === 1? true : false}>Publikasikan</button>
                   </td>
                 </tr>
               )

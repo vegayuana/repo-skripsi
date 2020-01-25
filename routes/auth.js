@@ -41,16 +41,17 @@ router.post('/login', (req, res) =>{
         }
         var secret = "repository.secret"
         jwt.encode(secret, payload, function (err, token) {
+          let bearer = 'Bearer ' + token
           if (err) {
-            utils.template_response(res, 500, "internal api error", null)
+            return utils.template_response(res, 500, "internal api error", null)
           }
-          utils.template_response(res, 200, "Login success", {token: token, isLogged:true, role:user.role})
+          return utils.template_response(res, 200, "Login success", {token: bearer, isLogged:true, role:user.role})
         })
       }
-      utils.template_response(res, 400, "Password does not match", {token: '', isLogged:false})
+      return utils.template_response(res, 400, "Password does not match", {token: '', isLogged:false})
     }
     catch(err){
-      utils.template_response(res, 500, "internal service error", null)
+      return (err)
     }
   })
 })

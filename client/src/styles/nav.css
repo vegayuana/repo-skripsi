@@ -1,6 +1,6 @@
 .navbar{
   min-height: 80px;   
-  background-color: #8ee4af;
+  background-color: #379683;
   color: white;
   padding-left: 100px;
   padding-right: 100px;
@@ -11,9 +11,11 @@
   font-weight: 400;
   font-family: 'Oswald', sans-serif;
   margin-bottom: 0px;
+  position: relative;
+  z-index: -2;
 }
 .navbar span{
-  color: #05386B;
+  color: #8ee4af;
 }
 .navbar-nav{
   margin-right: 0px;
@@ -28,7 +30,7 @@
   transition: 0.5s;
 }
 .btn-nav:hover {
-  color:#05386B;
+  color:#8ee4af !important;
   border: none;
   box-shadow: none;
 }
@@ -37,7 +39,7 @@
   border: none;
   box-shadow: none;
 }
-.btnNav:hover, .btNav:active{
+.btn-transition:hover, .btn-transition:active{
   font-size: 1.7rem;
   font-weight: 300;
 }
@@ -62,7 +64,7 @@ a, a:hover{
   height: 100vh;
   width: 0;
   border-color:#edf5e1;
-  background-color:#8ee4af;
+  background-color:#379683;
   box-shadow: 0 2px 8px rgba(0,0,0,.05);
   overflow-x: hidden;
   transition: 0.3s;
@@ -72,7 +74,7 @@ a, a:hover{
 .user-menu a{
   font-family: 'Montserrat', sans-serif;
   font-size: 1.1rem;
-  font-weight: 300;
+  font-weight: 400;
   padding: 20px;
   color: white ;
 }
@@ -105,15 +107,15 @@ a, a:hover{
   float: left;
 }    	
 .navbar .login-form .btn{
-  background-color: #5cdb95;
-  border: 1px solid #5cdb95;
+  background-color: #379683;
+  border: 1px solid #379683;
   font-family: 'Montserrat', sans-serif;
   color: white;
   transition: 0.5s;
 }
 .navbar .login-form .btn:hover{
-  background-color:#379683;
-  border: 1px solid #379683;;
+  background-color: #05386B;
+  border: 1px solid #05386B;
   color:white;
 }
 .login-alert{
@@ -124,10 +126,24 @@ a, a:hover{
   font-family: 'Oswald', sans-serif;
   font-weight: 100;
 }
+.login-modal{
+  text-align: center;
+  background-color: white;
+  border-radius: 5px;
+  border: 0px;
+  padding: 3rem;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #5cdb95;
+}
+.login-modal .icon-check{
+  font-size: 3rem;
+}
 .admin-menu .dropdown-menu.show{
   left: auto !important;
   right: 0px;
   border: 1px solid #edf5e1;
+  color: rgb(34, 33, 33);
 }
 .admin-menu a{
   font-weight: 300;
@@ -135,7 +151,7 @@ a, a:hover{
 }
 .admin-menu a:hover, .admin-menu a:active, .admin-menu a:focus{
   background-color: #edf5e1;
-  color: black;
+  color: rgb(34, 33, 33);
 }
 @media screen and (max-width: 450px) {
   .navbar{  
@@ -150,11 +166,11 @@ a, a:hover{
     height: 100%;
     width: 0;
     position: fixed;
-    top: 80px;
+    top: 75px;
     right: 0;
     overflow-x: hidden;
     transition: 0.5s;
-    background-color: #8ee4af;
+    background-color: #379683;
     box-shadow: -5px 10px 8px rgba(0,0,0,.05)
   }
   .navbar-collapse.show{
@@ -163,7 +179,7 @@ a, a:hover{
   .navbar .dropdown-menu {
     width: 100%;
     padding: 10px 20px;
-    background-color: #8ee4af;
+    background-color: #379683;
     border: none;
     box-shadow: none;
   }
@@ -179,6 +195,10 @@ a, a:hover{
   }
   .navbar .login-form .btn {
     width: 100%;
+    background-color: #5cdb95;
+    border: 1px solid #5cdb95;
+  }
+  .navbar .login-form .btn:hover{
     background-color: #379683;
     border: 1px solid #379683;
   }

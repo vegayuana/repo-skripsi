@@ -41,26 +41,26 @@ router.post('/register', (req, res) =>{
   upload(req, res, (err) => {
     let { name, npm, password } = req.body
     let genId = npm + uuid()
-
-    //Check Fields
-    if (!name || !npm || !password || !req.file) {
-      return utils.template_response(res, 400, "All fields need to be filled in" , null)
-    }
+    
     //Check error in upload middleware
     if(err){
       console.log(err)
       return utils.template_response(res, 500, err.message , null)
     } 
-    
+    //Check Fields
+    if (!name || !npm || !password || !req.file) {
+      return utils.template_response(res, 400, "All fields need to be filled in" , null)
+    }
+    //Check min NPM
+    if(npm.length<12) {
+      return utils.template_response(res, 422, "NPM is incorrect. Require min 12 digits" , null)
+    }
     //Check if npm is already registered
-    let findUser = `SELECT npm FROM users where role="user" && npm=${npm}`;
+    let findUser = `SELECT npm FROM users where role="user" && npm='${npm}'`;
     db.query(findUser, asyncHandler(async(err, data)=>{
       if (err) console.log(err.response)
       if(data.length>0){
         return utils.template_response(res, 422, "NPM is already registered" , null)
-      }
-      if(npm.length<12) {
-        return utils.template_response(res, 422, "NPM is incorrect. Require min 12 digits" , null)
       }
       password = await bcrypt.hash(password, 10)
       let post = {
@@ -76,6 +76,7 @@ router.post('/register', (req, res) =>{
           console.log(err)
           utils.template_response(res, 400, "Failed to register", null)
         }
+        console.log('success')
         utils.template_response(res, 200, "Registered Sucessfully", null)
       })
     }))

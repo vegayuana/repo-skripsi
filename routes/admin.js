@@ -18,7 +18,7 @@ router.get('/show-acc', (req, res) =>{
 //Verification
 router.put('/verified/:id', (req, res) =>{  
   const id = req.params.id
-  let sql = `UPDATE users SET is_active=${true} where id='${id}'`
+  let sql = `UPDATE users SET is_active=${true}, processed_at=NOW() where id='${id}'`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
   })
@@ -27,7 +27,7 @@ router.put('/verified/:id', (req, res) =>{
 //Unverified
 router.put('/unverified/:id', (req, res) =>{  
   const id = req.params.id
-  let sql = `UPDATE users SET is_active= ${false} where id='${id}'`
+  let sql = `UPDATE users SET is_active= ${false}, processed_at=NOW() where id='${id}'`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
   })
@@ -35,7 +35,7 @@ router.put('/unverified/:id', (req, res) =>{
 
 //Show Skripsi
 router.get('/show-skripsi', (req, res) =>{  
-  let sql = `SELECT skripsi.id, skripsi.user_id, skripsi.title, skripsi.published_year, skripsi.abstract, skripsi.file_url, skripsi.created_at,  skripsi.is_approved, users.name 
+  let sql = `SELECT skripsi.id, skripsi.user_id, skripsi.title, skripsi.published_year, skripsi.abstract, skripsi.file_url, skripsi.uploaded_at, skripsi.processed_at, skripsi.is_approved, users.name 
             FROM skripsi join users where skripsi.user_id = users.id`;
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
@@ -46,7 +46,7 @@ router.get('/show-skripsi', (req, res) =>{
 //Approve Skripsi
 router.put('/approved/:id', (req, res) =>{  
   const id = req.params.id
-  let sql = `UPDATE skripsi SET is_approved=${true} where id='${id}'`
+  let sql = `UPDATE skripsi SET is_approved=${true}, processed_at=NOW() where id='${id}'`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
   })
@@ -55,7 +55,7 @@ router.put('/approved/:id', (req, res) =>{
 //Unpproved Skripsi
 router.put('/unapproved/:id', (req, res) =>{  
   const id = req.params.id
-  let sql = `UPDATE skripsi SET is_approved=${false} where id='${id}'`
+  let sql = `UPDATE skripsi SET is_approved=${false}, processed_at=NOW() where id='${id}'`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
   })

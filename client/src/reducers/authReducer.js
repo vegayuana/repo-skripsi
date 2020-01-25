@@ -4,12 +4,16 @@ const initialState = {
 }
 
 export const setToken = (loginInfo) => {
+  localStorage.setItem('token', loginInfo.token)
+  localStorage.setItem('role', loginInfo.role)
   return dispatch => {
     dispatch({ type: "SET_TOKEN", payload: loginInfo })
   }
 } 
 
 export const delToken = ()=>{
+  localStorage.removeItem('token')
+  localStorage.removeItem('role')
   return dispatch => {
     dispatch({ type: "DEL_TOKEN", payload: "" })
   }
@@ -29,12 +33,6 @@ const authReducer = (state = initialState, action) =>{
         ...state,
         role:'',
         token:action.payload
-      }
-      case 'DTOKEN' :
-      return{
-        ...state,
-        role:action.payload.rl,
-        token:action.payload.tkn
       }
     default: 
       return state

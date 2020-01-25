@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Redirect, Link } from 'react-router-dom'
 import { Spinner, Breadcrumb, Table } from 'react-bootstrap'
 import axios from 'axios'
+import {scrollToTop} from '../../helpers/autoScroll'
+import { FaCheck, FaTimes} from 'react-icons/fa'
 
 export class AccountVerification extends Component {
   state ={
@@ -23,9 +25,13 @@ export class AccountVerification extends Component {
         isLoaded: true
       })
     })
+    .catch((err) => { 
+      console.log(err.response.statusText)
+    })
   }
   componentDidMount(){
     this.getData()
+    scrollToTop()
   }
   unverified = (id) => {
     axios({
@@ -34,6 +40,8 @@ export class AccountVerification extends Component {
       headers: {
         Authorization: this.props.token
       } 
+    }).catch((err) => { 
+      console.log(err.response.statusText)
     })
     this.getData()
   }
@@ -44,12 +52,20 @@ export class AccountVerification extends Component {
       headers:{
         Authorization: this.props.token
       }
+    }).catch((err) => { 
+      console.log(err.response.statusText)
     })
     this.getData()
   }  
+  shouldComponentUpdate(nextState){
+    if (nextState!=this.state){
+      return true
+    }
+    return false
+  }
   render() {
     let { isLoaded, users} = this.state
-    if (!this.props.token || this.props.role==='user'){
+    if (!localStorage.getItem('token') || this.props.role==='user'){
       return <Redirect to={'/'} />
     }
     return (
@@ -69,13 +85,14 @@ export class AccountVerification extends Component {
                 <th scope="col">NPM</th>
                 <th scope="col">KTM</th>
                 <th scope="col">Waktu Daftar</th>
+                <th scope="col">Waktu Diproses</th>
                 <th scope="col">Status</th>
                 <th scope="col">Handle</th>
               </tr>
             </thead>
             <tbody>
             { !isLoaded ? <tr><td colSpan="7" className="text-center"><Spinner animation="border"  variant="secondary" /></td></tr>
-              : users ===undefined || users ===[] ? <td colSpan="10" className="text-center">No Data</td> 
+              : !users? <tr><td colSpan="10" className="text-center">No Data</td></tr>
                 :
               users.map((user, i) =>
               <tr key={i}>
@@ -83,11 +100,12 @@ export class AccountVerification extends Component {
                 <td>{user.name}</td>
                 <td>{user.npm}</td>
                 <td>
-                  {/* <img alt="ktm" src={user.ktm_url}/> */}
+                  <img style={{maxWidth:'150px', width:'100%' }}alt="ktm" src={user.ktm_url}/>
                 </td>
-                <td>{user.created_at}</td>
-                <td>{user.is_active === 1 ? <>Diverifikasi </> :
-                      user.is_active === 0 ? <>Tidak Diverifikasi</> :
+                <td><p>{user.created_at.split('T')[0]} {user.created_at.split('T')[1].split('.000Z')}</p></td>
+                <td>{user.is_approved===2 ? <></> : <p>{user.processed_at.split('T')[0]} {user.processed_at.split('T')[1].split('.000Z')}</p>}</td>
+                <td>{user.is_active === 1 ? <div style={{color:'#379683'}}><FaCheck/> Diverifikasi</div> :
+                      user.is_active === 0 ? <div className='text-danger'><FaTimes/> Tidak Diverifikasi</div> :
                         <>Belum Diverifikasi</>
                 }</td>
                 <td>

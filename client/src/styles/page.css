@@ -63,8 +63,8 @@ body{
   border-color: #05386B;
 }
 .btn-primary{
-  background-color: #05386B;
-  border: 1px solid #05386B;
+  background-color: #379683;
+  border: 1px solid #379683;
   transition: 0.3s;
 }
 .btn-primary:hover ,.btn-primary:active, .btn-primary:focus, .show>.btn-primary.dropdown-toggle {
@@ -72,17 +72,20 @@ body{
   border: 1px solid #032649;
   box-shadow: none !important;
 }
-.btn-green{
-  background-color: #379683;
-  border: 1px solid #379683;
+.btn-blue{
+  background-color: #05386B;
+  border: 1px solid #05386B;
   color: white;
   transition: 0.3s;
 }
-.btn-green:hover ,.btn-green:active, .btn-green:focus, .show>.btn-green.dropdown-toggle {
+.btn-blue:hover ,.btn-blue:active, .btn-blue:focus, .show>.btn-blue.dropdown-toggle {
   background-color: #05386B !important;
   border: 1px solid #05386B;
   box-shadow: none !important;
   color: white;
+}
+.alert{
+  margin-top:0.5rem
 }
 .main-box{
   margin: 50px 85px 80px;
@@ -91,7 +94,7 @@ body{
   background-color: #05386B;
 }
 .line{
-  background-color: #379683;
+  background-color: #05386B ;
   height: 0.5rem;
 }
 .search-box{
@@ -100,6 +103,12 @@ body{
 }
 .filter-box{
   margin: 5px auto;
+  padding: 10px;
+  background-color: white;
+  height: max-content;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  border: 1px solid #edf5e1;
 }
 .filter{
   width: 100%;
@@ -162,7 +171,7 @@ body{
   border: 1px solid #edf5e1;
   box-shadow: 0 3px 20px rgba(0,0,0,.05);
   padding: 20px;
-  min-height: 440px;
+  min-height: 100%;
   margin-bottom: 1rem;
 }
 .detail-box h4 {
@@ -175,17 +184,21 @@ body{
 .abstrak{
   text-align: left;
 }
+.abstrak p{
+  text-align: justify;
+}
 .file-box{
   background-color: white;
   border-radius: 0px;
   border: 1px solid #edf5e1;
   box-shadow: 0 3px 20px rgba(0,0,0,.05);
   padding: 20px;
+  margin-bottom: 2rem;
 }
 /* Register */
 .register-box{
   background-color: white;
-  color:#05386B;
+  color:#379683;
   max-width: 600px;
   width: 100%;
   padding: 50px;
@@ -198,11 +211,11 @@ body{
   text-align: center;
 }
 .register-box .btn{
-  background-color: #05386B;
+  background-color: #379683;
   margin-bottom: 1rem;
 }
 .register-box label{
-  font-size: 0.9rem;
+  font-size: 1rem;
   margin-bottom: 0.3rem;
 }
 .register-box .form-control{
@@ -277,6 +290,10 @@ table td, table th{
   -ms-transform: scale(1.1);
   transform: scale(1.1);
 }
+.icons{
+  font-size: 2rem;
+  color: #379683;
+}
 .icon{    
   font-size: 4rem;
   color: #379683;
@@ -292,6 +309,10 @@ table td, table th{
   font-weight: 500;
   color: #05386B;
   background-color: #edf5e1;
+}
+.breadcrumb a{
+  color: #05386B;
+  font-weight: 500;
 }
 /* Profile */
 .profile-box{
@@ -322,17 +343,34 @@ table td, table th{
 .ribbon-right{
   left:-10px;
 }
+.ktm{
+  width: 200px;
+  margin-bottom:2rem
+}
 .icon-check{
-  color:#5cdb95;
-  font-size: 1.1rem;
+  color:#379683;
+  font-size: 1.3rem;
   font-weight: 500;
+  margin-bottom: 16px;
+}
+.upload-box{
+  background-color: white;
+  color: #379683;
+  width: 100%;
+  padding: 50px;
+  margin: 30px 100px;
+  border: 1px solid #edf5e1;
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  font-weight: 500;
+}
+.upload-box h3{
+  text-align: center;
+}
+.upload-box textarea{
+  height: 150px;
 }
 .table-box Table{
   border: 1px solid #edf5e1;
-}
-.breadcrumb a{
-  color: #05386B;
-  font-weight: 500;
 }
 ::-webkit-scrollbar {
   width: 12px;
@@ -374,12 +412,12 @@ table td, table th{
     font-size: 1rem;
   }
   .register-box{
-    width: 80vw;
+    width: 90vw;
     padding: 30px 20px; 
     margin: 20px auto 170px;
   }
   .bg3{
-    top: 570px;
+    top: 680px;
     width: 200px;
     left: 50%;
     transform: translateX(-50%);
@@ -388,13 +426,19 @@ table td, table th{
     line-height: 150px;
     text-align: center;
   }
+  .profile-box{
+    padding: 20px;
+  }
+  .ribbon{
+    padding: 10px 20px;
+  }
+  .upload-box{
+    margin: 10px 20px 2rem;
+    padding: 20px
+  }
 }
 @media screen and (min-width: 768px ) and (max-width:999px){
   .bg3{
-    display: block;
-    top: 600px;;
-    width: 300px;
-    left: 50%;
-    transform: translateX(-50%);
+    display: none
   }
 }

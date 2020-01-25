@@ -1,48 +1,48 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import UserMenu from '../components/UserMenu'
 import AdminMenu from '../components/AdminMenu'
 import { Link, Redirect } from 'react-router-dom'
 import { setToken, delToken} from '../reducers/authReducer'
 import { Cookies } from 'react-cookie'
 import { connect } from 'react-redux'
+import { Modal } from 'react-bootstrap' 
+import { FaRegCheckCircle } from 'react-icons/fa'
 import '../styles/nav.css'
 import axios from 'axios'
 import $ from 'jquery'
+import {scrollToTop} from '../helpers/autoScroll'
 
 const cookies = new Cookies();
-export class Nav extends Component {
-  
+export class Nav extends PureComponent {
   state = {
     npm: '',
     pass: '',
     token: '',
     role: '',
     message: '',
-    status: null
+    status: null,
+    showModal: false
   }
   componentDidMount(){
-    // if(cookies.get('token')){
-    //   this.setState({
-    //     token: cookies.get('token'),
-    //     role: cookies.get('role')
-    //   })
-    // }
+    if(localStorage.getItem('token')){
+      console.log('ada token')
+      let log ={
+        token : localStorage.getItem('token'),
+        role : localStorage.getItem('role')
+      }
+      this.props.login(log)
+    }
     $('a').click(()=>{
       $('.collapse').removeClass( "show" )
     })
   }
   componentDidUpdate(prevProps){
+    //props berubah akibat login / logout
     if(prevProps.token!== this.props.token){
       this.setState({
         token : this.props.token,
         role : this.props.role
       })
-      cookies.set('token', this.props.token, {path: '/'})
-      cookies.set('role', this.props.role, {path: '/'})
-      console.log('cookies :'+cookies.get('token'))
-      if (this.props.token===''){
-        cookies.remove('token')
-      }
     }
   }
   handleChange = (e) =>{
@@ -50,9 +50,13 @@ export class Nav extends Component {
       [e.target.id] : e.target.value
     })
   }
+  handleClose = () => {
+    this.setState({
+      showModal:false
+    })
+  }
   submitLogin = e => {
     e.preventDefault()
-    console.log(this.state.npm)
     axios({
       method: "post",
       url: "/login",
@@ -62,13 +66,22 @@ export class Nav extends Component {
       }
     }).then(res => {
       let loginInfo = res.data.data
-      console.log (loginInfo)
+      console.log ('login info', loginInfo)
       this.setState({
-        status:''
+        status:res.data.status,
+        showModal:true
       })
       if (loginInfo.isLogged) {
         this.props.login(loginInfo)
       }
+      scrollToTop()
+      this.setState({
+        showModal:true
+      })
+      setTimeout(() => 
+        this.setState({
+          showModal:false
+      }), 2000);
     }).catch((err) => { 
       this.setState({
         message:err.response.data.message,
@@ -79,7 +92,6 @@ export class Nav extends Component {
   logout = () =>{
     this.props.logout()
   }
-
   render() {
     let { token, role, message, status} = this.state
     return (
@@ -91,7 +103,6 @@ export class Nav extends Component {
             REPO<span>SKRIPSI</span>
           </p>
         </Link>
-      
         {!token ? 
           <>
           {/*Toggler*/}
@@ -102,7 +113,7 @@ export class Nav extends Component {
           <div className="collapse navbar-collapse" id="toggle1">
             <ul className="navbar-nav">
               <li className="nav-item dropdown">
-                <button className="btn btn-nav btnNav dropdown" data-toggle="dropdown">Login</button>
+                <button className="btn btn-nav btn-transition dropdown" data-toggle="dropdown">Login</button>
                 <ul className="dropdown-menu login-form">
                   <form className="form-inline">
                     <input type="text" id="npm" className="form-control" placeholder="NPM" onChange={this.handleChange} required/>
@@ -118,13 +129,14 @@ export class Nav extends Component {
                     <div className="alert alert-warning login-alert" role="alert">
                       <strong>Something goes wrong </strong>please try again
                     </div>
-                    : <></>
+                    :               
+                    <></>
                     }
                   </form>
                 </ul>
               </li>
               <li className="nav-item">
-                <Link to="/register" className="btn btn-nav btnNav ">
+                <Link to="/register" className="btn btn-nav btn-transition">
                   Sign Up
                 </Link>
               </li>
@@ -136,26 +148,32 @@ export class Nav extends Component {
             <Redirect to={'/admin'} />
             <AdminMenu logout={this.logout}></AdminMenu>
             </> :
+            <>
+            {/* <Redirect to='/' /> */}
+            <Modal show={this.state.showModal} onHide={this.handleClose} centered>
+              <Modal.Body className="login-modal">
+              <div className='icon-check'><FaRegCheckCircle/></div>
+                Login Successfully
+              </Modal.Body>
+            </Modal>
             <UserMenu logout={this.logout}></UserMenu>
+            </>
           }
         </nav>
       </>
     )
   }
 }
-
 const mapDispatchToProps = dispatch => {
   return {
     login: (loginInfo) => dispatch(setToken(loginInfo)),
     logout: () => dispatch(delToken())
   }
 }
-
 const mapStateToProps = state => {
   return{
     token: state.auth.token,
     role: state.auth.role
   }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(Nav);

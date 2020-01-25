@@ -1,27 +1,32 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import Skripsi from './Skripsi'
+import React, { useState } from 'react'
+import { Modal } from 'react-bootstrap'
 
 export default function List(props) {
-  let { isLoaded, skripsi} = props
-  let token = useSelector(state => state.auth.token)
+  let {skripsi} = props
+  const [showModal, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
-    <>
-      { !isLoaded ?
-        <div className="text-center">
-          <div className="spinner-border" role="status">
-            <span className="sr-only">Loading...</span>
+    <div>
+      <div className="list-box" onClick={handleShow}>
+        <div className="list row">
+          <div className="col-10">
+            <b><h5>{skripsi.title}</h5></b>
+            <p>{skripsi.name}</p>
+            {/* <p><i>{skripsi.category}</i></p> */}
           </div>
-        </div>  
-        :  skripsi.length===0 ? <div>No Data Found</div> :
-        skripsi.map((item, i) =>
-          !token ? <Skripsi skripsi={item} key={i}></Skripsi> : 
-          <Link to={'/skripsi-detail/'+item.id} key={i}>
-            <Skripsi skripsi={item}></Skripsi>
-          </Link>
-        )
-      }
-      </>
+          <div className="col-2 float-right">
+            <h5 className="float-right">{skripsi.published_year}</h5>
+          </div> 
+        </div>
+      </div>
+      {/* Pop Up */}
+      <Modal className="list-skripsi" show={showModal} onHide={handleClose} centered>
+        <div className="line" style={{backgroundColor:'#5cdb95'}}></div>
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>Log in to get full access</Modal.Body>
+      </Modal>
+    </div>
   )
 }

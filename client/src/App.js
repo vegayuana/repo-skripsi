@@ -11,11 +11,15 @@ import Upload from './pages/Upload'
 import Admin from './pages/admin/Admin'
 import AccountVerification from './pages/admin/AccountVerification'
 import SkripsiVerification from './pages/admin/SkripsiVerification'
-import bg1 from './icons/bg.png'
+import bg2 from './icons/bg2.png'
 import './styles/page.css'
 
 import { Provider } from 'react-redux'
+// import { PersistGate } from 'redux-persist/integration/react'
 import store from './store'
+// import configStore from './store'
+
+// const { store, persistor} = configStore()
 
 export class App extends Component {
   render() {
@@ -23,9 +27,10 @@ export class App extends Component {
       <>
       <div className="fullscreen">
         <Provider store={store}>
+          {/* <PersistGate persistor={persistor}> */}
           <Router>
             <Nav setUser={this.setUser}/>
-            <img src={bg1} alt="Logo" className="bg1"/>
+            <img src={bg2} alt="Logo" className="bg1"/>
             <Switch>
               <Route path='/' exact component={Main} />
               <Route path='/register' component={Register}/>
@@ -37,6 +42,7 @@ export class App extends Component {
               <Route path='/skripsi-verification' component={SkripsiVerification} />
             </Switch>
           </Router>
+          {/* </PersistGate> */}
         </Provider>
       </div>
       <Footer></Footer>

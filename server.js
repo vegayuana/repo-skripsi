@@ -9,7 +9,7 @@ const skripsiRoutes = require('./routes/skripsi')
 const skripsiDetailRoutes = require('./routes/skripsiDetail')
 const userRoutes = require('./routes/user')
 const adminRoutes = require('./routes/admin')
-//middleware
+//Middleware Auth
 const auth = require('./middleware/auth')
 
 //Bodyparser Middleware
@@ -24,12 +24,12 @@ app.use('/', registerRoutes)
 app.use('/', authRoutes)
 app.use('/skripsi', skripsiRoutes)
 app.use('/skripsi', auth.gen, skripsiDetailRoutes)
-app.use('/user', userRoutes)
+app.use('/user', auth.users, userRoutes)
 app.use('/admin', auth.admin, adminRoutes)
 
 //static
-app.use(express.static('files'));
-
+app.use('/files/ktm', express.static(path.join(__dirname, 'files', 'ktm')))
+app.use('/files/skripsi', express.static(path.join(__dirname, 'file', 'skripsi')))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

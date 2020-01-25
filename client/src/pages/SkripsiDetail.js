@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { Spinner } from 'react-bootstrap'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
+import {scrollToTop} from '../helpers/autoScroll'
+
 export class SkripsiDetail extends Component {
   state={
     skripsi:[], 
@@ -12,27 +14,41 @@ export class SkripsiDetail extends Component {
     let id = this.props.match.params.id
     axios({
       method: 'get',
-      url: `http://localhost:3000/skripsi/detail/${id}`,
+      url: `/skripsi/detail/${id}`,
       headers: {
-        Authorization: this.props.token
+        Authorization: localStorage.getItem('token')
       } 
-    })
-    .then(res=>{
+    }).then(res=>{
       this.setState({ 
         skripsi: res.data[0],
         isLoaded: true
       })
-    })
-    .catch(err=>{
+    }).catch(err=>{
       console.log(err.response)
     })
   }
+  // downloadPDF = (url) => {
+  //   console.log(url)
+  //   axios({
+  //     method: 'get',
+  //     url: `files/skripsi`,
+  //   }).then(res=>{
+  //     FileDownload(res.data, '1579797223297Naskah%20Skripsi%20Full-v7.pdf');
+   
+  //   }).catch(err=>{
+  //     console.log(err.response)
+  //   })
+    
+  // }
   componentDidMount(){
     this.getData()
+    scrollToTop()
   }
+  
   render() {
     let { isLoaded, skripsi } = this.state
-    if (!this.props.token){
+    console.log(skripsi)
+    if (!localStorage.getItem('token')){
       return <Redirect to={'/'} />
     }
     return (
@@ -57,7 +73,7 @@ export class SkripsiDetail extends Component {
             </div>
           </div>
           <div className="col-12 col-md-8">
-            <div className="line" style={{backgroundColor: '#05386B'}}></div>
+            <div className="line" style={{ backgroundColor: '#8ee4af '}}></div>
             <div className="detail-box abstrak">
               {!isLoaded ? <Spinner animation="border" variant="secondary" /> :
               <>
@@ -68,13 +84,15 @@ export class SkripsiDetail extends Component {
             </div>
           </div>
         </div>
-        <div className="row">
+        <div className="row" style={{marginTop: '2rem'}}>
           <div className="col-12">
-            <div className="line" style={{marginTop:'1rem', backgroundColor:'#5cdb95'}}></div>
+            <div className="line" style={{backgroundColor:'#5cdb95'}}></div>
             <div className="file-box">
               <h5>FILE</h5>
               <hr/>
-              <p>{skripsi.file_url}</p>
+              <a href={'http://localhost:5000/'+skripsi.file_url} target='_blank'> click</a>
+             
+             
             </div>
           </div>
         </div>

@@ -10,14 +10,15 @@ export class ProfileInfo extends Component {
     newPass:'',
     oldPass:'',
     message:'',
-    status:null
+    status:null,
+    passCheck:''
   }
   getProfile= ()=>{
     axios({
       method: 'get',
-      url: `http://localhost:3000/user/profile/`,
+      url: `/user/profile/`,
       headers: {
-        Authorization: this.props.token
+        Authorization: localStorage.getItem('token')
       } 
     })
     .then(res=>{
@@ -25,6 +26,8 @@ export class ProfileInfo extends Component {
         user: res.data,
         isLoaded: true
       })
+    }).catch(err=>{
+      console.log(err.response)
     })
   }
   componentDidMount(){
@@ -32,16 +35,16 @@ export class ProfileInfo extends Component {
   }
   submit=(e)=>{
     e.preventDefault();
-    console.log(this.state)
+    let { newPass, oldPass } = this.state
     axios({
       method: 'put',
-      url: `http://localhost:3000/user/edit-pass`,
+      url: `/user/edit-pass`,
       headers:{
         Authorization: this.props.token
       },
       data: {
-        newPass:this.state.newPass,
-        oldPass:this.state.oldPass
+        newPass:newPass,
+        oldPass:oldPass
       }
     }).then(res => {
       this.setState({
@@ -60,18 +63,29 @@ export class ProfileInfo extends Component {
        [e.target.id]: e.target.value,
     })
   }
+  handleRetype = (e) =>{
+    console.log(this.state.passCheck)
+    if (e.target.value !== this.state.newPass){
+      this.setState({passCheck: false})
+    }
+    else{
+      this.setState({passCheck: true})
+    }
+  }
   render() {
-    let { user, isLoaded } = this.state
+    let { user, isLoaded, passCheck, status, message} = this.state
     return (
       <div>
-        {!isLoaded ? <Spinner animation="border" variant="secondary" /> :
+      {!isLoaded ? <Spinner animation="border" variant="secondary" /> :
         <>
         <p>{user.name}</p>
         <p>{user.npm}</p>
-        <p>KTM</p>
+        <div><img src={user.ktm_url} alt='ktm'className='ktm'/></div>
         <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Edit Password</button>
+        
+        {/* Edit Password Modal */}
         <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div className="modal-dialog" role="document">
+          <div className="modal-dialog modal-dialog-centered" role="document">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">Change Password</h5>
@@ -89,25 +103,35 @@ export class ProfileInfo extends Component {
                   <label>Password Baru</label>
                   <input type="password" id="newPass" className="form-control" placeholder="Password" onChange={this.handleInput}/>
                 </div>
-                {this.state.status===400? 
+                <div className="form-group">
+                  <label>Konfirmasi Password Baru</label>
+                  <input type="password" className="form-control" placeholder="Konfirmasi Password" onChange={this.handleRetype}/>
+                </div>
+                { passCheck === false ?
+                  <div className="alert alert-warning" role="alert">
+                    Password does not match
+                  </div> : <></>}
+                {status===400? 
                     <div className="alert alert-danger" role="alert">
-                      <strong>{this.state.message}</strong>
+                      <strong>{message}</strong>
                     </div>
-                  :this.state.status===200? 
+                  :status===200? 
                     <div className="alert alert-success" role="alert">
-                      <strong>{this.state.message}</strong> Please Log In
+                      <strong>{message}</strong>
                     </div>
                   :<></>
                 }
                 <button type="button" className="btn btn-secondary mr-2" data-dismiss="modal">Close</button>
-                <button type="button" className="btn btn-primary" onClick={this.submit}>Save changes</button>
+                { status===200? <></> :
+                <button type="button" className="btn btn-primary" onClick={this.submit} disabled={!passCheck}>Save changes</button>
+                }
                 </form>
               </div>
             </div>
           </div>
         </div>
         </>
-        }
+      }
       </div>
     )
   }

@@ -1,37 +1,38 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import axios from 'axios'
-import List from './List'
-import '../styles/page.css'
-import {FaSearch} from 'react-icons/fa'
+import ListCard from './ListCard'
+import { FaSearch } from 'react-icons/fa'
+import Pagination from './Pagination';
 
-const years=[
-  2016, 
-  2017, 
-  2018,
-  2019,
-  2020
-]
-export class Content extends Component {
+export class Content extends PureComponent {
   state={
     isLoaded: false,
     skripsi:[], 
     skripsiFiltered:[],
-    yearSelection: 'Tahun' 
+    years:[],
+    yearSelection: 'Tahun', 
+    currentPage:1,
+    postsPerPage:10
   }
-  componentDidMount(){
+  getSkripsi=()=>{
     axios({
       method: 'get',
       url: '/skripsi/list',
-      Headers: {
-      }
-    })
-    .then(res=>{
+    }).then(res=>{
       this.setState({ 
         skripsi: res.data,
         isLoaded: true,
-        skripsiFiltered:res.data
+        skripsiFiltered:res.data,
+        years: [...new Set(res.data.map((year)=>{
+          return year.published_year
+        }))]
       })
+    }).catch((err) => { 
+      console.log(err.response)
     })
+  }
+  componentDidMount(){
+    this.getSkripsi()
   }
   onChange =(e)=>{
     let text = e.target.value.toLowerCase()
@@ -62,13 +63,22 @@ export class Content extends Component {
     }
   }
   render() {
-    let {isLoaded, skripsiFiltered} = this.state
+    console.log('render content')
+    let {isLoaded, skripsiFiltered, years, currentPage, postsPerPage} = this.state
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentPosts = skripsiFiltered.slice(indexOfFirstPost, indexOfLastPost)
+    const paginate = pageNumber => {
+      this.setState({
+        currentPage :pageNumber
+      })
+    }
     return (
       <>
       <div className="row search-box">
         <div className="col-12">
           <div className="input-group">
-            <input type="text" className="form-control" onChange={this.onChange} placeholder="Kata Kunci" aria-label="Recipient's username" aria-describedby="button-addon2" />
+            <input type="text" className="form-control" onChange={this.onChange} placeholder="Kata Kunci (Penulis atau Judul)" aria-label="Recipient's username" aria-describedby="button-addon2" />
             <div className="input-group-append">
               <button className="btn btn-outline-secondary" type="button" id="button-addon2"><FaSearch/></button>
             </div>
@@ -76,11 +86,12 @@ export class Content extends Component {
         </div>
       </div> 
       <div className="main-box row">
-        <div className="col-12 col-md-3 filter-box">
-          <p className="no-margin">Saring Berdasarkan</p>
-          <div className="row">
-            <div className="col-6 col-12">
-              <div className="dropdown">
+        <div className="col-12 col-md-3">
+          <div className="filter-box">
+            <p className="no-margin">Saring Berdasarkan</p>
+            <div className="row">
+              <div className="col-6 col-12">
+                <div className="dropdown">
                 {/* <button className="btn filter btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Topik
                 </button>
@@ -89,33 +100,31 @@ export class Content extends Component {
                   <button className="dropdown-item">Jaringan Komputer</button>
                   <button className="dropdown-item">Sistem Informasi</button>
                 </div> */}
+                </div>
               </div>
-            </div>
-            <div className="col-6 col-md-12"> 
-              <div className="dropdown">
-                <button className="btn filter btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  {this.state.yearSelection}
-                </button>
-                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <button className="dropdown-item" onClick={this.yearFilter} id="Tahun">All</button>
-                  {years.map((year, i)=>
-                    <button key={i} className="dropdown-item" onClick={this.yearFilter} id={year}>{year}</button>
-                  )}
+              <div className="col-6 col-md-12"> 
+                <div className="dropdown">
+                  <button className="btn filter btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {this.state.yearSelection}
+                  </button>
+                  <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <button className="dropdown-item" onClick={this.yearFilter} id="Tahun">All</button>
+                    {years.map((year, i)=>
+                      <button key={i} className="dropdown-item" onClick={this.yearFilter} id={year}>{year}</button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
         <div className="col-12 col-md-9">
-          <List skripsi={skripsiFiltered} isLoaded={isLoaded}></List>
-          {/* <ul class="pagination justify-content-end">
-            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-          </ul> */}
+          <ListCard skripsi={currentPosts} isLoaded={isLoaded}></ListCard>
+          <Pagination
+            postsPerPage={postsPerPage}
+            totalPosts={skripsiFiltered.length}
+            paginate={paginate}
+          />
         </div>
       </div>
       </>

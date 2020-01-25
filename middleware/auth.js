@@ -4,38 +4,39 @@ var secret = "repository.secret"
 
 const auth = {
 	admin (req, res, next){
-		jwt.decode(secret, req.headers.authorization, function (err, decodedPayload, decodedHeader) {
+    let bearer = req.headers.authorization
+    let token = bearer.split(' ')[1]
+		jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
       if (err) {
-       	utils.template_response(res, 401, "failed to authorize token", null)
-				return
+        return utils.template_response(res, 401, "failed to authorize token", null)
       }
 			if (decodedPayload.request.role != 'admin'){
-      	utils.template_response(res, 401, "role not allowed", null)
-				return
+      	return utils.template_response(res, 401, "role not allowed", null)
 			}
 			next()
     })
 	},
 
 	users (req, res, next){
-		jwt.decode(secret, req.headers.authorization, function (err, decodedPayload, decodedHeader) {
+    let bearer = req.headers.authorization
+    let token = bearer.split(' ')[1]
+		jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
       if (err) {
-       	utils.template_response(res, 401, "failed to authorize token", null)
-				return
+        return utils.template_response(res, 401, "failed to authorize token", null)
       }
 			if (decodedPayload.request.role != 'user'){
-      	utils.template_response(res, 401, "role not allowed", null)
-				return
+      	return utils.template_response(res, 401, "role not allowed", null)
 			}
 			next()
     })
   },
   
   gen(req, res, next){
-    jwt.decode(secret, req.headers.authorization, function (err, decodedPayload, decodedHeader) {
+    let bearer = req.headers.authorization
+    let token = bearer.split(' ')[1]
+    jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
       if (err) {
-       	utils.template_response(res, 401, "failed to authorize token", null)
-				return
+        return utils.template_response(res, 401, "failed to authorize token", null)
       }
 			next()
     })

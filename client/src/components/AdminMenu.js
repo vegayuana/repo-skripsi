@@ -6,7 +6,7 @@ export default function AdminMenu(props) {
   return (
     <div className="right admin-menu">
       <div className="dropdown">
-        <button className="btn btn-green dropdown-toggle" type="button" id="dropdownAdminMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button className="btn btn-blue dropdown-toggle" type="button" id="dropdownAdminMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <FaUserAlt/>  ADMIN
         </button>
         <div className="dropdown-menu" aria-labelledby="dropdownAdminMenu">

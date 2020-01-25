@@ -6,7 +6,7 @@ export class Footer extends Component {
     return (
       <div className="footer row no-margin">
         <div className="col-md-6">
-          <h4>Lokasi Perpustakaan</h4>
+          <h5>Lokasi Perpustakaan</h5>
           <p>Gd. Dekanat FMIPA Unpad, Jl. Raya Bandung Sumedang No.Km 21, Hegarmanah, Kec. Jatinangor, Kabupaten Sumedang, Jawa Barat 45361</p>
           <p>(022) 7797712</p>
           <hr/>

@@ -1,42 +1,24 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import axios from 'axios'
+import { scrollToTop } from '../helpers/autoScroll'
+import { Spinner } from 'react-bootstrap'
 
 export class Upload extends Component {
-  state={
+  initialState={
     datas:{},
-    file:null
+    file:null,
+    fileType:'application/pdf',
+    message: '', 
+    status:'',
+    skripsi:{},
+    isLoaded:false,
+    title:'',
+    year:'',
+    abstract:''
   }
-  // submit = (e) =>{
-  //   e.preventDefault();
-  //   let {name, npm, pass, file}= this.state
-  //   const formData = new FormData()
-  //   formData.append('ktm', file)
-  //   formData.append('name', name)
-  //   formData.append('npm', npm)
-  //   formData.append('password', pass)
-  //   axios({
-  //     method: "POST",
-  //     url: "/register",
-  //     data: formData,
-  //     headers:{
-  //       'Content-Type':'multipart/form-data'
-  //     }
-  //   }).then((res) =>{
-  //     this.setState(this.initialState)
-  //     this.setState({
-  //       message:res.data.message,
-  //       status:res.data.status,
-  //     })
-  //     this.refs.registerForm.reset();
-  //   })
-  //   .catch((err) => { 
-  //     this.setState({
-  //       message:err.response.data.message,
-  //       status:err.response.data.status,
-  //     })
-  //   })
-  // }
+  state=this.initialState
   submit = (e) =>{
     e.preventDefault();
     let title = this.refs.title.value;
@@ -49,60 +31,111 @@ export class Upload extends Component {
     formData.append('title', title)
     formData.append('year', year)
     formData.append('abstract', abstract)  
-    
     axios({
       method: "POST",
-      url: `/user/upload/${this.props.token}`,
+      url: `/user/upload/`,
       data: formData,
       headers:{
         'Content-Type':'multipart/form-data',
+        'Authorization': this.props.token
       }
     }).then((res) =>{
-
+      this.setState({
+        message:res.data.message,
+        status:res.data.status,
+      })
+      this.refs.registerForm.reset();
+    }).catch((err) => { 
+      this.setState({
+        message:err.response.data.message,
+        status:err.response.data.status,
+      })
     })
-
-
+  }
+  handleInput = (e) =>{
+    this.setState({
+      [e.target.id] : e.target.value,
+    })
   }
   handleFile=(e)=>{
     this.setState({
-      file:e.target.files[0]
+      file:e.target.files[0],
+      fileType: e.target.files[0].type
     })
   }
+  checkSkripsi=()=>{
+    axios({
+      method: 'get',
+      url: `/user/skripsi/`,
+      headers: {
+        Authorization: this.props.token
+      } 
+    }).then(res=>{
+      this.setState({ 
+        skripsi: res.data,
+        isLoaded: true
+      })
+    }).catch((err) => { 
+      console.log(err.response)
+    })
+  }
+  componentDidMount(){
+    this.checkSkripsi()
+    scrollToTop()
+  }
   render() {
-    console.log('ini file', this.props.token)
+    console.log(this.state.file)
+    let { message, status, isLoaded, skripsi, fileType} = this.state
+    if (!localStorage.getItem('token')){
+      return <Redirect to={'/'} />
+    }
+    console.log(skripsi)
     return (
-      <div>
+      <>
+      {!isLoaded? <Spinner animation="border" variant="secondary" /> :
       <div className="row no-margin">
-        <div className="register-box">
+        <div className="upload-box">
           <h3>Unggah</h3>
+          {skripsi ? <><hr/><div><h5>Anda sudah mengunggah skripsi</h5></div></> :
           <form >
             <div className="form-group">
               <label>Judul </label>
-                <input type="text" ref="title" className="form-control" id="title" placeholder="Input Judul"/>
+                <input type="text" ref="title" id="title" className="form-control" placeholder="Input Judul"/>
               </div>
-{/*             
-            <div className="form-group">
-              <label>Subjek</label>
-              <input type="text" ref="subjek" className="form-control" id="idsubjek" placeholder="Input Subjek"/>
-            </div> */}
             <div className="form-group">
               <label>Tahun</label>
-              <input type="text" ref="year" className="form-control" id="year" placeholder="Input Tahun"/>
+              <input type="text" ref="year" id="year" className="form-control" placeholder="Input Tahun"/>
             </div>
             <div className="form-group">
             <label>Abstrak</label>
-              <textarea ref="abstract" className="form-control" id="abstract" placeholder="Input Abstrak"/>
+              <textarea ref="abstract" id="abstract" className="form-control" placeholder="Input Abstrak"/>
             </div>
             <div className="form-group">
-              <label>File</label>
+              <label>File (Maks 50mb)</label>
               <input type="file" ref="file" onChange={this.handleFile} className="form-control-file" id="file" accept=".pdf"/>
+              { fileType==="application/pdf"? <></> :
+                <div className="alert alert-danger" role="alert">
+                  <strong>File must be PDF</strong>
+                </div>
+              }
             </div> 
-            <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)}>Submit</button>
+            <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)} disabled={fileType!=="application/pdf"}>Submit</button>
+            { message ==='' ? <></> :
+                status===200 ?
+                  <div className="alert alert-success" role="alert">
+                    <strong>{this.state.message}</strong>
+                  </div>
+                  :
+                <div className="alert alert-danger" role="alert">
+                  <strong>{this.state.message}</strong>
+                </div>
+             }
           </form>
+          }
         </div>
-        <div className="col-xl-3"></div>
       </div>
-      </div>
+      }
+      </>
     )
   }
 }
