@@ -3,9 +3,8 @@ const router = express.Router()
 const utils = require('../utils/templates')
 
 //connect DB
-// const db = require('../db/db')
-// require('../db/connection')
 const db = require('../db/db')
+require('../db/connection')
 
 //show all skripsi
 router.get('/list', (req, res) =>{  
@@ -13,9 +12,7 @@ router.get('/list', (req, res) =>{
               FROM skripsi join users on users.id = skripsi.user_id where is_approved=${1}`;
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
-    res.header("Access-Control-Allow-Origin", "*");
     res.send(result)
-    db.end()
   })
 })
 module.exports = router;
