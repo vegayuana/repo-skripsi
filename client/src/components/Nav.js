@@ -58,8 +58,9 @@ export class Nav extends PureComponent {
   submitLogin = e => {
     e.preventDefault()
     axios({
-      method: "post",
-      url: "/login",
+      method: 'post',
+      baseURL: 'http://localhost:5000',
+      url: '/login',
       data: {
         npm: this.state.npm,
         password: this.state.pass
@@ -67,21 +68,25 @@ export class Nav extends PureComponent {
     }).then(res => {
       let loginInfo = res.data.data
       console.log ('login info', loginInfo)
-      this.setState({
-        status:res.data.status,
-        showModal:true
-      })
-      if (loginInfo.isLogged) {
-        this.props.login(loginInfo)
-      }
-      scrollToTop()
-      this.setState({
-        showModal:true
-      })
-      setTimeout(() => 
+      if (loginInfo){
         this.setState({
-          showModal:false
-      }), 1000);
+          status:res.data.status,
+          showModal:true
+        })
+        if (loginInfo.isLogged) {
+          this.props.login(loginInfo)
+        }
+        scrollToTop()
+        setTimeout(() => 
+          this.setState({
+            showModal:false
+        }), 1000);
+      }
+      else{
+        this.setState({
+          status:500
+        })
+      }
     }).catch((err) => { 
       if(err.response){
         this.setState({

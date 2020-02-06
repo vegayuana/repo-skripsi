@@ -17,6 +17,7 @@ export class ProfileInfo extends Component {
   getProfile= ()=>{
     axios({
       method: 'get',
+      baseURL: 'http://localhost:5000',
       url: `/user/profile/`,
       headers: {
         Authorization: localStorage.getItem('token')
@@ -39,6 +40,7 @@ export class ProfileInfo extends Component {
     let { newPass, oldPass } = this.state
     axios({
       method: 'put',
+      baseURL: 'http://localhost:5000',
       url: `/user/edit-pass`,
       headers:{
         Authorization: this.props.token

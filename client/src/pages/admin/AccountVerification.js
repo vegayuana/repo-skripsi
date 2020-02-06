@@ -17,6 +17,7 @@ export class AccountVerification extends Component {
   getData = () =>{
     axios({
       method: 'get',
+      baseURL: 'http://localhost:5000',
       url: '/admin/show-acc',
       headers: {
         Authorization: this.props.token
@@ -41,6 +42,7 @@ export class AccountVerification extends Component {
   unverified = (id) => {
     axios({
       method: 'delete',
+      baseURL: 'http://localhost:5000',
       url: `/admin/unverified/${id}`,
       headers: {
         Authorization: this.props.token
@@ -63,6 +65,7 @@ export class AccountVerification extends Component {
   verified = (id) => {
     axios({
       method: 'put',
+      baseURL: 'http://localhost:5000',
       url: `/admin/verified/${id}`,
       headers:{
         Authorization: this.props.token

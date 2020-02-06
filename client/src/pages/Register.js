@@ -26,8 +26,9 @@ export class Register extends Component {
       password:pass
     }
     axios({
-      method: "POST",
-      url: "/check-form",
+      method: 'POST',
+      baseURL: 'http://localhost:5000',
+      url: '/check-form',
       data: data,
     }).then((res) =>{
       this.setState({
@@ -58,8 +59,9 @@ export class Register extends Component {
     formData.append('password', pass)
     console.log(file)
     axios({
-      method: "POST",
-      url: "/register",
+      method: 'POST',
+      baseURL: 'http://localhost:5000',
+      url: '/register',
       data: formData,
       headers:{
         'Content-Type':'multipart/form-data'

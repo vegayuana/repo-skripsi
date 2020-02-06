@@ -15,6 +15,7 @@ export class SkripsiStatus extends Component {
   getSkripsi=()=>{
     axios({
       method: 'get',
+      baseURL: 'http://localhost:5000',
       url: `/user/skripsi/`,
       headers: {
         Authorization: localStorage.getItem('token')

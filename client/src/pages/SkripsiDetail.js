@@ -15,6 +15,7 @@ export class SkripsiDetail extends Component {
     let id = this.props.match.params.id
     axios({
       method: 'get',
+      baseURL: 'http://localhost:5000',
       url: `/skripsi/detail/`,
       params:{
         id : id
@@ -42,6 +43,7 @@ export class SkripsiDetail extends Component {
     console.log(filePath)
     axios({
       method: 'get',
+      baseURL: 'http://localhost:5000',
       url: `/skripsi/download/`,
       params:{
         filePath: filePath

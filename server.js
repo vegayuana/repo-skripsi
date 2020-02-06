@@ -9,26 +9,13 @@ const skripsiRoutes = require('./routes/skripsi')
 const skripsiDetailRoutes = require('./routes/skripsiDetail')
 const userRoutes = require('./routes/user')
 const adminRoutes = require('./routes/admin')
-
+//Middleware Auth
+const auth = require('./middleware/auth')
 const cors = require('cors')
 var corsOptions = {
   origin: '*',
   optionsSuccessStatus: 200,
 }
-
-// var whitelist = ['http://example1.com', 'http://example2.com']
-// var corsOptions = {
-//   origin: function (origin, callback) {
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error('Not allowed by CORS'))
-//     }
-//   }
-// }
-//Middleware Auth
-const auth = require('./middleware/auth')
-
 //Bodyparser Middleware
 app.use(express.json())
 app.use(cors(corsOptions))
@@ -44,6 +31,17 @@ app.use('/skripsi', skripsiRoutes)
 app.use('/skripsi', skripsiDetailRoutes)
 app.use('/user', auth.users, userRoutes)
 app.use('/admin', auth.admin, adminRoutes)
+
+if (process.env.NODE_ENV === "production") {
+  // Exprees will serve up production assets
+  app.use(express.static("client/build"));
+
+  // Express serve up index.html file if it doesn't recognize route
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
 
 //static
 app.use('/files/ktm', express.static(path.join(__dirname, 'files', 'ktm')))

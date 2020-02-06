@@ -9,7 +9,7 @@ import {MdFileUpload} from 'react-icons/md'
 import {FaUserAlt} from 'react-icons/fa'
 export class Footer extends Component {
   render() {
-    console.log('foot ', this.props.token)
+    console.log('footer')
     return (
       <>
       <div className="footer row no-margin">

@@ -3,8 +3,9 @@ const router = express.Router()
 const utils = require('../utils/templates')
 
 //connect DB
+// const db = require('../db/db')
+// require('../db/connection')
 const db = require('../db/db')
-require('../db/connection')
 
 //show all skripsi
 router.get('/list', (req, res) =>{  
