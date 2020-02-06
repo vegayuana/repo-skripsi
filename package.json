@@ -8,7 +8,9 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "cd client && npm start",
-    "dev": "concurrently \"npm run server\" \"npm run client\" "
+    "client2": "cd client && npm run build && npm run start-sw",
+    "dev": "concurrently \"npm run server\" \"npm run client\" ",
+    "dev2": "concurrently \"npm run server\" \"npm run client2\" "
   },
   "author": "Vega Yuana",
   "license": "ISC",
@@ -18,6 +20,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "concurrently": "^5.0.2",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
@@ -27,9 +30,11 @@
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.2",
     "mysql": "^2.17.1",
+    "react-responsive": "^8.0.3",
     "uuid": "^3.3.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.2"
+    "nodemon": "^2.0.2",
+    "ws": "3.3.2"
   }
 }

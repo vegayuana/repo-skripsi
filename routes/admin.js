@@ -25,11 +25,16 @@ router.put('/verified/:id', (req, res) =>{
 })
 
 //Unverified
-router.put('/unverified/:id', (req, res) =>{  
+router.delete('/unverified/:id', (req, res) =>{  
   const id = req.params.id
-  let sql = `UPDATE users SET is_active= ${false}, processed_at=NOW() where id='${id}'`
+  let sql = `delete from users where id='${id}'`
   db.query(sql, (err, result)=>{
-    if (err) console.log(err)
+    if (err) {
+      console.log(err)
+      return utils.template_response(res, 500, 'Gagal Menghapus' , null)
+    }
+    console.log('sukses')
+    return utils.template_response(res, 200, 'Berhasil' , null)
   })
 })
 

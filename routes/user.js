@@ -2,9 +2,10 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
 const utils = require('../utils/templates')
-var jwt = require('json-web-token')
-var secret = "repository.secret"
 const uuid = require('uuid/v4')
+const jwt = require('json-web-token')
+const secret = "repository.secret"
+const path = require('path')
 
 //connect DB
 const db = require('../db/db')
@@ -91,7 +92,7 @@ const multer  = require('multer')
 const storage = multer.diskStorage({
   destination: 'files/skripsi/',
   filename: function(req, file, cb){
-    cb(null, Date.now() + file.originalname)
+    cb(null, uuid() + 'skripsi' + path.extname(file.originalname))
   }
 })
 //Check Image type
@@ -105,7 +106,7 @@ const fileFilter = (req, file, cb) => {
 //Init Upload
 const upload = multer({
   storage: storage,
-  limits:{fileSize: 1024 * 1024* 5}, 
+  limits:{fileSize: 1024 * 1024* 20}, 
   fileFilter:fileFilter
 }).single('file')
 
@@ -117,9 +118,9 @@ router.post('/upload/', (req, res) =>{
       console.log(err)
       return utils.template_response(res, 500, err.message , null)
     } 
-    
     //Check Fields
-    let { title, year, abstract} = req.body
+    let { title, year, abstract, category, keywords} = req.body
+    console.log(req.body)
     if (!title || !year || !abstract || !req.file) {
       return utils.template_response(res, 400, "All fields need to be filled in" , null)
     }
@@ -139,14 +140,16 @@ router.post('/upload/', (req, res) =>{
       if(skripsi.length>0){
         return utils.template_response(res, 422, "User has uploaded a file" , null)
       }
-      let path = req.file.path
+      let path_url = req.file.path
       let post = {
         id: uuid(), 
         user_id: payload.id,
         title: title,
         abstract: abstract,
         published_year: year, 
-        file_url: path
+        file_url: path_url,
+        category: category,
+        keywords: keywords
       }
       let sql = 'INSERT INTO skripsi SET ?'
       db.query(sql, post, (err, result)=>{
@@ -156,6 +159,62 @@ router.post('/upload/', (req, res) =>{
         } 
       console.log('success!')  
       return utils.template_response(res, 200, "Upload Successfully", null)
+      })
+    })   
+  })
+})
+
+// upload skripsi
+router.put('/reupload/', (req, res) =>{  
+  upload(req, res, (err) => {
+    //Check error in upload middleware
+    if(err){
+      console.log(err)
+      return utils.template_response(res, 500, err.message , null)
+    } 
+    //Check Fields
+    let { title, year, abstract, category, keywords} = req.body
+    console.log(req.body)
+    if (!title || !year || !abstract || !req.file) {
+      return utils.template_response(res, 400, "All fields need to be filled in" , null)
+    }
+    //Get user id
+    let bearer = req.get('Authorization')
+    let token = bearer.split(' ')[1]
+    let payload={}
+    jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
+      payload=decodedPayload.request
+    })
+    //Check if user has uploaded 
+    let checkSkripsi =`SELECT * FROM skripsi WHERE user_id='${payload.id}' LIMIT 1`
+    db.query(checkSkripsi, (err, skripsi)=>{
+      if (err){
+        return utils.template_response(res, 400, err.response, null)
+      }  
+      if(skripsi.length===0){
+        return utils.template_response(res, 422, "User hasn't uploaded a file" , null)
+      }
+      if(skripsi[0].is_approve===1){
+        return utils.template_response(res, 422, "File has been published" , null)
+      }
+      let id = skripsi[0].id
+      let path_url = req.file.path
+      let post = {
+        title: title,
+        abstract: abstract,
+        published_year: year, 
+        file_url: path_url,
+        category: category,
+        keywords: keywords
+      }
+      let sql = `UPDATE skripsi SET uploaded_at=NOW(), is_approved=${2}, ? where id='${id}'`
+      db.query(sql, post, (err, result)=>{
+        if(err){
+          console.log(err)
+          return utils.template_response(res, 500, err.message , null)
+        } 
+      console.log('success!')  
+      return utils.template_response(res, 200, "Reupload Successfully", null)
       })
     })   
   })

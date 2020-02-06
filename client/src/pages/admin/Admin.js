@@ -21,7 +21,7 @@ export class Admin extends Component {
           </div>
           <div className="col-12 col-md-4">
             <Link to='/skripsi-verification' className="card">
-              <AdminCard menu='Verifikasi Skripsi' icon='Skripsi'/>
+              <AdminCard menu='Tinjau Skripsi' icon='Skripsi'/>
             </Link>
           </div>
         </div>

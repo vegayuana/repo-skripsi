@@ -17,6 +17,7 @@ import './styles/page.css'
 import { Provider } from 'react-redux'
 // import { PersistGate } from 'redux-persist/integration/react'
 import store from './store'
+import ReUpload from './pages/ReUpload'
 // import configStore from './store'
 
 // const { store, persistor} = configStore()
@@ -24,11 +25,11 @@ import store from './store'
 export class App extends Component {
   render() {
     return (
-      <>
-      <div className="fullscreen">
-        <Provider store={store}>
-          {/* <PersistGate persistor={persistor}> */}
-          <Router>
+      <> 
+      <Provider store={store}>
+        <Router>
+          <div className="fullscreen">
+              {/* <PersistGate persistor={persistor}> */}
             <Nav setUser={this.setUser}/>
             <img src={bg2} alt="Logo" className="bg1"/>
             <Switch>
@@ -37,15 +38,16 @@ export class App extends Component {
               <Route path='/profile' component={Profile}/>
               <Route path='/skripsi-detail/:id' component= {SkripsiDetail}/>
               <Route path='/upload' component={Upload}/>
+              <Route path='/reupload' component={ReUpload}/>
               <Route path='/admin' component={Admin}/>
               <Route path='/account-verification' component={AccountVerification} />
               <Route path='/skripsi-verification' component={SkripsiVerification} />
             </Switch>
-          </Router>
-          {/* </PersistGate> */}
-        </Provider>
-      </div>
-      <Footer></Footer>
+              {/* </PersistGate> */}
+          </div>
+          <Footer></Footer>
+        </Router>
+      </Provider>
       </>
     )
   }

@@ -17,11 +17,6 @@ export default class UserMenu extends Component {
         </button>
         <li className="nav-item navbar-nav">
           <div className="collapse user-menu" id="userMenu">
-            <div className="right">
-            {/* <button className="btn btn-nav" id="tes" data-toggle="collapse" data-target="#userMenu" aria-expanded="false" aria-controls="userMenu">
-            x
-            </button> */}
-            </div>
             <Link to="/profile" className="dropdown-item" style={{marginTop:'80px'}}>
               Profil
             </Link>

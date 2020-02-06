@@ -3,16 +3,17 @@ import UserMenu from '../components/UserMenu'
 import AdminMenu from '../components/AdminMenu'
 import { Link, Redirect } from 'react-router-dom'
 import { setToken, delToken} from '../reducers/authReducer'
-import { Cookies } from 'react-cookie'
+// import { Cookies } from 'react-cookie'
 import { connect } from 'react-redux'
 import { Modal } from 'react-bootstrap' 
 import { FaRegCheckCircle } from 'react-icons/fa'
+import { MdExitToApp } from 'react-icons/md'
 import '../styles/nav.css'
 import axios from 'axios'
 import $ from 'jquery'
 import {scrollToTop} from '../helpers/autoScroll'
+import MediaQuery from 'react-responsive'
 
-const cookies = new Cookies();
 export class Nav extends PureComponent {
   state = {
     npm: '',
@@ -25,7 +26,6 @@ export class Nav extends PureComponent {
   }
   componentDidMount(){
     if(localStorage.getItem('token')){
-      console.log('ada token')
       let log ={
         token : localStorage.getItem('token'),
         role : localStorage.getItem('role')
@@ -81,12 +81,14 @@ export class Nav extends PureComponent {
       setTimeout(() => 
         this.setState({
           showModal:false
-      }), 2000);
+      }), 1000);
     }).catch((err) => { 
-      this.setState({
-        message:err.response.data.message,
-        status:err.response.data.status,
-      })
+      if(err.response){
+        this.setState({
+          message:err.response.data.message,
+          status:err.response.data.status,
+        })
+      }
     }) 
   }
   logout = () =>{
@@ -142,23 +144,35 @@ export class Nav extends PureComponent {
               </li>
             </ul>
           </div>
+          </> 
+          :role === 'admin' ?
+          <>
+          <Redirect to={'/admin'} />
+          <AdminMenu logout={this.logout}></AdminMenu>
+          </> 
+          : 
+          <>
+          <Redirect to='/' />
+          <MediaQuery query="(min-device-width:768px)">
+            <UserMenu logout={this.logout}></UserMenu>  
+          </MediaQuery>
+          <MediaQuery query="(max-device-width:767px)">
+            <ul className='navbar-nav'>
+              <li className="nav-item right">
+                <Link to="/" className="btn btn-nav btn-transition" onClick={()=>this.logout()}>
+                  <MdExitToApp/>
+                </Link>
+              </li>
+            </ul>
+          </MediaQuery>
           </>
-          : role === 'admin' ?
-            <>
-            <Redirect to={'/admin'} />
-            <AdminMenu logout={this.logout}></AdminMenu>
-            </> :
-            <>
-            {/* <Redirect to='/' /> */}
-            <Modal show={this.state.showModal} onHide={this.handleClose} centered>
-              <Modal.Body className="login-modal">
-              <div className='icon-check'><FaRegCheckCircle/></div>
-                Login Successfully
-              </Modal.Body>
-            </Modal>
-            <UserMenu logout={this.logout}></UserMenu>
-            </>
           }
+          <Modal show={this.state.showModal} onHide={this.handleClose} centered>
+            <Modal.Body className="login-modal">
+            <div className='icon-check'><FaRegCheckCircle/></div>
+              Login Successfully
+            </Modal.Body>
+          </Modal>
         </nav>
       </>
     )

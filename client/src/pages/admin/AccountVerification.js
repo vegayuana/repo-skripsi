@@ -1,15 +1,18 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect, Link } from 'react-router-dom'
-import { Spinner, Breadcrumb, Table } from 'react-bootstrap'
+import { Spinner, Breadcrumb, Table, Modal} from 'react-bootstrap'
 import axios from 'axios'
 import {scrollToTop} from '../../helpers/autoScroll'
-import { FaCheck, FaTimes} from 'react-icons/fa'
+import { FaCheck } from 'react-icons/fa'
 
 export class AccountVerification extends Component {
   state ={
     users: [],
-    isLoaded: false
+    isLoaded: false,
+    showModal: false,
+    id:'',
+    message:''
   }
   getData = () =>{
     axios({
@@ -26,7 +29,9 @@ export class AccountVerification extends Component {
       })
     })
     .catch((err) => { 
+      if(err.response){
       console.log(err.response.statusText)
+      }
     })
   }
   componentDidMount(){
@@ -35,13 +40,23 @@ export class AccountVerification extends Component {
   }
   unverified = (id) => {
     axios({
-      method: 'put',
+      method: 'delete',
       url: `/admin/unverified/${id}`,
       headers: {
         Authorization: this.props.token
       } 
+    }).then(res=>{
+        console.log(res.data)
+        this.setState({
+          showModal:false
+        })
     }).catch((err) => { 
-      console.log(err.response.statusText)
+      if(err.response){
+        console.log(err.response)
+        this.setState({
+          message:err.response.data.message
+        })
+      }
     })
     this.getData()
   }
@@ -53,18 +68,27 @@ export class AccountVerification extends Component {
         Authorization: this.props.token
       }
     }).catch((err) => { 
+      if(err.response){
       console.log(err.response.statusText)
+      }
     })
     this.getData()
   }  
-  shouldComponentUpdate(nextState){
-    if (nextState!=this.state){
-      return true
-    }
-    return false
+  handleShow = (id) =>{
+    this.setState({
+      showModal:true,
+      id:id
+    })
+  }
+  handleClose = () => {
+    this.setState({
+      showModal:false,
+      message:''
+    })
   }
   render() {
     let { isLoaded, users} = this.state
+    console.log(users)
     if (!localStorage.getItem('token') || this.props.role==='user'){
       return <Redirect to={'/'} />
     }
@@ -100,17 +124,16 @@ export class AccountVerification extends Component {
                 <td>{user.name}</td>
                 <td>{user.npm}</td>
                 <td>
+                  {!user.ktm_url ? <>Tidak ada KTM</>:
                   <img style={{maxWidth:'150px', width:'100%' }}alt="ktm" src={user.ktm_url}/>
+                  }
                 </td>
-                <td><p>{user.created_at.split('T')[0]} {user.created_at.split('T')[1].split('.000Z')}</p></td>
-                <td>{user.is_approved===2 ? <></> : <p>{user.processed_at.split('T')[0]} {user.processed_at.split('T')[1].split('.000Z')}</p>}</td>
-                <td>{user.is_active === 1 ? <div style={{color:'#379683'}}><FaCheck/> Diverifikasi</div> :
-                      user.is_active === 0 ? <div className='text-danger'><FaTimes/> Tidak Diverifikasi</div> :
-                        <>Belum Diverifikasi</>
-                }</td>
+                <td>{user.created_at.split('T')[0]} {user.created_at.split('T')[1].split('.000Z')}</td>
+                <td>{user.is_active === 0 ? <>-</> : <>{user.processed_at.split('T')[0]} {user.processed_at.split('T')[1].split('.000Z')}</>}</td>
+                <td>{user.is_active === 1 ? <div style={{color:'#379683'}}><FaCheck/> Diverifikasi</div> :<>Belum Diverifikasi</>}</td>
                 <td>
-                  <button onClick={()=>this.unverified( user.id)} className={ user.is_active === 0? "btn-table" : "btn-table btn-danger" }  disabled={ user.is_active === 0? true : false}>Tidak Terverifikasi</button>
                   <button onClick={()=>this.verified( user.id)} className={ user.is_active === 1? "btn-table": "btn-table btn-handle"} disabled={ user.is_active === 1? true : false}>Verifikasi</button>
+                  <button onClick={()=>this.handleShow(user.id)} className={ user.is_active === 1? "btn-table" : "btn-table btn-danger" } disabled={ user.is_active === 1 ? true : false}>Tidak Terverifikasi</button>
                 </td>
               </tr>
               )
@@ -118,6 +141,16 @@ export class AccountVerification extends Component {
             </tbody>
           </Table>
         </div>
+        <Modal show={this.state.showModal} onHide={this.handleClose} centered>
+          <Modal.Body className='admin-modal'>
+            <p>Apakah anda yakin data akun tersebut tidak valid?</p>
+            {!this.state.message? <></> :
+            <div className="alert alert-warning" role="alert">
+              <strong>{this.state.message}</strong>
+            </div> }
+            <button onClick={()=>this.unverified(this.state.id)} className="btn-table btn-primary">Ya</button>
+          </Modal.Body>
+        </Modal>
       </div>
     )
   }

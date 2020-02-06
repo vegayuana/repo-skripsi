@@ -9,11 +9,18 @@ const skripsiRoutes = require('./routes/skripsi')
 const skripsiDetailRoutes = require('./routes/skripsiDetail')
 const userRoutes = require('./routes/user')
 const adminRoutes = require('./routes/admin')
+
+const cors = require('cors')
+var corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200,
+}
 //Middleware Auth
 const auth = require('./middleware/auth')
 
 //Bodyparser Middleware
 app.use(express.json())
+app.use(cors(corsOptions))
 
 app.use((req, res, next) =>{
   console.log("go to middleware")
@@ -23,13 +30,13 @@ app.use('/test', routes)
 app.use('/', registerRoutes)
 app.use('/', authRoutes)
 app.use('/skripsi', skripsiRoutes)
-app.use('/skripsi', auth.gen, skripsiDetailRoutes)
+app.use('/skripsi', skripsiDetailRoutes)
 app.use('/user', auth.users, userRoutes)
 app.use('/admin', auth.admin, adminRoutes)
 
 //static
 app.use('/files/ktm', express.static(path.join(__dirname, 'files', 'ktm')))
-app.use('/files/skripsi', express.static(path.join(__dirname, 'file', 'skripsi')))
+app.use('/files/skripsi', express.static(path.join(__dirname, 'files', 'skripsi')))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

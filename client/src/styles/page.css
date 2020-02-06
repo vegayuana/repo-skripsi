@@ -29,6 +29,9 @@ body{
 .no-padding{
   padding: 0px;
 }
+.text-middle{
+  text-align: center;
+}
 .bg1{
   max-width: 100vw;
   max-height: 75vh;
@@ -53,6 +56,9 @@ body{
   right: 100px;
   width: 400px;
 }
+a{
+  cursor: pointer;
+}
 #button-addon2{
   background-color: #6c757d;
   border-color: #6c757d;
@@ -71,6 +77,11 @@ body{
   background-color: #032649 !important;
   border: 1px solid #032649;
   box-shadow: none !important;
+}
+.btn-primary:disabled {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
 }
 .btn-blue{
   background-color: #05386B;
@@ -124,9 +135,14 @@ body{
   font-family: 'Oswald', sans-serif;
   font-size: 1.3rem;
 }
+.filter-box .dropdown-menu {
+  width: 100%;
+  text-align: center;
+  z-index: 10000;
+}
 /* List  */
 .list-box{
-  margin: 5px 0px 1rem 5px;
+  margin: 5px 0px 1rem;
   padding: 18px 30px 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,.05);
   border: 1px solid #edf5e1;
@@ -145,6 +161,13 @@ body{
 .list p{
   font-size: 15px;
   margin-bottom: 4px;
+}
+.list .category{
+  color: #05386B;
+  font-weight: 500;
+}
+.list i{
+  font-size: 13px;
 }
 .list-skripsi .modal-content{
   border:none;
@@ -178,14 +201,23 @@ body{
   color: #05386B;
   margin-bottom: 0px;
 }
+.detail-box h5{
+  font-size: 1.1rem;
+}
 .detail-box P{
   text-align: end;
 }
-.abstrak{
-  text-align: left;
+.abstract .detail-box p{
+  text-align: justify;
+}
+.abstract{
+  margin-top: 0rem;
 }
 .abstrak p{
   text-align: justify;
+}
+.file{
+  margin-top: 2rem;
 }
 .file-box{
   background-color: white;
@@ -199,6 +231,7 @@ body{
 .register-box{
   background-color: white;
   color:#379683;
+  min-height: 400px;
   max-width: 600px;
   width: 100%;
   padding: 50px;
@@ -236,12 +269,14 @@ body{
   margin-bottom: 0px;
   font-size: 13px;
 }
-table th{
+.table thead th{
+  vertical-align: middle;
+}
+.table th{
   color: #05386B;
 }
-table td, table th{
+.table td, .table th{
   vertical-align: middle;
-  padding: 15px 5px;
 }
 .td-sm{
   min-width: 80px;
@@ -256,8 +291,10 @@ table td, table th{
   border: 1px solid lightgrey;
   border-radius: 4px;
   font-size: 14px;
-  padding: 5px;   
-  margin-left: 0.5rem; 
+  padding: 5px;
+}
+.table-skripsi .btn-table{
+  width: 100%;
 }
 .btn-handle{
   background-color: #5cdb95;
@@ -314,6 +351,9 @@ table td, table th{
   color: #05386B;
   font-weight: 500;
 }
+.admin-modal .btn-primary{
+  width:100%;
+}
 /* Profile */
 .profile-box{
   position: relative;
@@ -349,9 +389,15 @@ table td, table th{
 }
 .icon-check{
   color:#379683;
-  font-size: 1.3rem;
   font-weight: 500;
   margin-bottom: 16px;
+}
+.profile-box a{
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  position: relative;
+  top: -10px;
+  color: #379683;
 }
 .upload-box{
   background-color: white;
@@ -372,6 +418,13 @@ table td, table th{
 .table-box Table{
   border: 1px solid #edf5e1;
 }
+.progress{
+  height: 0.5rem;
+  margin: 30px 0px;
+}
+.progress-bar{
+  background-color: #379683;
+}
 ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
@@ -391,10 +444,8 @@ table td, table th{
   background: #05386B; 
 }
 /*mobile*/
-@media screen and (max-width: 450px) {
-  body{
-    overflow-x: hidden;
-  }
+@media screen and (max-width: 767px) {
+
   .bg2{
     display:none;
   }
@@ -405,7 +456,6 @@ table td, table th{
     margin: 10px;
   }
   .list-box{
-    margin: 5px 0px 1rem 5px;
     padding: 18px 10px;
   }
   .list h5{
@@ -413,18 +463,32 @@ table td, table th{
   }
   .register-box{
     width: 90vw;
+    min-height: auto;
     padding: 30px 20px; 
-    margin: 20px auto 170px;
   }
   .bg3{
-    top: 680px;
-    width: 200px;
-    left: 50%;
-    transform: translateX(-50%);
+    display: none;
   }
   .card-text {
     line-height: 150px;
     text-align: center;
+  }
+  .detail-box{
+    min-height: auto;
+    padding: 0px 10px 10px 10px;
+  }
+  .detail-box > div {
+    position: sticky;
+    top:0px;
+    background-color: white;
+    padding-top: 10px;
+  }
+  .abstract .detail-box{
+    height: 500px;
+    overflow-y: scroll;
+  }
+  .file{
+    margin-top: 0rem;
   }
   .profile-box{
     padding: 20px;

@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { Spinner } from 'react-bootstrap'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { Redirect, Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import {scrollToTop} from '../helpers/autoScroll'
+import { FaFilePdf } from 'react-icons/fa'
 
 export class SkripsiDetail extends Component {
   state={
@@ -14,7 +15,10 @@ export class SkripsiDetail extends Component {
     let id = this.props.match.params.id
     axios({
       method: 'get',
-      url: `/skripsi/detail/${id}`,
+      url: `/skripsi/detail/`,
+      params:{
+        id : id
+      },
       headers: {
         Authorization: localStorage.getItem('token')
       } 
@@ -24,27 +28,42 @@ export class SkripsiDetail extends Component {
         isLoaded: true
       })
     }).catch(err=>{
+      if(err.response){
       console.log(err.response)
+      }
     })
   }
-  // downloadPDF = (url) => {
-  //   console.log(url)
-  //   axios({
-  //     method: 'get',
-  //     url: `files/skripsi`,
-  //   }).then(res=>{
-  //     FileDownload(res.data, '1579797223297Naskah%20Skripsi%20Full-v7.pdf');
-   
-  //   }).catch(err=>{
-  //     console.log(err.response)
-  //   })
-    
-  // }
+  
   componentDidMount(){
     this.getData()
     scrollToTop()
   }
-  
+  download=(filePath)=>{
+    console.log(filePath)
+    axios({
+      method: 'get',
+      url: `/skripsi/download/`,
+      params:{
+        filePath: filePath
+      },
+      responseType: 'blob',
+      headers: {
+        Authorization: localStorage.getItem('token')
+      } 
+    }).then(res=>{
+      console.log(res.data);
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'file.pdf'); 
+      document.body.appendChild(link);
+      link.click();
+    }).catch(err=>{
+      if(err.response){
+      console.log(err.response)
+      }
+    })
+  }
   render() {
     let { isLoaded, skripsi } = this.state
     console.log(skripsi)
@@ -59,40 +78,55 @@ export class SkripsiDetail extends Component {
             <div className="detail-box">
               { !isLoaded ? <Spinner animation="border" variant="secondary" /> :
               <>
-              <h4>IDENTITAS</h4>
-              <hr/>
-              <h5>Judul</h5>
-              <p>{skripsi.title}</p>
-              <h5>Pengarang</h5>
-              <p>{skripsi.name}</p>
-              <h5>Tahun</h5>
-              <p>{skripsi.published_year}</p>
-              {/* <h5>Kategori</h5>
-              <p>{skripsi.category}</p> */}
-              </>}
+                { !skripsi ? <>No Data</> :
+                  <>
+                  <div>
+                    <h4>IDENTITAS</h4>
+                    <hr/>
+                  </div>
+                  <h5>Judul</h5>
+                  <p>{skripsi.title}</p>
+                  <h5>Pengarang</h5>
+                  <p>{skripsi.name}</p>
+                  <h5>Tahun</h5>
+                  <p>{skripsi.published_year}</p>
+                  <h5>Kategori</h5>
+                  <p>{skripsi.category===1 ? <>Artificial Intelligence</> : skripsi.category===2 ? <>Sistem Informasi</> : skripsi.category===3 ? <>Jaringan Komputer</> : <>-</> }</p>
+                  <h5>Kata Kunci</h5>
+                  <p>{skripsi.keywords ? skripsi.keywords : <>-</>}</p>
+                  </>
+                }
+              </>
+              }
             </div>
           </div>
-          <div className="col-12 col-md-8">
+          <div className="col-12 col-md-8 abstract">
             <div className="line" style={{ backgroundColor: '#8ee4af '}}></div>
-            <div className="detail-box abstrak">
+            <div className="detail-box">
               {!isLoaded ? <Spinner animation="border" variant="secondary" /> :
               <>
-              <h4>ABSTRAK</h4>
-              <hr/>
+              { !skripsi ? <>No Data</> :
+              <>
+              <div>
+                <h4>ABSTRAK</h4>
+                <hr/>
+              </div>
               <p>{skripsi.abstract}</p>
+              </>
+              }
               </>}
             </div>
           </div>
         </div>
-        <div className="row" style={{marginTop: '2rem'}}>
+        <div className="row file">
           <div className="col-12">
             <div className="line" style={{backgroundColor:'#5cdb95'}}></div>
             <div className="file-box">
               <h5>FILE</h5>
               <hr/>
-              <a href={'http://localhost:5000/'+skripsi.file_url} target='_blank'> click</a>
-             
-             
+              { !skripsi ? <>No Data</> :
+              <a onClick={()=>this.download(skripsi.file_url)}><FaFilePdf className='icons'/>Download</a>
+              }   
             </div>
           </div>
         </div>

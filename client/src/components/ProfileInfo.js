@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 
 export class ProfileInfo extends Component {
+
   state={
     user:{},
     isLoaded:false,
@@ -52,10 +53,12 @@ export class ProfileInfo extends Component {
         status:res.data.status,
       })
     }).catch((err) => { 
-      this.setState({
-        message:err.response.data.message,
-        status:err.response.data.status,
-      })
+      if(err.response){
+        this.setState({
+          message:err.response.data.message,
+          status:err.response.data.status,
+        })
+      }
     })
   }
   handleInput = (e) =>{
@@ -81,14 +84,14 @@ export class ProfileInfo extends Component {
         <p>{user.name}</p>
         <p>{user.npm}</p>
         <div><img src={user.ktm_url} alt='ktm'className='ktm'/></div>
-        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Edit Password</button>
+        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#editPass">Edit Password</button>
         
         {/* Edit Password Modal */}
-        <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade" id="editPass" tabIndex="-1" role="dialog" aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">Change Password</h5>
+                <h5 className="modal-title" id="exampleModalLabel">Edit Password</h5>
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -121,9 +124,9 @@ export class ProfileInfo extends Component {
                     </div>
                   :<></>
                 }
-                <button type="button" className="btn btn-secondary mr-2" data-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-danger mr-2" data-dismiss="modal">Btalkan</button>
                 { status===200? <></> :
-                <button type="button" className="btn btn-primary" onClick={this.submit} disabled={!passCheck}>Save changes</button>
+                <button type="button" className="btn btn-primary" onClick={this.submit} disabled={!passCheck}>Simpan Perubahan</button>
                 }
                 </form>
               </div>

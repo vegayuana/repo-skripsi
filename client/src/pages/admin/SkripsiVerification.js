@@ -24,7 +24,9 @@ export class SkripsiVerification extends Component {
         isLoaded: true
       })
     }).catch((err) => { 
+      if(err.response){
       console.log(err.response.statusText)
+      }
     })
   }
   componentDidMount(){
@@ -39,7 +41,9 @@ export class SkripsiVerification extends Component {
         Authorization: this.props.token
       } 
     }).catch((err) => { 
+      if(err.response){
       console.log(err.response.statusText)
+      }
     })
     this.getData()
   }
@@ -51,7 +55,9 @@ export class SkripsiVerification extends Component {
         Authorization: this.props.token
       } 
     }).catch((err) => { 
+      if(err.response){
       console.log(err.response.statusText)
+      }
     })
     this.getData()
   }  
@@ -64,25 +70,24 @@ export class SkripsiVerification extends Component {
       <div className="main-box">
         <Breadcrumb>
           <Link to='/admin'>Home</Link>
-          <Breadcrumb.Item active> / Verifikasi Skripsi</Breadcrumb.Item>
+          <Breadcrumb.Item active> / Tinjau Skripsi</Breadcrumb.Item>
         </Breadcrumb>
         <div className="table-box">
           <div className="line"></div> 
           <div className="title">Data Skripsi</div>
-          <Table responsive striped bordered size="sm">
+          <Table className="table-skripsi" responsive striped bordered size="sm">
             <thead>
               <tr>
                 <th scope="col">No</th>
                 <th scope="col" className="td-lg">Judul</th>
-                <th scope="col" className="td-lg">Penulis</th>
-                {/* <th scope="col" className="td-md">Kategori</th> */}
+                <th scope="col" className="td-md">Penulis</th>
                 <th scope="col" className="td-sm">Tahun</th>
-                <th scope="col" className="td-lg">Abstract</th>
+                <th scope="col" className="td-lg">Abstrak</th>
                 <th scope="col" className="td-sm">File</th>
                 <th scope="col" className="td-md">Status</th>
-                <th scope="col" className="td-md">Waktu Unggah</th>
-                <th scope="col" className="td-md">Waktu Diproses</th>
-                <th scope="col" className="td-lg">Handle</th>
+                <th scope="col" className="td-sm">Waktu Unggah</th>
+                <th scope="col" className="td-sm">Waktu Diproses</th>
+                <th scope="col">Handle</th>
               </tr>
             </thead>
             <tbody>
@@ -96,14 +101,16 @@ export class SkripsiVerification extends Component {
                   <td>{item.published_year}</td>
                   <td><div style={{height:'200px', overflowY:'scroll'}}>{item.abstract}</div></td>
                   <td>
-                    <a href={'http://localhost:5000/'+item.file_url} target='_blank'><FaFilePdf className='icons'/>click</a>
+                    {!item.file_url ? <>File Tidak ada</> :
+                    <a href={'http://localhost:5000/'+item.file_url} target='_blank' rel='noreferrer noopener'><FaFilePdf className='icons'/> Klik</a>
+                    }
                   </td>
                   <td>{ item.is_approved === 1 ? <div style={{color:'#379683'}}><FaCheck/> Dipublikasikan</div> : 
                           item.is_approved === 0 ? <div className='text-danger'><FaTimes/> Ditolak</div> :
                             <>Perlu Ditinjau</>
                         }</td>
-                  <td><p>{item.uploaded_at.split('T')[0]} {item.uploaded_at.split('T')[1].split('.000Z')}</p></td>
-                  <td>{item.is_approved===2 ? <></> : <p>{item.processed_at.split('T')[0]} {item.processed_at.split('T')[1].split('.000Z')}</p>}</td>
+                  <td>{item.uploaded_at.split('T')[0]} {item.uploaded_at.split('T')[1].split('.000Z')}</td>
+                  <td>{item.is_approved===2 ? <></> : <>{item.processed_at.split('T')[0]} {item.processed_at.split('T')[1].split('.000Z')}</>}</td>
                   <td>
                     <button onClick={()=>this.unapproved(item.id)} className={ item.is_approved === 0? "btn-table" : "btn-table btn-danger" }  disabled={ item.is_approved === 0? true : false}>Tolak</button>
                     <button onClick={()=>this.approved(item.id)} className={ item.is_approved === 1? "btn-table": "btn-table btn-handle"} disabled={ item.is_approved === 1? true : false}>Publikasikan</button>
