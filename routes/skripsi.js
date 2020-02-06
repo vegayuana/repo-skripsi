@@ -15,6 +15,7 @@ router.get('/list', (req, res) =>{
     if (err) console.log(err)
     res.header("Access-Control-Allow-Origin", "*");
     res.send(result)
+    db.end()
   })
 })
 module.exports = router;
