@@ -1,6 +1,6 @@
 const db = require('./db')
 
-const conn = db.connect((err)=>{
+const conn = db.getConnection((err)=>{
   if(err){
     console.log(err)
   }
