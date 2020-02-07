@@ -30,6 +30,9 @@ export class App extends Component {
         <Router>
           <div className="fullscreen">
               {/* <PersistGate persistor={persistor}> */}
+            <div className="alert alert-secondary alert-offline" role="alert">
+              You are offline
+            </div>
             <Nav setUser={this.setUser}/>
             <img src={bg2} alt="Logo" className="bg1"/>
             <Switch>

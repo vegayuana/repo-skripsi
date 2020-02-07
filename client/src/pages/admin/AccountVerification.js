@@ -128,7 +128,7 @@ export class AccountVerification extends Component {
                 <td>{user.npm}</td>
                 <td>
                   {!user.ktm_url ? <>Tidak ada KTM</>:
-                  <img style={{maxWidth:'150px', width:'100%' }}alt="ktm" src={user.ktm_url}/>
+                  <img style={{maxWidth:'150px', width:'100%' }}alt="ktm" src={'http://localhost:5000/' + user.ktm_url}/>
                   }
                 </td>
                 <td>{user.created_at.split('T')[0]} {user.created_at.split('T')[1].split('.000Z')}</td>

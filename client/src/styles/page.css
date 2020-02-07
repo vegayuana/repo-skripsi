@@ -418,6 +418,25 @@ a{
 .table-box Table{
   border: 1px solid #edf5e1;
 }
+.alert-offline{
+  margin:2%;
+  position: fixed;
+  top: 20px;
+  z-index: 10000;
+  width: 96%;
+  display: none;
+}
+.offline .alert-offline{
+  display: block;
+  animation: cssAnimation 0s 3s forwards;
+  opacity: 1;
+}
+@keyframes cssAnimation {
+  to   { opacity: 0; }
+}
+.offline .list-box h5, .offline .list-box p, .offline .list-box i, .offline .filter-box p{
+  color: lightgrey;
+}
 .progress{
   height: 0.5rem;
   margin: 30px 0px;
