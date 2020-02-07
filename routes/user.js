@@ -141,17 +141,18 @@ router.post('/upload/', (req, res) =>{
         return utils.template_response(res, 422, "User has uploaded a file" , null)
       }
       let path_url = req.file.path
-      let post = {
-        id: uuid(), 
-        user_id: payload.id,
-        title: title,
-        abstract: abstract,
-        published_year: year, 
-        file_url: path_url,
-        category: category,
-        keywords: keywords
-      }
-      let sql = 'INSERT INTO skripsi SET ?'
+      let id = uuid()
+      let post = [
+        id,
+        payload.id,
+        title,
+        abstract,
+        year, 
+        path_url,
+        category,
+        keywords
+      ]
+      let sql = 'INSERT INTO skripsi (id,user_id,title,abstract,published_year,file_url,category,keywords) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)'
       db.query(sql, post, (err, result)=>{
         if(err){
           console.log(err)

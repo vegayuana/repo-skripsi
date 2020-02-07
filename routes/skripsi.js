@@ -12,7 +12,7 @@ router.get('/list', (req, res) =>{
               FROM skripsi join users on users.id = skripsi.user_id where is_approved=${1}`;
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
-    res.send(result)
+    res.send(result.rows)
   })
 })
 module.exports = router;

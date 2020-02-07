@@ -4,6 +4,8 @@ const conn = db.connect((err)=>{
   if(err){
     console.log(err)
   }
-  console.log("Mysql Connected...")
+  else{
+    console.log("Database Connected...")
+  }
 })
 module.exports = conn

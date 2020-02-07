@@ -52,17 +52,19 @@ router.post('/register', (req, res) =>{
       return utils.template_response(res, 500, 'File cannot be empty' , null)
     }
     password = await bcrypt.hash(password, 10)
-    let post = {
-      id: genId, 
-      name: name, 
-      npm: npm, 
-      password: password,
-      ktm_url:req.file.path
-    }
-    let sql = 'INSERT INTO users SET ?'
-    db.query(sql, post, (err, result)=>{
+    let file = req.file.path
+
+    let data = [
+      genId, 
+      name, 
+      npm, 
+      password,
+      file,
+    ]
+    let sql = 'INSERT INTO users(id,name,npm,password,ktm_url) VALUES ($1,$2,$3,$4,$5)'
+    db.query(sql, data, (err, result)=>{
       if (err){
-        console.log(err)
+        console.log('error ini', err)
         return utils.template_response(res, 400, "Failed to register", null)
       }
       console.log('Success')
@@ -79,16 +81,17 @@ router.post('/check-form', (req, res) =>{
     return utils.template_response(res, 400, "All fields need to be filled in" , null)
   }
   //Check min NPM
-  if(npm.length<12) {
-    return utils.template_response(res, 422, "NPM is incorrect. Require min 12 digits" , null)
+  if(npm.length<12 || npm.length>=15 ) {
+    return utils.template_response(res, 422, "NPM is incorrect. Require 12 digits" , null)
   }
   //Check if npm is already registered
-  let findUser = `SELECT npm FROM users where role="user" && npm='${npm}'`;
+  let findUser = `SELECT npm FROM users where role='user' AND npm='${npm}'`;
   db.query(findUser,(err, data)=>{
     if (err) console.log(err.response)
     if(data.length>0){
       return utils.template_response(res, 422, "NPM is already registered" , null)
     }
+    console.log('data valid')
     return utils.template_response(res, 200, "Data is valid", null)
   })
 })

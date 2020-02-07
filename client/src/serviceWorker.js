@@ -45,6 +45,19 @@ export function register(config) {
             'This web app is being served cache-first by a service ' +
               'worker. To learn more, visit https://bit.ly/CRA-PWA'
           );
+          
+        function handleNetworkChange(event) {
+          if (navigator.onLine) {
+            document.body.classList.remove("offline");
+            window.alert('online')
+          } else {
+            document.body.classList.add("offline");
+            window.alert('offline')
+
+          }
+        }
+        // window.addEventListener("online", handleNetworkChange);
+        // window.addEventListener("offline", handleNetworkChange);
         });
       } else {
         // Is not localhost. Just register service worker
