@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const utils = require('../utils/templates')
 
 //connect DB
 const db = require('../db/db')
@@ -12,7 +11,7 @@ router.get('/list', (req, res) =>{
               FROM skripsi join users on users.id = skripsi.user_id where is_approved=${1}`;
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
-    res.send(result.rows)
+    res.send(result)
   })
 })
 module.exports = router;

@@ -56,8 +56,8 @@ export function register(config) {
 
           }
         }
-        // window.addEventListener("online", handleNetworkChange);
-        // window.addEventListener("offline", handleNetworkChange);
+        window.addEventListener("online", handleNetworkChange);
+        window.addEventListener("offline", handleNetworkChange);
         });
       } else {
         // Is not localhost. Just register service worker

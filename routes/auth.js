@@ -11,7 +11,7 @@ require('../db/connection')
 //Login 
 router.post('/login', (req, res) =>{
   let npm = req.body.npm
-  const findUser =`SELECT * FROM users WHERE npm= ?`;
+  const findUser =`SELECT * FROM users WHERE npm='${npm}'`;
   db.query(findUser, npm, async (err, result)=>{
     try{
       //Check if user exist 
