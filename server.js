@@ -25,6 +25,10 @@ app.use((req, res, next) =>{
   console.log("go to middleware")
   next()
 })
+//  app {
+//   app.use(proxy(["/"], { target: "http://localhost:5000" }));
+//  }
+  
 
 app.use('/test', routes)
 app.use('/', registerRoutes)
@@ -37,11 +41,9 @@ app.use('/admin', auth.admin, adminRoutes)
 if (process.env.NODE_ENV === "production") {
   // Exprees will serve up production assets
   app.use(express.static("client/build"));
-
-  // Express serve up index.html file if it doesn't recognize route
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-  });
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+  })
 }
 
 //static
