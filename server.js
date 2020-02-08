@@ -1,6 +1,6 @@
 require('dotenv').config()
 const express = require('express')
-var path = require('path')
+const path = require('path')
 const app = express()
 const routes = require('./routes')
 const registerRoutes = require('./routes/register')
@@ -9,7 +9,7 @@ const skripsiRoutes = require('./routes/skripsi')
 const skripsiDetailRoutes = require('./routes/skripsiDetail')
 const userRoutes = require('./routes/user')
 const adminRoutes = require('./routes/admin')
-const proxy = require("http-proxy-middleware");
+
 //Middleware Auth
 const auth = require('./middleware/auth')
 const cors = require('cors')
@@ -26,7 +26,6 @@ app.use((req, res, next) =>{
   next()
 })
 
-app.use(proxy(["/"], { target: "http://localhost:5000" }));
 app.use('/test', routes)
 app.use('/', registerRoutes)
 app.use('/', authRoutes)
@@ -40,7 +39,6 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 
   // Express serve up index.html file if it doesn't recognize route
-  const path = require("path");
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
