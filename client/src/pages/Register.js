@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import bg3 from '../icons/bg3.png'
+import bg2 from '../icons/bg2.webp'
 import axios from 'axios'
 import {ProgressBar} from 'react-bootstrap'
 export class Register extends Component {
@@ -135,7 +135,7 @@ export class Register extends Component {
     let {npm, passCheck, message, status} =this.state
     return (
     <>
-      <img src={bg3} alt="Logo" className="bg3"/>
+      <img src={bg2} alt="Logo" className="bg2"/>
       <div className="row no-margin">
         <div className="col-xl-9 col-lg-12 register-box">
           <h3>Register</h3>

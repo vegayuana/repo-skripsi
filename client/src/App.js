@@ -11,7 +11,7 @@ import Upload from './pages/Upload'
 import Admin from './pages/admin/Admin'
 import AccountVerification from './pages/admin/AccountVerification'
 import SkripsiVerification from './pages/admin/SkripsiVerification'
-import bg2 from './icons/bg2.png'
+import bg from './icons/bg.webp'
 import './styles/page.css'
 
 import { Provider } from 'react-redux'
@@ -34,7 +34,7 @@ export class App extends Component {
               You are offline
             </div>
             <Nav setUser={this.setUser}/>
-            <img src={bg2} alt="Logo" className="bg1"/>
+            <img src={bg} alt="Logo" className="bg"/>
             <Switch>
               <Route path='/' exact component={Main} />
               <Route path='/register' component={Register}/>
