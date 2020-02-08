@@ -9,6 +9,7 @@ const skripsiRoutes = require('./routes/skripsi')
 const skripsiDetailRoutes = require('./routes/skripsiDetail')
 const userRoutes = require('./routes/user')
 const adminRoutes = require('./routes/admin')
+const proxy = require("http-proxy-middleware");
 //Middleware Auth
 const auth = require('./middleware/auth')
 const cors = require('cors')
@@ -24,6 +25,8 @@ app.use((req, res, next) =>{
   console.log("go to middleware")
   next()
 })
+
+app.use(proxy(["/"], { target: "http://localhost:5000" }));
 app.use('/test', routes)
 app.use('/', registerRoutes)
 app.use('/', authRoutes)
