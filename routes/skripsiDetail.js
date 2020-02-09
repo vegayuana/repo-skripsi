@@ -19,7 +19,7 @@ router.get('/detail/', (req, res) =>{
     res.send(result)
   })
 })
-
+//download file
 router.get('/download/', (req, res) =>{  
   let { filePath } = req.query;
   console.log(filePath)

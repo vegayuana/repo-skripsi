@@ -30,6 +30,15 @@ export function register(config) {
       // Service worker won't work if PUBLIC_URL is on a different origin
       return;
     }
+    function handleNetworkChange(event) {
+      if (navigator.onLine) {
+        document.body.classList.remove("offline")
+      } else {
+        document.body.classList.add("offline")
+      }
+    }
+    window.addEventListener("online", handleNetworkChange)
+    window.addEventListener("offline", handleNetworkChange)
 
     //Load
     window.addEventListener('load', () => {
