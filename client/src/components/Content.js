@@ -23,34 +23,32 @@ export class Content extends PureComponent {
       method: "get",
       // baseURL: 'http://localhost:5000',
       url: "/skripsi/list"
-    })
-      .then(res => {
-        this.setState({
-          skripsi: res.data,
-          isLoaded: true,
-          skripsiFiltered: res.data,
-          skripsiFilteredTemp: res.data,
-          skripsiFilteredCat: res.data,
-          skripsiFilteredYear: res.data,
-          years: [
-            ...new Set(
-              res.data.map(year => {
-                return year.published_year;
-              })
-            )
-          ].sort()
-        });
+    }).then(res => {
+      this.setState({
+        skripsi: res.data,
+        isLoaded: true,
+        skripsiFiltered: res.data,
+        skripsiFilteredTemp: res.data,
+        skripsiFilteredCat: res.data,
+        skripsiFilteredYear: res.data,
+        years: [
+          ...new Set(
+            res.data.map(year => {
+              return year.published_year
+            })
+          )
+        ].sort()
       })
-      .catch(err => {
-        if (err.response) console.log(err.response);
-      });
-  };
+    }).catch(err => {
+      if (err.response) console.log(err.response)
+    })
+  }
   componentDidMount() {
-    this.getSkripsi();
+    this.getSkripsi()
   }
   onChange = e => {
-    let text = e.target.value.toLowerCase();
-    let { skripsiFilteredTemp } = this.state;
+    let text = e.target.value.toLowerCase()
+    let { skripsiFilteredTemp } = this.state
     const filteredData = skripsiFilteredTemp.filter(item => {
       if (item.keywords) {
         return (

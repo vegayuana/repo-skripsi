@@ -5,6 +5,7 @@ import {ProgressBar} from 'react-bootstrap'
 export class Register extends Component {
   initialState = {
     npm: '', 
+    pass:'',
     passCheck: '', 
     message: '', 
     status:'',
@@ -47,14 +48,13 @@ export class Register extends Component {
   }
   submitKTM = e => {
     e.preventDefault();
-    let { npm, file } = this.state;
+    let { npm, pass, file } = this.state;
     let name = this.refs.name.value;
-    let pass = this.refs.pass.value;
     const formData = new FormData();
-    formData.append("ktm", file);
-    formData.append("npm", npm);
-    formData.append("name", name);
-    formData.append("password", pass);
+    formData.append("ktm", file)
+    formData.append("npm", npm)
+    formData.append("name", name)
+    formData.append("password", pass)
     console.log(file);
     axios({
       method: 'POST',
@@ -65,7 +65,7 @@ export class Register extends Component {
         "Content-Type": "multipart/form-data"
       }
     }).then(res => {
-      this.setState(this.initialState);
+      this.setState(this.initialState)
       this.setState({
         displayForm1: "none",
         displayForm2: "none",
@@ -74,7 +74,7 @@ export class Register extends Component {
         status: res.data.status,
         progress: 100
       });
-      this.refs.registerForm.reset();
+      this.refs.registerForm.reset()
     }).catch(err => {
       if (err.response) {
         this.setState({
@@ -83,7 +83,7 @@ export class Register extends Component {
         })
       }
     })
-  };
+  }
   handleInput = e => {
     this.setState({
       [e.target.id] : e.target.value,
@@ -95,13 +95,13 @@ export class Register extends Component {
     if (e.target.value !== pass ){
       this.setState({
         passCheck: false
-      });
+      })
     } else {
       this.setState({
         passCheck: true
-      });
+      })
     }
-  };
+  }
   handleFile = e => {
     if (e.target.files[0]) {
       this.setState({
@@ -136,7 +136,7 @@ export class Register extends Component {
     let {npm, pass, passCheck, message, status} =this.state
     return (
       <>
-        <img src={bg3} alt="Logo" className="bg3" />
+        <img src={bg2} alt="Logo" className="bg2" />
         <div className="row no-margin">
           <div className="col-xl-9 col-lg-12 register-box">
             <h3>Register</h3>

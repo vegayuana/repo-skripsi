@@ -17,7 +17,7 @@ export class AccountVerification extends Component {
   getData = () => {
     axios({
       method: 'get',
-      // baseURL: 'http://localhost:5000',
+      baseURL: 'http://localhost:5000',
       url: '/admin/show-acc',
       headers: {
         Authorization: this.props.token
