@@ -25,67 +25,66 @@ export class Register extends Component {
       password:pass
     }
     axios({
-      method: 'POST',
+      method: "POST",
       // baseURL: 'http://localhost:5000',
-      url: '/check-form',
-      data: data,
-    }).then((res) =>{
+      url: "/check-form",
+      data: data
+    }).then(res => {
       this.setState({
-        message:'',
-        displayForm1:'none',
-        displayForm2:'block',
-        progress:this.state.progress+33
-      })
-    })
-    .catch((err) => { 
-      if(err.response){
+        message: "",
+        displayForm1: "none",
+        displayForm2: "block",
+        progress: this.state.progress + 33
+      });
+    }).catch(err => {
+      if (err.response) {
         this.setState({
-          message:err.response.data.message,
-          status:err.response.data.status,
+          message: err.response.data.message,
+          status: err.response.data.status
         })
       }
     })
   }
-  submitKTM = (e) =>{
-    e.preventDefault()
-    let { npm, file, pass }= this.state
-    let name = this.refs.name.value
-    const formData = new FormData()
-    formData.append('ktm', file)
-    formData.append('npm', npm)
-    formData.append('name', name)
-    formData.append('password', pass)
-    console.log(file)
+  submitKTM = e => {
+    e.preventDefault();
+    let { npm, file } = this.state;
+    let name = this.refs.name.value;
+    let pass = this.refs.pass.value;
+    const formData = new FormData();
+    formData.append("ktm", file);
+    formData.append("npm", npm);
+    formData.append("name", name);
+    formData.append("password", pass);
+    console.log(file);
     axios({
       method: 'POST',
       // baseURL: 'http://localhost:5000',
       url: '/register',
       data: formData,
-      headers:{
-        'Content-Type':'multipart/form-data'
+      headers: {
+        "Content-Type": "multipart/form-data"
       }
-    }).then((res) =>{
-      this.setState(this.initialState)
+    }).then(res => {
+      this.setState(this.initialState);
       this.setState({
-        displayForm1:'none',
-        displayForm2:'none',
-        displayForm3:'block',
-        message:res.data.message,
-        status:res.data.status,
-        progress:100 
-      })
+        displayForm1: "none",
+        displayForm2: "none",
+        displayForm3: "block",
+        message: res.data.message,
+        status: res.data.status,
+        progress: 100
+      });
       this.refs.registerForm.reset();
-    })
-    .catch((err) => { 
-      if(err.response){
+    }).catch(err => {
+      if (err.response) {
         this.setState({
-          message:err.response.data.message,
-          status:err.response.data.status,
+          message: err.response.data.message,
+          status: err.response.data.status
         })
       }
     })
-  }
-  handleInput = (e) =>{
+  };
+  handleInput = e => {
     this.setState({
       [e.target.id] : e.target.value,
     })
@@ -96,111 +95,180 @@ export class Register extends Component {
     if (e.target.value !== pass ){
       this.setState({
         passCheck: false
-      })
-    }
-    else{
+      });
+    } else {
       this.setState({
         passCheck: true
-      })
+      });
     }
-  }
-  handleFile=(e)=>{
-    if (e.target.files[0]){
+  };
+  handleFile = e => {
+    if (e.target.files[0]) {
       this.setState({
-        file:e.target.files[0]
-      })
-    }
-    else{
+        file: e.target.files[0]
+      });
+    } else {
       this.setState({
-        file:''
-      })
+        file: ""
+      });
     }
-  }
-  back=(e)=>{
-    e.preventDefault()
-    this.setState(this.initialState)
-  }
-  shouldComponentUpdate(nextProps, nextState){
-    if((nextState.message!==this.state.message) || (nextState.status!==this.state.status) || (nextState.npm !==this.state.npm)|| (nextState.progress!==this.state.progress)){
-      return true
+  };
+  back = e => {
+    e.preventDefault();
+    this.setState(this.initialState);
+  };
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      nextState.message !== this.state.message ||
+      nextState.status !== this.state.status ||
+      nextState.npm !== this.state.npm ||
+      nextState.progress !== this.state.progress
+    ) {
+      return true;
     }
-    if(nextState.passCheck === this.state.passCheck){
-      return false
+    if (nextState.passCheck === this.state.passCheck) {
+      return false;
     }
-    return true
+    return true;
   }
   render() {
     console.log('render', this.state.npm)
     let {npm, pass, passCheck, message, status} =this.state
     return (
-    <>
-      <img src={bg2} alt="Logo" className="bg2"/>
-      <div className="row no-margin">
-        <div className="col-xl-9 col-lg-12 register-box">
-          <h3>Register</h3>
-          <form ref="registerForm" autoComplete="off">
-            <div>
-              <ProgressBar now={this.state.progress} />
-            </div>
-            <fieldset style={{display:this.state.displayForm1}}>
-            <div className="form-group">
-              <label> Name</label>
-              <input type="text" ref='name' className="form-control" placeholder="Name"/>
-            </div>
-            <div className="form-group">
-              <label>NPM</label>
-              <input type="number" id="npm" onBlur={this.handleInput} className="form-control" placeholder="NPM"/>
-            </div>
-            { npm.length < 12 || npm.length >=15 ?
-            <div className="alert alert-warning" role="alert">
-              <strong>NPM is incorrect! </strong>require number with 12-14 digits
-            </div> : <></>}
-            <div className="form-group">
-              <label>Password</label>
-              <input type="password" onBlur={this.handleInput} id="pass" className="form-control" placeholder="Password"/>
-            </div>
-            <div className="form-group">
-              <label>Confirm Password</label>
-              <input type="password" onChange={this.handleRetype} className="form-control" placeholder="Password"/>
-            </div>
-            { passCheck === false ?
-            <div className="alert alert-warning" role="alert">
-              Password does not match
-            </div> : <></>}
-            
-            <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)} disabled={!passCheck || !this.refs.name.value || !pass|| !npm }> Submit</button>
-            { message ==='' ? <></> :
-              <div className="alert alert-danger" role="alert">
-                <strong>{this.state.message}</strong>
+      <>
+        <img src={bg3} alt="Logo" className="bg3" />
+        <div className="row no-margin">
+          <div className="col-xl-9 col-lg-12 register-box">
+            <h3>Register</h3>
+            <form ref="registerForm" autoComplete="off">
+              <div>
+                <ProgressBar now={this.state.progress} />
               </div>
-             }
-             </fieldset>
-             <fieldset style={{display:this.state.displayForm2, marginTop:'50px'}}>
-              <div className="form-group">
-                <label>Foto KTM</label>
-                <input type="file" id="ktm" onChange={this.handleFile} className="form-control-file" accept=".png, .jpg, .jpeg"/>
-              </div>
-              <button type="submit" className="btn btn-primary" onClick={(e)=>this.submitKTM(e)} disabled={!passCheck || !this.refs.name.value || !pass || !npm }> Submit</button>
-              { message ==='' ? <></> :
-                <div className="alert alert-danger" role="alert">
-                  <strong>{this.state.message}</strong>
+              <fieldset style={{ display: this.state.displayForm1 }}>
+                <div className="form-group">
+                  <label> Name</label>
+                  <input
+                    type="text"
+                    ref="name"
+                    className="form-control"
+                    placeholder="Name"
+                  />
                 </div>
-              }
-             </fieldset>
-             <fieldset style={{display:this.state.displayForm3, marginTop:'50px'}}>
-              {status===200 ?
-                <div className="alert alert-success" style={{textAlign: 'center'}}role="alert">
-                  <strong>{this.state.message}</strong> Please Log In
-                </div> :<></>
-              }
-              <button className='btn btn-primary' onClick={(e)=>this.back(e)}>Back</button>
-             </fieldset>
-          </form>
+                <div className="form-group">
+                  <label>NPM</label>
+                  <input
+                    type="text"
+                    id="npm"
+                    onBlur={this.handleInput}
+                    className="form-control"
+                    placeholder="NPM"
+                  />
+                </div>
+                {npm.length < 12 && npm.length > 0 ? (
+                  <div className="alert alert-warning" role="alert">
+                    <strong>NPM is incorrect! </strong>require min 12 digits
+                  </div>
+                ) : (
+                  <></>
+                )}
+                <div className="form-group">
+                  <label>Password</label>
+                  <input
+                    type="password"
+                    ref="pass"
+                    id="pass"
+                    className="form-control"
+                    placeholder="Password"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Confirm Password</label>
+                  <input
+                    type="password"
+                    onChange={this.handleRetype}
+                    className="form-control"
+                    placeholder="Password"
+                  />
+                </div>
+                {passCheck === false ? (
+                  <div className="alert alert-warning" role="alert">
+                    Password does not match
+                  </div>
+                ) : (
+                  <></>
+                )}
+
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  onClick={e => this.submit(e)}
+                  disabled={!passCheck}
+                >
+                  {" "}
+                  Submit
+                </button>
+                {message === "" ? (
+                  <></>
+                ) : (
+                  <div className="alert alert-danger" role="alert">
+                    <strong>{this.state.message}</strong>
+                  </div>
+                )}
+              </fieldset>
+              <fieldset
+                style={{ display: this.state.displayForm2, marginTop: "50px" }}
+              >
+                <div className="form-group">
+                  <label>Foto KTM</label>
+                  <input
+                    type="file"
+                    id="ktm"
+                    onChange={this.handleFile}
+                    className="form-control-file"
+                    accept=".png, .jpg, .jpeg"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  onClick={e => this.submitKTM(e)}
+                  disabled={!passCheck}
+                >
+                  {" "}
+                  Submit
+                </button>
+                {message === "" ? (
+                  <></>
+                ) : (
+                  <div className="alert alert-danger" role="alert">
+                    <strong>{this.state.message}</strong>
+                  </div>
+                )}
+              </fieldset>
+              <fieldset
+                style={{ display: this.state.displayForm3, marginTop: "50px" }}
+              >
+                {status === 200 ? (
+                  <div
+                    className="alert alert-success"
+                    style={{ textAlign: "center" }}
+                    role="alert"
+                  >
+                    <strong>{this.state.message}</strong> Please Log In
+                  </div>
+                ) : (
+                  <></>
+                )}
+                <button className="btn btn-primary" onClick={e => this.back(e)}>
+                  Back
+                </button>
+              </fieldset>
+            </form>
+          </div>
+          <div className="col-xl-3"></div>
         </div>
-        <div className="col-xl-3"></div>
-      </div>
-    </>
-    )
+      </>
+    );
   }
 }
-export default Register
+export default Register;
