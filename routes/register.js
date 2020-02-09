@@ -80,8 +80,8 @@ router.post('/check-form', (req, res) =>{
     return utils.template_response(res, 400, "All fields need to be filled in" , null)
   }
   //Check min NPM
-  if(npm.length<12) {
-    return utils.template_response(res, 422, "NPM is incorrect. Require min 12 digits" , null)
+  if(npm.length<12 || npm.length>=15 ) {
+    return utils.template_response(res, 422, "NPM is incorrect. Require number with 12-14 digits" , null)
   }
   //Check if npm is already registered
   let findUser = `SELECT npm FROM users where role='user' AND npm='${npm}'`;

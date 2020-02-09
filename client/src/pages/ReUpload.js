@@ -36,7 +36,7 @@ export class ReUpload extends Component {
     formData.append('keywords', keywords)  
     axios({
       method: 'put',
-      baseURL: 'http://localhost:5000',
+      // baseURL: 'http://localhost:5000',
       url: `/user/reupload/`,
       data: formData,
       headers:{
@@ -88,7 +88,7 @@ export class ReUpload extends Component {
   checkSkripsi=()=>{
     axios({
       method: 'get',
-      baseURL: 'http://localhost:5000',
+      // baseURL: 'http://localhost:5000',
       url: `/user/skripsi/`,
       headers: {
         Authorization: this.props.token

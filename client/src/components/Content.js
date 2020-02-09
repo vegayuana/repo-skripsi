@@ -21,7 +21,7 @@ export class Content extends PureComponent {
   getSkripsi=()=>{
     axios({
       method: 'get',
-      baseURL: 'http://localhost:5000',
+      // baseURL: 'http://localhost:5000',
       url: '/skripsi/list',
     }).then(res=>{
       this.setState({ 

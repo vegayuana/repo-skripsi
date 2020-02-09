@@ -17,9 +17,8 @@ export class Register extends Component {
   state=this.initialState
   submit = (e) =>{
     e.preventDefault()
-    let {npm}= this.state
+    let {npm, pass}= this.state
     let name = this.refs.name.value
-    let pass = this.refs.pass.value
     let data={
       name:name,
       npm:npm,
@@ -27,7 +26,7 @@ export class Register extends Component {
     }
     axios({
       method: 'POST',
-      baseURL: 'http://localhost:5000',
+      // baseURL: 'http://localhost:5000',
       url: '/check-form',
       data: data,
     }).then((res) =>{
@@ -49,9 +48,8 @@ export class Register extends Component {
   }
   submitKTM = (e) =>{
     e.preventDefault()
-    let { npm, file }= this.state
+    let { npm, file, pass }= this.state
     let name = this.refs.name.value
-    let pass = this.refs.pass.value
     const formData = new FormData()
     formData.append('ktm', file)
     formData.append('npm', npm)
@@ -60,7 +58,7 @@ export class Register extends Component {
     console.log(file)
     axios({
       method: 'POST',
-      baseURL: 'http://localhost:5000',
+      // baseURL: 'http://localhost:5000',
       url: '/register',
       data: formData,
       headers:{
@@ -94,7 +92,8 @@ export class Register extends Component {
   }
   handleRetype = (e) =>{
     console.log(this.state.passCheck)
-    if (e.target.value !== this.refs.pass.value){
+    let {pass} = this.state
+    if (e.target.value !== pass ){
       this.setState({
         passCheck: false
       })
@@ -132,7 +131,7 @@ export class Register extends Component {
   }
   render() {
     console.log('render', this.state.npm)
-    let {npm, passCheck, message, status} =this.state
+    let {npm, pass, passCheck, message, status} =this.state
     return (
     <>
       <img src={bg2} alt="Logo" className="bg2"/>
@@ -150,15 +149,15 @@ export class Register extends Component {
             </div>
             <div className="form-group">
               <label>NPM</label>
-              <input type="text" id="npm" onBlur={this.handleInput} className="form-control" placeholder="NPM"/>
+              <input type="number" id="npm" onBlur={this.handleInput} className="form-control" placeholder="NPM"/>
             </div>
-            { npm.length < 12 && npm.length >0 ?
+            { npm.length < 12 || npm.length >=15 ?
             <div className="alert alert-warning" role="alert">
-              <strong>NPM is incorrect! </strong>require min 12 digits
+              <strong>NPM is incorrect! </strong>require number with 12-14 digits
             </div> : <></>}
             <div className="form-group">
               <label>Password</label>
-              <input type="password" ref='pass' id="pass" className="form-control" placeholder="Password"/>
+              <input type="password" onBlur={this.handleInput} id="pass" className="form-control" placeholder="Password"/>
             </div>
             <div className="form-group">
               <label>Confirm Password</label>
@@ -169,7 +168,7 @@ export class Register extends Component {
               Password does not match
             </div> : <></>}
             
-            <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)} disabled={!passCheck}> Submit</button>
+            <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)} disabled={!passCheck || !this.refs.name.value || !pass|| !npm }> Submit</button>
             { message ==='' ? <></> :
               <div className="alert alert-danger" role="alert">
                 <strong>{this.state.message}</strong>
@@ -181,7 +180,7 @@ export class Register extends Component {
                 <label>Foto KTM</label>
                 <input type="file" id="ktm" onChange={this.handleFile} className="form-control-file" accept=".png, .jpg, .jpeg"/>
               </div>
-              <button type="submit" className="btn btn-primary" onClick={(e)=>this.submitKTM(e)} disabled={!passCheck}> Submit</button>
+              <button type="submit" className="btn btn-primary" onClick={(e)=>this.submitKTM(e)} disabled={!passCheck || !this.refs.name.value || !pass || !npm }> Submit</button>
               { message ==='' ? <></> :
                 <div className="alert alert-danger" role="alert">
                   <strong>{this.state.message}</strong>

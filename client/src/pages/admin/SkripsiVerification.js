@@ -14,7 +14,7 @@ export class SkripsiVerification extends Component {
   getData= ()=>{
     axios({
       method: 'get',
-      baseURL: 'http://localhost:5000',
+      // baseURL: 'http://localhost:5000',
       url: '/admin/show-skripsi',
       headers: {
         Authorization: this.props.token
@@ -37,7 +37,7 @@ export class SkripsiVerification extends Component {
   unapproved = (id) => {
     axios({
       method: 'put',
-      baseURL: 'http://localhost:5000',
+      // baseURL: 'http://localhost:5000',
       url: `/admin/unapproved/${id}`,
       headers: {
         Authorization: this.props.token
@@ -52,7 +52,7 @@ export class SkripsiVerification extends Component {
   approved = (id) => {
     axios({
       method: 'put',
-      baseURL: 'http://localhost:5000',
+      // baseURL: 'http://localhost:5000',
       url: `/admin/approved/${id}`,
       headers: {
         Authorization: this.props.token

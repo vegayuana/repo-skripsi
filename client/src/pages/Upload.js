@@ -36,7 +36,7 @@ export class Upload extends Component {
     formData.append('keywords', keywords)  
     axios({
       method: 'POST',
-      baseURL: 'http://localhost:5000',
+      // baseURL: 'http://localhost:5000',
       url: `/user/upload/`,
       data: formData,
       headers:{
@@ -88,7 +88,7 @@ export class Upload extends Component {
   checkSkripsi=()=>{
     axios({
       method: 'get',
-      baseURL: 'http://localhost:5000',
+      // baseURL: 'http://localhost:5000',
       url: `/user/skripsi/`,
       headers: {
         Authorization: this.props.token
