@@ -100,7 +100,10 @@ const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'application/pdf') {
     cb(null, true);
   } else {
-    cb(null, false);
+    let err={
+      message:'File must be pdf'
+    }
+    cb(err, false);
   }
 }
 //Init Upload

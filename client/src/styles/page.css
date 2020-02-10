@@ -14,7 +14,7 @@ body{
   font-weight: 400;
 }
 .fullscreen{
-  min-height: 80vh;
+  min-height: 60vh;
 }
 .display-flex{
   display: flex;
@@ -362,6 +362,16 @@ a{
   border: 1px solid #edf5e1;
   color:#05386B ;
 }
+.profile-box a{
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  position: relative;
+  top: -10px;
+  color: #379683;
+}
+.profile-box .row{
+  margin-bottom: 0.2rem;
+}
 .title{
   text-align: center;
   font-size: 1.4rem;
@@ -390,13 +400,6 @@ a{
   color:#379683;
   font-weight: 500;
   margin-bottom: 16px;
-}
-.profile-box a{
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-  position: relative;
-  top: -10px;
-  color: #379683;
 }
 .upload-box{
   background-color: white;
@@ -463,8 +466,7 @@ a{
 }
 /*mobile*/
 @media screen and (max-width: 767px) {
-
-  .bg2{
+  .bg1{
     display:none;
   }
   .main-box{
@@ -484,7 +486,7 @@ a{
     min-height: auto;
     padding: 30px 20px; 
   }
-  .bg3{
+  .bg2{
     display: none;
   }
   .card-text {
@@ -520,7 +522,7 @@ a{
   }
 }
 @media screen and (min-width: 768px ) and (max-width:999px){
-  .bg3{
+  .bg2{
     display: none
   }
 }

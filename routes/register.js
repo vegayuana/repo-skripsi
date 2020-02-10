@@ -25,10 +25,10 @@ const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' ) {
     cb(null, true);
   } else {
-    // let err={
-    //   message:'File must be jpeg or png'
-    // }
-    cb(null, false);
+    let err={
+      message:'File must be jpeg, jpg, or png'
+    }
+    cb(err, false);
   }
 }
 
@@ -48,7 +48,7 @@ router.post('/register', (req, res) =>{
     console.log(req.body)
     if(err){
       return utils.template_response(res, 500, err.message , null)
-    } 
+    }
     if (!req.file){
       return utils.template_response(res, 500, 'File cannot be empty' , null)
     }
@@ -63,7 +63,7 @@ router.post('/register', (req, res) =>{
     let sql = 'INSERT INTO users SET ?'
     db.query(sql, data, (err, result)=>{
       if (err){
-        console.log('error ini',err)
+        console.log('Failed',err)
         return utils.template_response(res, 400, "Failed to register", null)
       }
       console.log('Success')

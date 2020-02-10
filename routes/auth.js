@@ -10,7 +10,19 @@ require('../db/connection')
 
 //Login 
 router.post('/login', (req, res) =>{
-  let npm = req.body.npm
+  let {npm, password} = req.body
+  if ( !npm || !password){
+    if (!npm && !password){
+      return utils.template_response(res, 400, "NPM & password need to be filled in" , null)
+    }
+    if(!npm){
+      return utils.template_response(res, 400, "NPM need to be filled in" , null)
+    }
+    else{
+      return utils.template_response(res, 400, "Password need to be filled in" , null)
+    }
+  }
+  
   const findUser =`SELECT * FROM users WHERE npm='${npm}'`;
   db.query(findUser, npm, async (err, result)=>{
     try{
@@ -24,7 +36,7 @@ router.post('/login', (req, res) =>{
         return utils.template_response(res, 400, "Account has not been activated. Please wait for admin to review", null)
       }
       //Compare Pass
-      if( await bcrypt.compare(req.body.password, user.password)){ 
+      if( await bcrypt.compare(password, user.password)){ 
         //Generate Token 
         var payload = {
           "iss": "repository.apps",

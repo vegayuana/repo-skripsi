@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaFileAlt, FaUserCheck } from 'react-icons/fa';
+import { FaFileAlt, FaUserCheck } from 'react-icons/fa'
 
 export default function AdminCard(props) {
   return (

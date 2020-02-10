@@ -28,26 +28,26 @@ export class App extends Component {
       <> 
       <Provider store={store}>
         <Router>
-          <div className="fullscreen">
-              {/* <PersistGate persistor={persistor}> */}
-            <div className="alert alert-secondary alert-offline" role="alert">
-              You are offline
-            </div>
-            <Nav setUser={this.setUser}/>
-            <img src={bg} alt="Logo" className="bg"/>
-            <Switch>
-              <Route path='/' exact component={Main} />
-              <Route path='/register' component={Register}/>
-              <Route path='/profile' component={Profile}/>
-              <Route path='/skripsi-detail/:id' component= {SkripsiDetail}/>
-              <Route path='/upload' component={Upload}/>
-              <Route path='/reupload' component={ReUpload}/>
-              <Route path='/admin' component={Admin}/>
-              <Route path='/account-verification' component={AccountVerification} />
-              <Route path='/skripsi-verification' component={SkripsiVerification} />
-            </Switch>
-              {/* </PersistGate> */}
+          {/* <PersistGate persistor={persistor}> */}
+          <div className="alert alert-secondary alert-offline" role="alert">
+            You are offline
           </div>
+          <Nav setUser={this.setUser}/>
+          <img src={bg} alt="Logo" className="bg"/>
+          <div className="fullscreen">
+          <Switch>
+            <Route path='/' exact component={Main} />
+            <Route path='/register' component={Register}/>
+            <Route path='/profile' component={Profile}/>
+            <Route path='/skripsi-detail/:id' component= {SkripsiDetail}/>
+            <Route path='/upload' component={Upload}/>
+            <Route path='/reupload' component={ReUpload}/>
+            <Route path='/admin' component={Admin}/>
+            <Route path='/account-verification' component={AccountVerification} />
+            <Route path='/skripsi-verification' component={SkripsiVerification} />
+          </Switch>
+          </div>
+          {/* </PersistGate> */}
           <Footer></Footer>
         </Router>
       </Provider>
