@@ -23,12 +23,12 @@ const storage = multer.diskStorage({
 //Check Image type
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' ) {
-    cb(null, true);
+    cb(null, true)
   } else {
     let err={
       message:'File must be jpeg, jpg, or png'
     }
-    cb(err, false);
+    cb(err, false)
   }
 }
 
@@ -84,7 +84,7 @@ router.post('/check-form', (req, res) =>{
     return utils.template_response(res, 422, "NPM is incorrect. Require number with 12-14 digits" , null)
   }
   //Check if npm is already registered
-  let findUser = `SELECT npm FROM users where role='user' AND npm='${npm}'`;
+  let findUser = `SELECT npm FROM users where role='user' AND npm='${npm}'`
   db.query(findUser,(err, data)=>{
     if (err) console.log(err.response)
     if(data.length>0){
@@ -95,4 +95,4 @@ router.post('/check-form', (req, res) =>{
   })
 })
 
-module.exports = router;
+module.exports = router

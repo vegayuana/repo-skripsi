@@ -1,4 +1,4 @@
-var jwt = require('json-web-token');
+var jwt = require('json-web-token')
 var utils = require('../utils/templates')
 var secret = "repository.secret"
 
@@ -42,4 +42,4 @@ const auth = {
     })
   }
 }
-module.exports = auth;
+module.exports = auth

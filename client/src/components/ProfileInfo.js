@@ -34,7 +34,7 @@ export class ProfileInfo extends Component {
     this.getProfile()
   }
   submit=(e)=>{
-    e.preventDefault();
+    e.preventDefault()
     let { newPass, oldPass } = this.state
     axios({
       method: 'put',

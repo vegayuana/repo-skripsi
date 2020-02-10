@@ -23,7 +23,7 @@ export class ReUpload extends Component {
   }
   state=this.initialState
   submit = (e) =>{
-    e.preventDefault();
+    e.preventDefault()
     console.log(this.state)
     let {title, year, abstract, category, keywords} = this.state
     let {file} = this.state
@@ -36,7 +36,6 @@ export class ReUpload extends Component {
     formData.append('keywords', keywords)  
     axios({
       method: 'put',
-      // baseURL: 'http://localhost:5000',
       url: `/user/reupload/`,
       data: formData,
       headers:{
@@ -88,7 +87,6 @@ export class ReUpload extends Component {
   checkSkripsi=()=>{
     axios({
       method: 'get',
-      // baseURL: 'http://localhost:5000',
       url: `/user/skripsi/`,
       headers: {
         Authorization: this.props.token

@@ -5,7 +5,7 @@ import {Spinner} from 'react-bootstrap'
 import { FaRegCheckCircle, FaFilePdf } from 'react-icons/fa'
 import { IoMdCloseCircleOutline } from 'react-icons/io'
 import { Link } from 'react-router-dom'
-// import FileViewer from 'react-file-viewer';
+// import FileViewer from 'react-file-viewer'
 
 export class SkripsiStatus extends Component {
   state={

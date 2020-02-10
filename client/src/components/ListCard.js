@@ -26,4 +26,4 @@ const ListCard = function(props) {
       </>
   )
 }
-export default React.memo(ListCard);
+export default React.memo(ListCard)

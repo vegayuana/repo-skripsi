@@ -59,7 +59,6 @@ export class Nav extends PureComponent {
     e.preventDefault()
     axios({
       method: 'post',
-      // baseURL: 'http://localhost:5000',
       url: '/login',
       data: {
         npm: this.state.npm,
@@ -80,7 +79,7 @@ export class Nav extends PureComponent {
         setTimeout(() => 
           this.setState({
             showModal:false
-        }), 1000);
+        }), 1000)
       }
       else{
         this.setState({

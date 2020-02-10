@@ -3,9 +3,9 @@ import { Modal } from 'react-bootstrap'
 
 export default function List(props) {
   let {skripsi} = props
-  const [showModal, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [showModal, setShow] = useState(false)
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
 
   return (
     <div>

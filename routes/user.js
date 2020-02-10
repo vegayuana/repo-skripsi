@@ -50,7 +50,7 @@ router.put('/edit-pass', async(req, res) =>{
           }
           else{
             let password = await bcrypt.hash(newPass, 10)
-            let sql = `UPDATE users SET password='${password}' where id='${payload.id}'`;
+            let sql = `UPDATE users SET password='${password}' where id='${payload.id}'`
             db.query(sql, (err, result)=>{
               if (err) console.log(err)
               return utils.template_response(res, 200, "Changing Password Sucessfully", null)
@@ -98,12 +98,12 @@ const storage = multer.diskStorage({
 //Check Image type
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'application/pdf') {
-    cb(null, true);
+    cb(null, true)
   } else {
     let err={
       message:'File must be pdf'
     }
-    cb(err, false);
+    cb(err, false)
   }
 }
 //Init Upload
@@ -222,4 +222,4 @@ router.put('/reupload/', (req, res) =>{
     })   
   })
 })
-module.exports = router;
+module.exports = router

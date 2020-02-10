@@ -11,7 +11,7 @@ const persistConfig = {
   storage,
 }
 
-const persistedReducer = persistReducer(persistConfig, allReducers);
+const persistedReducer = persistReducer(persistConfig, allReducers)
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
@@ -25,4 +25,4 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 // }
 const store = createStore(persistedReducer,composeEnhancers(applyMiddleware(thunk, logger)))
 
-export default store;
+export default store

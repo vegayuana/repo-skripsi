@@ -4,8 +4,8 @@ export function scrollToTop() {
       top: 0,
       left: 0,
       behavior: 'smooth',
-    });
+    })
   } catch (error) {
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0)
   }
 }

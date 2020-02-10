@@ -41,7 +41,7 @@ router.delete('/unverified/:id', (req, res) =>{
 //Show Skripsi
 router.get('/show-skripsi', (req, res) =>{  
   let sql = `SELECT skripsi.id, skripsi.user_id, skripsi.title, skripsi.published_year, skripsi.abstract, skripsi.file_url, skripsi.uploaded_at, skripsi.processed_at, skripsi.is_approved, users.name 
-            FROM skripsi join users where skripsi.user_id = users.id`;
+            FROM skripsi join users where skripsi.user_id = users.id`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
     res.send(result)
@@ -66,4 +66,4 @@ router.put('/unapproved/:id', (req, res) =>{
   })
 })
 
-module.exports = router;
+module.exports = router

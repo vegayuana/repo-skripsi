@@ -51,13 +51,13 @@ export class SkripsiDetail extends Component {
         Authorization: localStorage.getItem('token')
       } 
     }).then(res=>{
-      console.log(res.data);
-      const url = window.URL.createObjectURL(new Blob([res.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', 'file.pdf'); 
-      document.body.appendChild(link);
-      link.click();
+      console.log(res.data)
+      const url = window.URL.createObjectURL(new Blob([res.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', 'file.pdf') 
+      document.body.appendChild(link)
+      link.click()
     }).catch(err=>{
       if(err.response){
       console.log(err.response)

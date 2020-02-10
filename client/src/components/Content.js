@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import axios from 'axios'
 import ListCard from './ListCard'
 import { FaSearch } from 'react-icons/fa'
-import Pagination from './Pagination';
+import Pagination from './Pagination'
 
 export class Content extends PureComponent {
   state={
@@ -156,8 +156,8 @@ export class Content extends PureComponent {
   render() {
     console.log('render content')
     let {isLoaded, skripsiFiltered, years, yearSelection, categorySelection, currentPage, postsPerPage} = this.state
-    const indexOfLastPost = currentPage * postsPerPage;
-    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const indexOfLastPost = currentPage * postsPerPage
+    const indexOfFirstPost = indexOfLastPost - postsPerPage
     const currentPosts = skripsiFiltered.slice(indexOfFirstPost, indexOfLastPost)
     const paginate = pageNumber => {
       this.setState({
