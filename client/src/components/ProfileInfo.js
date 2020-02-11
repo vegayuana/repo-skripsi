@@ -141,7 +141,7 @@ export class ProfileInfo extends Component {
                     </div>
                   :<></>
                 }
-                <button type="button" className="btn btn-danger mr-2" data-dismiss="modal" onClick={this.clear}>Batalkan</button>
+                <button type="button" className="btn btn-danger mr-2" data-dismiss="modal" onClick={this.clear}>{ status===200? <>Tutup</> : <>Batalkan</>}</button>
                 { status===200? <></> :
                 <button type="button" className="btn btn-primary" onClick={this.submit} disabled={!passCheck || !newPass || !oldPass || !this.refs.confirmPass.value}>Simpan Perubahan</button>
                 }

@@ -31,6 +31,7 @@ router.get('/tes',(req, res) =>{
     console.log(file_url, 'was deleted');
   })
 })
+
 //Unverified
 router.delete('/unverified/:id', (req, res) =>{  
   const id = req.params.id
@@ -43,8 +44,8 @@ router.delete('/unverified/:id', (req, res) =>{
     else{
       let file_url=result[0].ktm_url
       fs.unlink(file_url, (err) => {
-        if (err) console.log(err);
-        console.log(file_url, 'was deleted');
+        if (err) console.log(err)
+        console.log(file_url, 'was deleted')
       })
       let sql = `delete from users where id='${id}'`
       db.query(sql, (err, result)=>{
@@ -81,24 +82,11 @@ router.put('/approved/:id', (req, res) =>{
 //Unpproved Skripsi
 router.put('/unapproved/:id', (req, res) =>{  
   const id = req.params.id
-  let find = `SELECT file_url from skripsi WHERE id='${id}' LIMIT 1`
-  db.query(find, (err, result)=>{
-    if (err) {
-      console.log(err)
-      return utils.template_response(res, 500, 'Failed to delete' , null)
-    }
-    else{
-      let file_url=result[0].file_url
-      fs.unlink(file_url, (err) => {
-        if (err) throw err
-        console.log(file_url, 'was deleted');
-      })
-      let sql = `UPDATE skripsi SET is_approved=${false}, processed_at=NOW() where id='${id}'`
-      db.query(sql, (err, result)=>{
-        if (err) console.log(err)
-        
-      })
-    }
+  console.log('ini id', id)
+  let sql = `UPDATE skripsi SET is_approved=${false}, processed_at=NOW() where id='${id}'`
+  db.query(sql, (err, result)=>{
+    if (err) console.log(err)
+    console.log('Success')
   })
 })
 

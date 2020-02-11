@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Spinner, Table, Breadcrumb} from 'react-bootstrap'
+import { Spinner, Table, Breadcrumb, Modal} from 'react-bootstrap'
 import { Redirect, Link } from 'react-router-dom'
 import axios from 'axios'
 import {scrollToTop} from '../../helpers/autoScroll'
@@ -10,6 +10,9 @@ export class SkripsiVerification extends Component {
   state ={
     skripsi: [],
     isLoaded: false,
+    showModal: false,
+    message:'',
+    id:''
   }
   getData= ()=>{
     axios({
@@ -61,6 +64,18 @@ export class SkripsiVerification extends Component {
     })
     this.getData()
   }  
+  handleShow = (id) =>{
+    this.setState({
+      showModal:true,
+      id:id
+    })
+  }
+  handleClose = () => {
+    this.setState({
+      showModal:false,
+      message:''
+    })
+  }
   render() {
     let { isLoaded, skripsi} = this.state
     if (!localStorage.getItem('token')|| this.props.role==='user'){
@@ -112,7 +127,7 @@ export class SkripsiVerification extends Component {
                   <td>{item.uploaded_at.split('T')[0]} {item.uploaded_at.split('T')[1].split('.000Z')}</td>
                   <td>{item.is_approved===2 ? <></> : <>{item.processed_at.split('T')[0]} {item.processed_at.split('T')[1].split('.000Z')}</>}</td>
                   <td>
-                    <button onClick={()=>this.unapproved(item.id)} className={ item.is_approved === 0? "btn-table" : "btn-table btn-danger" }  disabled={ item.is_approved === 0? true : false}>Tolak</button>
+                    <button onClick={()=>this.handleShow(item.id)} className={ item.is_approved === 0? "btn-table" : "btn-table btn-danger" }  disabled={ item.is_approved === 0? true : false}>Tolak</button>
                     <button onClick={()=>this.approved(item.id)} className={ item.is_approved === 2? "btn-table btn-handle": "btn-table"} disabled={ item.is_approved === 2? false : true}>Publikasikan</button>
                   </td>
                 </tr>
@@ -121,6 +136,16 @@ export class SkripsiVerification extends Component {
             </tbody>
           </Table>
         </div>
+        <Modal show={this.state.showModal} onHide={this.handleClose} centered>
+          <Modal.Body className='admin-modal'>
+            <p>Apakah anda yakin untuk menolak publikasi skripsi?</p>
+            {!this.state.message? <></> :
+            <div className="alert alert-warning" role="alert">
+              <strong>{this.state.message}</strong>
+            </div> }
+            <button onClick={()=>this.unapproved(this.state.id)} className="btn-table btn-primary">Ya</button>
+          </Modal.Body>
+        </Modal>
       </div>
     )
   }

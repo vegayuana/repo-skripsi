@@ -6,6 +6,7 @@ const uuid = require('uuid/v4')
 const jwt = require('json-web-token')
 const secret = "repository.secret"
 const path = require('path')
+const fs = require('fs')
 
 //connect DB
 const db = require('../db/db')
@@ -171,7 +172,7 @@ router.post('/upload/', (req, res) =>{
   })
 })
 
-// upload skripsi
+// reupload skripsi
 router.put('/reupload/', (req, res) =>{  
   upload(req, res, (err) => {
     //Check error in upload middleware
@@ -195,7 +196,9 @@ router.put('/reupload/', (req, res) =>{
     //Check if user has uploaded 
     let checkSkripsi =`SELECT * FROM skripsi WHERE user_id='${payload.id}' LIMIT 1`
     db.query(checkSkripsi, (err, skripsi)=>{
+      console.log('data', skripsi[0])
       if (err){
+        console.log('err', err)
         return utils.template_response(res, 400, err.response, null)
       }  
       if(skripsi.length===0){
@@ -204,8 +207,15 @@ router.put('/reupload/', (req, res) =>{
       if(skripsi[0].is_approve===1){
         return utils.template_response(res, 422, "File has been published" , null)
       }
+      let old_file=skripsi[0].file_url
+      console.log('Old File', old_file)
+      fs.unlink(old_file, (err) => {
+        if (err) console.log(err);
+        console.log(old_file, 'was deleted');
+      })
       let id = skripsi[0].id
       let path_url = req.file.path
+      console.log('new file', path_url)
       let post = {
         title: title,
         abstract: abstract,
