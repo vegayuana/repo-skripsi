@@ -12,6 +12,7 @@ html{
 body{
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
+  background-color: red;
 }
 .fullscreen{
   min-height: 60vh;
@@ -430,14 +431,15 @@ a{
 }
 .offline .alert-offline{
   display: block;
-  animation: cssAnimation 0s 3s forwards;
+  animation: cssAnimation 0s 5s forwards;
+  transition: 0.5s;
   opacity: 1;
 }
 @keyframes cssAnimation {
   to   { opacity: 0; }
 }
 .offline .list-box h5, .offline .list-box p, .offline .list-box i, .offline .filter-box p{
-  color: lightgrey;
+  color: #6c757d;
 }
 .progress{
   height: 0.5rem;

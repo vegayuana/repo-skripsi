@@ -29,7 +29,7 @@ export class App extends Component {
       <Provider store={store}>
         <Router>
           {/* <PersistGate persistor={persistor}> */}
-          <div className="alert alert-secondary alert-offline" role="alert">
+          <div className="alert alert-secondary alert-offline" id="alert-offline" role="alert">
             You are offline
           </div>
           <Nav setUser={this.setUser}/>
