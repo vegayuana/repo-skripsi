@@ -16,7 +16,7 @@ export class SkripsiVerification extends Component {
       method: 'get',
       url: '/admin/show-skripsi',
       headers: {
-        Authorization: this.props.token
+        Authorization: localStorage.getItem('token')
       } 
     }).then(res=>{
       this.setState({ 
@@ -113,7 +113,7 @@ export class SkripsiVerification extends Component {
                   <td>{item.is_approved===2 ? <></> : <>{item.processed_at.split('T')[0]} {item.processed_at.split('T')[1].split('.000Z')}</>}</td>
                   <td>
                     <button onClick={()=>this.unapproved(item.id)} className={ item.is_approved === 0? "btn-table" : "btn-table btn-danger" }  disabled={ item.is_approved === 0? true : false}>Tolak</button>
-                    <button onClick={()=>this.approved(item.id)} className={ item.is_approved === 1? "btn-table": "btn-table btn-handle"} disabled={ item.is_approved === 1? true : false}>Publikasikan</button>
+                    <button onClick={()=>this.approved(item.id)} className={ item.is_approved === 2? "btn-table btn-handle": "btn-table"} disabled={ item.is_approved === 2? false : true}>Publikasikan</button>
                   </td>
                 </tr>
               )

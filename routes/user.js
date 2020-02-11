@@ -32,6 +32,10 @@ router.put('/edit-pass', async(req, res) =>{
     let bearer = req.headers.authorization
     let token = bearer.split(' ')[1]
     let {newPass, oldPass} = req.body
+     //Check Fields
+    if (!newPass || !oldPass ) {
+      return utils.template_response(res, 400, "All fields need to be filled in" , null)
+    }
     let payload={}
     jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
       payload=decodedPayload.request

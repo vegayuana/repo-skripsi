@@ -19,7 +19,7 @@ export class AccountVerification extends Component {
       method: 'get',
       url: '/admin/show-acc',
       headers: {
-        Authorization: this.props.token
+        Authorization:localStorage.getItem('token')
       } 
     }).then( res=>{
       this.setState({ 
@@ -97,7 +97,7 @@ export class AccountVerification extends Component {
           <Breadcrumb.Item active> / Verifikasi Akun Mahasiswa</Breadcrumb.Item>
         </Breadcrumb>
         <div className="table-box">
-          <div className="line"></div> 
+          <div className="line"></div>
           <div className="title">Akun Mahasiswa</div> 
           <Table responsive striped size="sm">
             <thead>

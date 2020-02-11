@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const utils = require('../utils/templates')
-
+const fs = require('fs')
 //connect DB
 const db = require('../db/db')
 require('../db/connection')
@@ -23,18 +23,39 @@ router.put('/verified/:id', (req, res) =>{
     if (err) console.log(err)
   })
 })
-
+router.get('/tes',(req, res) =>{  
+  let file_url='files/ktm/1581369339240ori.png'
+  console.log('helo')
+  fs.unlink(file_url, (err) => {
+    if (err) console.log(err);
+    console.log(file_url, 'was deleted');
+  })
+})
 //Unverified
 router.delete('/unverified/:id', (req, res) =>{  
   const id = req.params.id
-  let sql = `delete from users where id='${id}'`
-  db.query(sql, (err, result)=>{
+  let find = `SELECT ktm_url from users WHERE id='${id}' LIMIT 1`
+  db.query(find, (err, result)=>{
     if (err) {
       console.log(err)
-      return utils.template_response(res, 500, 'Gagal Menghapus' , null)
+      return utils.template_response(res, 500, 'Failed to delete the photo' , null)
     }
-    console.log('sukses')
-    return utils.template_response(res, 200, 'Berhasil' , null)
+    else{
+      let file_url=result[0].ktm_url
+      fs.unlink(file_url, (err) => {
+        if (err) console.log(err);
+        console.log(file_url, 'was deleted');
+      })
+      let sql = `delete from users where id='${id}'`
+      db.query(sql, (err, result)=>{
+        if (err) {
+          console.log(err)
+          return utils.template_response(res, 500, 'Failed to delete' , null)
+        }
+        console.log('Success')
+        return utils.template_response(res, 200, 'Success' , null)
+      })
+    }
   })
 })
 
@@ -60,9 +81,24 @@ router.put('/approved/:id', (req, res) =>{
 //Unpproved Skripsi
 router.put('/unapproved/:id', (req, res) =>{  
   const id = req.params.id
-  let sql = `UPDATE skripsi SET is_approved=${false}, processed_at=NOW() where id='${id}'`
-  db.query(sql, (err, result)=>{
-    if (err) console.log(err)
+  let find = `SELECT file_url from skripsi WHERE id='${id}' LIMIT 1`
+  db.query(find, (err, result)=>{
+    if (err) {
+      console.log(err)
+      return utils.template_response(res, 500, 'Failed to delete' , null)
+    }
+    else{
+      let file_url=result[0].file_url
+      fs.unlink(file_url, (err) => {
+        if (err) throw err
+        console.log(file_url, 'was deleted');
+      })
+      let sql = `UPDATE skripsi SET is_approved=${false}, processed_at=NOW() where id='${id}'`
+      db.query(sql, (err, result)=>{
+        if (err) console.log(err)
+        
+      })
+    }
   })
 })
 

@@ -166,7 +166,7 @@ export class Register extends Component {
                   <label>Confirm Password</label>
                   <input type='password' onChange={this.handleRetype} className='form-control' placeholder='Password'/>
                 </div>
-                {passCheck === true  ||  !pass ? ( <></> ) : (
+                {passCheck === true || !pass ? ( <></> ) : (
                   <div className='alert alert-warning' role='alert'>
                     Password does not match
                   </div>

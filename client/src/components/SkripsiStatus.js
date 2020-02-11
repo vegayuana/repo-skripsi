@@ -5,7 +5,6 @@ import {Spinner} from 'react-bootstrap'
 import { FaRegCheckCircle, FaFilePdf } from 'react-icons/fa'
 import { IoMdCloseCircleOutline } from 'react-icons/io'
 import { Link } from 'react-router-dom'
-// import FileViewer from 'react-file-viewer'
 
 export class SkripsiStatus extends Component {
   state={
@@ -117,7 +116,7 @@ export class SkripsiStatus extends Component {
               </div>
             </div>
           }
-          {skripsi.is_approved===2 ? <></> : <Link to='/reupload'><button className="btn btn-primary">Edit Unggahan</button></Link>}
+          {skripsi.is_approved===1? <></> : <Link to='/reupload'><button className="btn btn-primary">Edit Unggahan</button></Link>}
           </>
         }
       </div>

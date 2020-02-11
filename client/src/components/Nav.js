@@ -22,7 +22,8 @@ export class Nav extends PureComponent {
     role: '',
     message: '',
     status: null,
-    showModal: false
+    showModal: false,
+    loginState:false
   }
   componentDidMount(){
     if(localStorage.getItem('token')){
@@ -74,6 +75,9 @@ export class Nav extends PureComponent {
         })
         if (loginInfo.isLogged) {
           this.props.login(loginInfo)
+          this.setState({
+            loginState:true,
+          })
         }
         scrollToTop()
         setTimeout(() => 
@@ -99,7 +103,8 @@ export class Nav extends PureComponent {
     this.props.logout()
   }
   render() {
-    let { token, role, message, status} = this.state
+    let { token, role, message, status, loginState} = this.state
+    console.log('Render Nav', loginState)
     return (
       <>
       <nav className="navbar navbar-expand-md sticky-top navbar-dark">
@@ -151,12 +156,12 @@ export class Nav extends PureComponent {
           </> 
           :role === 'admin' ?
           <>
-          <Redirect to={'/admin'} />
+          {loginState===true ? <Redirect to={'/admin'} /> :<></>}
           <AdminMenu logout={this.logout}></AdminMenu>
           </> 
-          : 
+          :
           <>
-          <Redirect to='/' />
+          {loginState===true? <Redirect to='/' /> : <></>}
           <MediaQuery query="(min-device-width:768px)">
             <UserMenu logout={this.logout}></UserMenu>  
           </MediaQuery>

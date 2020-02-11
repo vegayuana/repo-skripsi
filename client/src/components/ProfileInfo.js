@@ -64,9 +64,16 @@ export class ProfileInfo extends Component {
     this.setState({
        [e.target.id]: e.target.value,
     })
+    if(e.target.id==='newPass' && this.refs.confirmPass.value){
+      if(e.target.value!==this.refs.confirmPass.value){
+        this.setState({passCheck: false})
+      }
+      else{
+        this.setState({passCheck: true})
+      }
+    }
   }
   handleRetype = (e) =>{
-    console.log(this.state.passCheck)
     if (e.target.value !== this.state.newPass){
       this.setState({passCheck: false})
     }
@@ -74,8 +81,19 @@ export class ProfileInfo extends Component {
       this.setState({passCheck: true})
     }
   }
+  clear = (e) =>{
+    this.refs.editForm.reset()
+    this.setState({
+      newPass:'',
+      oldPass:'',
+      message:'',
+      status:null,
+      passCheck:''  
+    })
+  }
   render() {
-    let { user, isLoaded, passCheck, status, message} = this.state
+    let { user, isLoaded, oldPass, newPass, passCheck, status, message} = this.state
+    console.log('profil')
     return (
       <div>
       {!isLoaded ? <Spinner animation="border" variant="secondary" /> :
@@ -96,10 +114,10 @@ export class ProfileInfo extends Component {
                 </button>
               </div>
               <div className="modal-body">
-                <form>
+                <form ref='editForm'>
                 <div className="form-group">
                   <label>Password Lama</label>
-                  <input type="password" id="oldPass" className="form-control" placeholder="Password" onChange={this.handleInput} />
+                  <input type="password" id="oldPass" className="form-control" placeholder="Password" onBlur={this.handleInput} />
                 </div>
                 <div className="form-group">
                   <label>Password Baru</label>
@@ -107,7 +125,7 @@ export class ProfileInfo extends Component {
                 </div>
                 <div className="form-group">
                   <label>Konfirmasi Password Baru</label>
-                  <input type="password" className="form-control" placeholder="Konfirmasi Password" onChange={this.handleRetype}/>
+                  <input type="password" ref='confirmPass' className="form-control" placeholder="Konfirmasi Password" onChange={this.handleRetype}/>
                 </div>
                 { passCheck === false ?
                   <div className="alert alert-warning" role="alert">
@@ -123,9 +141,9 @@ export class ProfileInfo extends Component {
                     </div>
                   :<></>
                 }
-                <button type="button" className="btn btn-danger mr-2" data-dismiss="modal">Btalkan</button>
+                <button type="button" className="btn btn-danger mr-2" data-dismiss="modal" onClick={this.clear}>Batalkan</button>
                 { status===200? <></> :
-                <button type="button" className="btn btn-primary" onClick={this.submit} disabled={!passCheck}>Simpan Perubahan</button>
+                <button type="button" className="btn btn-primary" onClick={this.submit} disabled={!passCheck || !newPass || !oldPass || !this.refs.confirmPass.value}>Simpan Perubahan</button>
                 }
                 </form>
               </div>

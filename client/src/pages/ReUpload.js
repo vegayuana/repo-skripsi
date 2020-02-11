@@ -43,7 +43,7 @@ export class ReUpload extends Component {
         'Authorization': this.props.token
       }
     }).then((res) =>{
-      this.refs.uploadForm.reset()
+      this.refs.reuploadForm.reset()
       this.setState({
         message:res.data.message,
         status:res.data.status,
@@ -118,7 +118,7 @@ export class ReUpload extends Component {
       <div className="row no-margin">
         <div className="upload-box">
           <h3>Unggah Ulang</h3>
-          {skripsi.is_approved!==0 ? <></> :
+          {skripsi.is_approved===1 ? <></> :
             status === 200 ?       
             <>     
             <div className="alert alert-success" role="alert">
@@ -127,7 +127,7 @@ export class ReUpload extends Component {
             <Link to='/profile'><button className="btn btn-primary">Selesai</button></Link>
             </> :
             <>
-            <form ref="uploadForm">
+            <form ref="reuploadForm">
               <div className="form-group">
                 <label>Judul *</label>
                 <input type="text" id="title" onBlur={this.handleInput} className="form-control" placeholder="Judul Skripsi"/>
