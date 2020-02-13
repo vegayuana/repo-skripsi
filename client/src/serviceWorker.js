@@ -123,15 +123,6 @@ function checkValidServiceWorker(swUrl, config) {
       console.log(
         'No internet connection found. App is running in offline mode.'
       )
-      function handleNetworkChange(event) {
-        if (navigator.onLine) {
-          document.body.classList.remove("offline")
-        } else {
-          document.body.classList.add("offline")
-        }
-      }
-      window.addEventListener("online", handleNetworkChange)
-      window.addEventListener("offline", handleNetworkChange)
     })
 }
 
