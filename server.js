@@ -32,9 +32,6 @@ app.use((req, res, next) =>{
   next()
 })
 
-app.get("http://repositori-skripsi.herokuapp.com/", function(request, response){
-  response.redirect('https://repositori-skripsi.herokuapp.com/')
-})
 app => {
   app.use(proxy(["/"], { target: "http://localhost:5000" }))
 }
@@ -54,6 +51,9 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"))
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
+  })
+  app.get("http://repositori-skripsi.herokuapp.com/", function(request, response){
+    response.redirect('https://repositori-skripsi.herokuapp.com/')
   })
 }
 

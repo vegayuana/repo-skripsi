@@ -1,8 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const utils = require('../utils/templates')
-
-var path = require('path')
 
 //connect DB
 const db = require('../db/db')
@@ -19,13 +16,4 @@ router.get('/detail/', (req, res) =>{
     res.send(result)
   })
 })
-//download file
-router.get('/download/', (req, res) =>{  
-  let { filePath } = req.query
-  console.log(filePath)
-  const file = path.join(__dirname, '../', filePath)
-  console.log(file)
-  res.download(file)
-})
-
 module.exports = router

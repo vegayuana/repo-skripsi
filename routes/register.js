@@ -11,7 +11,6 @@ require('../db/connection')
 
 //Multer : Handle Uploaded Files
 const multer  = require('multer')
-
 // Set The Storage Engine
 const storage = multer.diskStorage({
   destination: 'files/ktm/',
@@ -19,7 +18,6 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + file.originalname)
   }
 })
-
 //Check Image type
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' ) {
@@ -31,7 +29,6 @@ const fileFilter = (req, file, cb) => {
     cb(err, false)
   }
 }
-
 //Init Upload
 const upload = multer({
   storage: storage,
@@ -94,5 +91,4 @@ router.post('/check-form', (req, res) =>{
     return utils.template_response(res, 200, "Data is valid", null)
   })
 })
-
 module.exports = router

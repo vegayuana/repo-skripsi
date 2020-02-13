@@ -60,7 +60,6 @@ export class Nav extends PureComponent {
     e.preventDefault()
     axios({
       method: 'post',
-      baseURL:'http://localhost:5000',
       url: '/login',
       data: {
         npm: this.state.npm,
