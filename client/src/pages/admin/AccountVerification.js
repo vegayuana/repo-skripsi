@@ -46,7 +46,8 @@ export class AccountVerification extends Component {
     }).then(res=>{
       console.log(res.data)
       this.setState({
-        showModal:false
+        showModal:false,
+        isLoaded:false
       })
     }).catch((err) => { 
       if(err.response){
@@ -69,6 +70,9 @@ export class AccountVerification extends Component {
       if(err.response){
       console.log(err.response.statusText)
       }
+    })
+    this.setState({
+      isLoaded:false,
     })
     this.getData()
   }  

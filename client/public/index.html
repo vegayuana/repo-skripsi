@@ -7,28 +7,62 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="HandheldFriendly" content="true" />
     <meta name="theme-color" content="#379683" />
-    <meta
-      name="description"
+    <!-- <meta name="description"
       content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo-192.png" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo-512.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
+    /> -->
+    <!-- Splash Screen untuk IOS -->
+    <meta name="apple-mobile-web-app-title" content="Repo Skripsi">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#379683">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="apple-touch-icon" size="192x192" href="%PUBLIC_URL%/logo-192.png"/>
+    <link rel="apple-touch-icon" size="512x512" href="%PUBLIC_URL%/logo-512.png"/>
+    <!-- Preconnect  -->
+    <link rel="preconnect" href="http:\\localhost:5000" crossorigin>
+    <link rel="dns-prefetch" href="http:\\localhost:5000">
+    <!-- font -->
+    <link href="%PUBLIC_URL%/fonts/font.css" rel="stylesheet" />
+  
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
     -->
-    <link href="%PUBLIC_URL%/fonts/font.css" rel="stylesheet" />
+    <style type="text/css">
+      body{
+        margin: 0px;
+      }
+      #startingLoader {
+        height: 100vh;
+        background-color: #379683;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+      }
+      #startingLoader b{
+        color: #05386B;
+        font-size: 1.3rem;
+        font-family: Arial, Helvetica, sans-serif;
+        margin-top: 10px;
+      }
+      #startingLoader p{
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 10px 0px 0px 0px;
+      }
+     </style>
     <title>Repositori Skripsi</title>
   </head>
   <body >
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <div id="startingLoader">
+      <img src='%PUBLIC_URL%/logo.webp'>
+      <b>REPOSITORI SKRIPSI</b>
+      <p>Harap tunggu..</p>
+    </div>
     <script>
       function handleNetworkChange(event) {
       if (navigator.onLine) {
