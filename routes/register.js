@@ -58,7 +58,7 @@ router.post('/register', (req, res) =>{
       name: name, 
       npm: npm, 
       password: password,
-      ktm_url:req.file.path
+      ktm_url:`files/ktm/${req.file.filename}`
     }
     let sql = 'INSERT INTO users SET ?'
     db.query(sql, data, (err, result)=>{
