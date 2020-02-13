@@ -52,9 +52,6 @@ if (process.env.NODE_ENV === "production") {
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
   })
-  //static
-  app.use('/files/ktm', express.static(path.join(__dirname, 'files', 'ktm')))
-  app.use('/files/skripsi', express.static(path.join(__dirname, 'files', 'skripsi')))
 }
 
 // catch 404 and forward to error handler

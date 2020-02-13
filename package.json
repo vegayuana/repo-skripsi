@@ -8,11 +8,9 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "cd client && npm start",
-    "client2": "cd client && npm run build && npm run start-sw",
-    "client3": "cd client && npm run build && serve -s build -l 4000",
+    "clientBuild": "cd client && npm run build && serve -s build -l 4000",
     "dev": "concurrently \"npm run server\" \"npm run client\" ",
-    "dev2": "concurrently \"npm run server\" \"npm run client3\" ",
-    "build": "concurrently \"npm run server\" \"npm run client3\" ",
+    "build": "concurrently \"npm run server\" \"npm run clientBuild\" ",
     "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "author": "Vega Yuana",
@@ -43,6 +41,6 @@
     "ws": "3.3.2"
   },
   "engines": {
-    "node": "12.16.0"
+    "node":"12.16.0"
   }
 }
