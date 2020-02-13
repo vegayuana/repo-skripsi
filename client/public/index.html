@@ -29,5 +29,16 @@
   <body >
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <script>
+      function handleNetworkChange(event) {
+      if (navigator.onLine) {
+        document.body.classList.remove("offline")
+      } else {
+        document.body.classList.add("offline")
+      }
+    }
+    window.addEventListener("online", handleNetworkChange)
+    window.addEventListener("offline", handleNetworkChange)
+    </script>
   </body>
 </html>
