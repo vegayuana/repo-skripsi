@@ -88,8 +88,6 @@ export class Register extends Component {
     })
   }
   handleRetype = (e) =>{
-    console.log(this.state.passCheck)
-    console.log(this.state.pass)
     let {pass} = this.state
     if (e.target.value !== pass ){
       this.setState({
@@ -131,7 +129,6 @@ export class Register extends Component {
     return true
   }
   render() {
-    console.log('render', this.state.npm)
     let {npm, pass, passCheck, message, status} =this.state
     return (
       <>

@@ -41,7 +41,6 @@ export class SkripsiDetail extends Component {
   
   render() {
     let { isLoaded, skripsi } = this.state
-    console.log(skripsi)
     if (!localStorage.getItem('token')){
       return <Redirect to={'/'} />
     }

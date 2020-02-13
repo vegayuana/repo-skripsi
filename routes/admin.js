@@ -23,14 +23,6 @@ router.put('/verified/:id', (req, res) =>{
     if (err) console.log(err)
   })
 })
-router.get('/tes',(req, res) =>{  
-  let file_url='files/ktm/1581369339240ori.png'
-  console.log('helo')
-  fs.unlink(file_url, (err) => {
-    if (err) console.log(err);
-    console.log(file_url, 'was deleted');
-  })
-})
 
 //Unverified
 router.delete('/unverified/:id', (req, res) =>{  
@@ -82,11 +74,15 @@ router.put('/approved/:id', (req, res) =>{
 //Unpproved Skripsi
 router.put('/unapproved/:id', (req, res) =>{  
   const id = req.params.id
-  console.log('ini id', id)
+  console.log('this is id', id)
   let sql = `UPDATE skripsi SET is_approved=${false}, processed_at=NOW() where id='${id}'`
   db.query(sql, (err, result)=>{
-    if (err) console.log(err)
+    if (err) {
+      console.log(err)
+      return utils.template_response(res, 500, 'Failed to delete' , null)
+    }
     console.log('Success')
+    return utils.template_response(res, 200, 'Success' , null)
   })
 })
 module.exports = router

@@ -108,7 +108,6 @@ export class Upload extends Component {
   }
   render() {
     let { message, status, isLoaded, skripsi, file, title, year, abstract, titleAlert, yearAlert, abstractAlert, keywords} = this.state
-    console.log('render upload', skripsi.is_approved)
     if (!localStorage.getItem('token')){
       return <Redirect to={'/'} />
     }

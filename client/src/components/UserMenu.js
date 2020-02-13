@@ -5,21 +5,41 @@ import $ from 'jquery'
 import MediaQuery from 'react-responsive'
 
 export default class UserMenu extends Component {
+  state={
+    elmClass:'user-menu'
+  }
   componentDidMount(){
-    $('.collapse a').click(()=>{
-      $('.collapse').removeClass( "show" )
+    $('#userMenu a').click(()=>{
+      $('#userMenu').removeClass( "show" )
+      this.setState({
+        elmClass:'user-menu'
+      })
     })
+  }
+  handleClick=(e)=>{
+    e.preventDefault()
+    let {elmClass} = this.state
+    if(elmClass==='user-menu'){
+      this.setState({
+        elmClass:'user-menu show'
+      })
+    }
+    else{
+      this.setState({
+        elmClass:'user-menu'
+      })
+    }
+    
   }
   render() {
     return (
       <>
       <MediaQuery query="(min-width:768px)">
       <div className="right">
-        <button className="btn btn-nav btn-user" id="tes" data-toggle="collapse" data-target="#userMenu" aria-expanded="false" aria-controls="userMenu" style={{zIndex:1}}>
+        <button className="btn btn-nav btn-user" onClick={(e)=>this.handleClick(e)} style={{zIndex:1}}>
           <FaUserAlt />
         </button>
-        <li className="nav-item navbar-nav">
-          <div className="collapse user-menu" id="userMenu">
+          <div className={this.state.elmClass} id="userMenu">
             <Link to="/profile" className="dropdown-item" style={{marginTop:'80px'}}>
               Profil
             </Link>
@@ -30,7 +50,6 @@ export default class UserMenu extends Component {
               Log Out
             </Link>
           </div>
-        </li>
       </div>
       </MediaQuery>
       <MediaQuery query="(max-width:767px)">

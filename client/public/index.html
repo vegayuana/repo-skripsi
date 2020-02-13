@@ -7,25 +7,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="HandheldFriendly" content="true" />
     <meta name="theme-color" content="#379683" />
-    <!-- <meta name="description"
-      content="Web site created using create-react-app"
-    /> -->
+    <meta name="description"  content="Web site created using create-react-app"/>
+    
     <!-- Splash Screen untuk IOS -->
     <meta name="apple-mobile-web-app-title" content="Repo Skripsi">
     <meta name="apple-mobile-web-app-status-bar-style" content="#379683">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="apple-touch-icon" size="192x192" href="%PUBLIC_URL%/logo-192.png"/>
     <link rel="apple-touch-icon" size="512x512" href="%PUBLIC_URL%/logo-512.png"/>
-    <!-- Preconnect  -->
+    
+    <!-- Preconnect Prefetch Preload -->
     <link rel="preconnect" href="http:\\localhost:5000" crossorigin>
     <link rel="dns-prefetch" href="http:\\localhost:5000">
+
     <!-- font -->
     <link href="%PUBLIC_URL%/fonts/font.css" rel="stylesheet" />
-  
+    
+    <!-- manifest -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
     -->
     <style type="text/css">
@@ -65,14 +65,21 @@
     </div>
     <script>
       function handleNetworkChange(event) {
-      if (navigator.onLine) {
-        document.body.classList.remove("offline")
-      } else {
-        document.body.classList.add("offline")
+        if (navigator.onLine) {
+          document.body.classList.remove("offline")
+        } else {
+          document.body.classList.add("offline")
+        }
       }
-    }
-    window.addEventListener("online", handleNetworkChange)
-    window.addEventListener("offline", handleNetworkChange)
+      window.addEventListener("online", handleNetworkChange)
+
+      window.addEventListener("click", function(){
+          if(document.getElementById('toggle1')){
+          if (document.getElementById('toggle1').classList.contains('show')){
+            document.getElementById('toggle1').classList.remove('show')
+          }
+        }
+      })
     </script>
   </body>
 </html>

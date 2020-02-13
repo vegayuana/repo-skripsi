@@ -108,7 +108,6 @@ export class ReUpload extends Component {
   }
   render() {
     let { message, status, isLoaded, skripsi, file, title, year, abstract, titleAlert, yearAlert, abstractAlert, keywords} = this.state
-    console.log('render upload', skripsi.is_approved)
     if (!localStorage.getItem('token')){
       return <Redirect to={'/'} />
     }
@@ -156,7 +155,7 @@ export class ReUpload extends Component {
                 }
               </div>
               <div className="form-group">
-                <label>File * (Maks 50mb)</label>
+                <label>File * (Maks 20mb)</label>
                 <input type="file" ref="file" onChange={this.handleFile} className="form-control-file" id="file" accept=".pdf"/>
                 { !file ? <></> : file.type==="application/pdf" ? <></> :
                   <div className="alert alert-danger" role="alert">

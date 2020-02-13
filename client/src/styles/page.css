@@ -13,6 +13,7 @@ html{
 body{
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
+  overflow-x: hidden;
 }
 .fullscreen{
   min-height: 60vh;

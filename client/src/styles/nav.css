@@ -78,6 +78,9 @@ a, a:hover{
   padding: 20px;
   color: white ;
 }
+.user-menu .collapsing{
+  height: 100vh !important;
+}
 .user-menu a:active, .user-menu a:hover, .user-menu a:focus {
   background-color: #edf5e1 ;
   color: #05386B ;
@@ -159,8 +162,8 @@ a, a:hover{
     padding-right: 25px;
   }
   .btn-nav{
-    margin: 10px 0px;
-    text-align: center;
+    text-align: right;
+    width: 100%;
   }
   .navbar-toggler{
     z-index: 1;
@@ -172,7 +175,7 @@ a, a:hover{
     top: 0;
     right: 0;
     padding-top: 100px;
-    padding-left: 10px;
+    padding-right: 30px;
     transition: 0.5s;
     background-color: #379683;
     box-shadow: -5px 10px 8px rgba(0,0,0,.05)
@@ -182,7 +185,7 @@ a, a:hover{
   }
   .navbar .dropdown-menu {
     width: 100%;
-    padding: 10px 20px;
+    padding: 0px 0px 0px 30px;
     background-color: #379683;
     border: none;
     box-shadow: none;
@@ -196,7 +199,7 @@ a, a:hover{
   .navbar .login-form .form-control {
     max-width: 100%;
     width: 100%;
-    margin-bottom: 15px;		
+    margin: 0px 0px 15px 0px;	
   }
   .navbar .login-form .btn {
     width: 100%;

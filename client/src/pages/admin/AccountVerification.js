@@ -43,12 +43,11 @@ export class AccountVerification extends Component {
       headers: {
         Authorization: this.props.token
       } 
-    }).then(res=>{
-      console.log(res.data)
+    }).then(()=>{
       this.setState({
         showModal:false,
-        isLoaded:false
       })
+      this.getData()
     }).catch((err) => { 
       if(err.response){
         console.log(err.response)
@@ -57,7 +56,6 @@ export class AccountVerification extends Component {
         })
       }
     })
-    this.getData()
   }
   verified = (id) => {
     axios({
@@ -70,9 +68,6 @@ export class AccountVerification extends Component {
       if(err.response){
       console.log(err.response.statusText)
       }
-    })
-    this.setState({
-      isLoaded:false,
     })
     this.getData()
   }  

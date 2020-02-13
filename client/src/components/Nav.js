@@ -7,7 +7,6 @@ import { setToken, delToken} from '../reducers/authReducer'
 import { connect } from 'react-redux'
 import { Modal } from 'react-bootstrap' 
 import { FaRegCheckCircle } from 'react-icons/fa'
-import { MdExitToApp } from 'react-icons/md'
 import '../styles/nav.css'
 import axios from 'axios'
 import $ from 'jquery'
@@ -34,7 +33,7 @@ export class Nav extends PureComponent {
       this.props.login(log)
     }
     $('a').click(()=>{
-      $('.collapse').removeClass( "show" )
+      $('.collapse').removeClass( 'show' )
     })
   }
   componentDidUpdate(prevProps){
@@ -104,12 +103,11 @@ export class Nav extends PureComponent {
   }
   render() {
     let { token, role, message, status, loginState} = this.state
-    console.log('Render Nav', loginState)
     return (
       <>
-      <nav className="navbar navbar-expand-md sticky-top navbar-dark">
+      <nav className='navbar navbar-expand-md sticky-top navbar-dark'>
         {/*Brand Name*/}
-        <Link to="/" className="navbar-brand">
+        <Link to='/' className='navbar-brand'>
           <p>
             REPO<span>SKRIPSI</span>
           </p>
@@ -117,27 +115,27 @@ export class Nav extends PureComponent {
         {!token ? 
           <>
           {/*Toggler*/}
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#toggle1" aria-controls="toggle" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
+          <button className='navbar-toggler' type='button' data-toggle='collapse' data-target='#toggle1' aria-controls='toggle' aria-expanded='false' aria-label='Toggle navigation'>
+            <span className='navbar-toggler-icon'></span>
           </button>
           {/*Collapse Items*/}
-          <div className="collapse navbar-collapse" id="toggle1">
-            <ul className="navbar-nav">
-              <li className="nav-item dropdown">
-                <button className="btn btn-nav btn-transition dropdown" data-toggle="dropdown">Login</button>
-                <ul className="dropdown-menu login-form">
-                  <form className="form-inline">
-                    <input type="text" id="npm" className="form-control" placeholder="NPM" onChange={this.handleChange} required/>
-                    <input type="password" id="pass" className="form-control" placeholder="Password" onChange={this.handleChange} required/>
-                    <button type="submit" className="btn" onClick={e => this.submitLogin(e)}>
+          <div className='collapse navbar-collapse' id='toggle1'>
+            <ul className='navbar-nav'>
+              <li className='nav-item dropdown'>
+                <button className='btn btn-nav btn-transition dropdown' data-toggle='dropdown'>Login</button>
+                <ul className='dropdown-menu login-form'>
+                  <form className='form-inline'>
+                    <input type='text' id='npm' className='form-control' placeholder='NPM' onChange={this.handleChange} required/>
+                    <input type='password' id='pass' className='form-control' placeholder='Password' onChange={this.handleChange} required/>
+                    <button type='submit' className='btn btn-primary' onClick={e => this.submitLogin(e)}>
                       Login
                     </button>
                     {status===400? 
-                    <div className="alert alert-danger login-alert" role="alert">
+                    <div className='alert alert-danger login-alert' role='alert'>
                       <strong>{message}</strong>
                     </div>
                     : status===500 ?
-                    <div className="alert alert-warning login-alert" role="alert">
+                    <div className='alert alert-warning login-alert' role='alert'>
                       <strong>Something goes wrong </strong>please try again
                     </div>
                     :               
@@ -146,8 +144,8 @@ export class Nav extends PureComponent {
                   </form>
                 </ul>
               </li>
-              <li className="nav-item">
-                <Link to="/register" className="btn btn-nav btn-transition">
+              <li className='nav-item'>
+                <Link to='/register' className='btn btn-nav btn-transition'>
                   Sign Up
                 </Link>
               </li>
@@ -162,14 +160,14 @@ export class Nav extends PureComponent {
           :
           <>
           {loginState===true? <Redirect to='/' /> : <></>}
-          <MediaQuery query="(min-device-width:768px)">
+          <MediaQuery query='(min-device-width:768px)'>
             <UserMenu logout={this.logout}></UserMenu>  
           </MediaQuery>
-          <MediaQuery query="(max-device-width:767px)">
+          <MediaQuery query='(max-device-width:767px)'>
             <ul className='navbar-nav'>
-              <li className="nav-item right">
-                <Link to="/" className="btn btn-nav btn-transition" onClick={()=>this.logout()}>
-                  <MdExitToApp/>
+              <li className='nav-item right'>
+                <Link to='/' className='btn btn-nav btn-transition' onClick={()=>this.logout()}>
+                  Log out
                 </Link>
               </li>
             </ul>
@@ -177,7 +175,7 @@ export class Nav extends PureComponent {
           </>
           }
           <Modal show={this.state.showModal} onHide={this.handleClose} centered>
-            <Modal.Body className="login-modal">
+            <Modal.Body className='login-modal'>
             <div className='icon-check'><FaRegCheckCircle/></div>
               Login Successfully
             </Modal.Body>

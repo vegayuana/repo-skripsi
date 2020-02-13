@@ -43,12 +43,19 @@ export class SkripsiVerification extends Component {
       headers: {
         Authorization: this.props.token
       } 
+    }).then(()=>{
+      this.setState({
+        showModal:false,
+      })
+      this.getData()
     }).catch((err) => { 
       if(err.response){
-      console.log(err.response.statusText)
+        console.log(err.response.statusText)
+        this.setState({
+          message:err.response.data.message
+        })
       }
     })
-    this.getData()
   }
   approved = (id) => {
     axios({

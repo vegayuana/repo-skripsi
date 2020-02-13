@@ -29,11 +29,11 @@ export class Footer extends Component {
       </div>
       { !this.props.token || this.props.role!=='user' ? <></> :
       <MediaQuery query="(max-width:767px)">
-      <nav className='foot-nav'>
-        <Link to='/'><AiFillHome/></Link>
-        <Link to='/upload'><MdFileUpload style={{fontSize:'2.1rem'}}/></Link>
-        <Link to='/profile'><FaUserAlt/></Link>
-      </nav>
+        <nav className='foot-nav'>
+          <Link to='/'><AiFillHome/></Link>
+          <Link to='/upload'><MdFileUpload style={{fontSize:'2.1rem'}}/></Link>
+          <Link to='/profile'><FaUserAlt/></Link>
+        </nav>
       </MediaQuery> 
       }
       </>
