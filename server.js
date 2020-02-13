@@ -11,16 +11,21 @@ const userRoutes = require('./routes/user')
 const adminRoutes = require('./routes/admin')
 const proxy = require("http-proxy-middleware")
 
-//Middleware Auth
-const auth = require('./middleware/auth')
+//-------Configuration
+
+//Bodyparser Middleware
+app.use(express.json())
+
+//Cross origin 
 const cors = require('cors')
 var corsOptions = {
   origin: '*',
   optionsSuccessStatus: 200,
 }
-//Bodyparser Middleware
-app.use(express.json())
 app.use(cors(corsOptions))
+
+//Middleware Auth
+const auth = require('./middleware/auth')
 
 app.use((req, res, next) =>{
   console.log("go to middleware")
@@ -38,17 +43,19 @@ app.use('/skripsi', skripsiDetailRoutes)
 app.use('/user', auth.users, userRoutes)
 app.use('/admin', auth.admin, adminRoutes)
 
+//static
+app.use('/files/ktm', express.static(path.join(__dirname, 'files', 'ktm')))
+app.use('/files/skripsi', express.static(path.join(__dirname, 'files', 'skripsi')))
+
 if (process.env.NODE_ENV === "production") {
-  // Exprees will serve up production assets
   app.use(express.static("client/build"))
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"))
   })
+  //static
+  app.use('/files/ktm', express.static(path.join(__dirname, 'files', 'ktm')))
+  app.use('/files/skripsi', express.static(path.join(__dirname, 'files', 'skripsi')))
 }
-
-//static
-app.use('/files/ktm', express.static(path.join(__dirname, 'files', 'ktm')))
-app.use('/files/skripsi', express.static(path.join(__dirname, 'files', 'skripsi')))
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
