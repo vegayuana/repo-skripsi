@@ -117,7 +117,7 @@ export class SkripsiVerification extends Component {
                   <td><div style={{height:'200px', overflowY:'scroll'}}>{item.abstract}</div></td>
                   <td>
                     {!item.file_url ? <>File Tidak ada</> :
-                    <a href={'http://localhost:5000/'+item.file_url} target='_blank' rel='noreferrer noopener'><FaFilePdf className='icons'/> Klik</a>
+                    <a href={'https://repositori-skripsi.herokuapp.com/'+item.file_url} target='_blank' rel='noreferrer noopener'><FaFilePdf className='icons'/> Klik</a>
                     }
                   </td>
                   <td>{ item.is_approved === 1 ? <div style={{color:'#379683'}}><FaCheck/> Dipublikasikan</div> : 
