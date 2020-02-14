@@ -496,9 +496,12 @@ a{
     line-height: 150px;
     text-align: center;
   }
+  .small-box{
+    margin:20px;
+  }
   .detail-box{
     min-height: auto;
-    padding: 0px 10px 10px 10px;
+    padding: 0 20px 20px;
   }
   .detail-box > div {
     position: sticky;
@@ -507,7 +510,7 @@ a{
     padding-top: 10px;
   }
   .abstract .detail-box{
-    height: 500px;
+    height: 350px;
     overflow-y: scroll;
   }
   .file{

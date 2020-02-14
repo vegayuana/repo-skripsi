@@ -48,6 +48,7 @@ export class SkripsiDetail extends Component {
       <div className="main-box">      
         <div className="row">
           <div className="col-12 col-md-4">
+            <div className="small-box">
             <div className="line"></div>
             <div className="detail-box">
               { !isLoaded ? <Spinner animation="border" variant="secondary" /> :
@@ -73,8 +74,10 @@ export class SkripsiDetail extends Component {
               </>
               }
             </div>
+            </div>
           </div>
           <div className="col-12 col-md-8 abstract">
+            <div className="small-box">
             <div className="line" style={{ backgroundColor: '#8ee4af '}}></div>
             <div className="detail-box">
               {!isLoaded ? <Spinner animation="border" variant="secondary" /> :
@@ -90,10 +93,12 @@ export class SkripsiDetail extends Component {
               }
               </>}
             </div>
+            </div>
           </div>
         </div>
         <div className="row file">
           <div className="col-12">
+          <div className="small-box">
             <div className="line" style={{backgroundColor:'#5cdb95'}}></div>
             <div className="file-box">
               <h5>FILE</h5>
@@ -102,6 +107,7 @@ export class SkripsiDetail extends Component {
               <a href={'https://repositori-skripsi.herokuapp.com/'+skripsi.file_url} target='_blank' rel='noreferrer noopener'><FaFilePdf className='icons'/> Unduh</a>
               }   
             </div>
+          </div>
           </div>
         </div>
       </div>
