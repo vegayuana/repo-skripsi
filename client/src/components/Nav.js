@@ -177,7 +177,7 @@ export class Nav extends PureComponent {
           <Modal show={this.state.showModal} onHide={this.handleClose} centered>
             <Modal.Body className='login-modal'>
             <div className='icon-check'><FaRegCheckCircle/></div>
-              Login Successfully
+              Log In Berhasil
             </Modal.Body>
           </Modal>
         </nav>
