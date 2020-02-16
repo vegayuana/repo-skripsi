@@ -9,6 +9,7 @@ export class Upload extends Component {
   initialState={
     skripsi:{},
     isLoaded:false,
+    offline: false,
     title:'',
     titleAlert:'initial',
     year:'',
@@ -103,11 +104,21 @@ export class Upload extends Component {
     })
   }
   componentDidMount(){
-    this.checkSkripsi()
     scrollToTop()
+    if (navigator.onLine){
+      this.checkSkripsi()
+      this.setState({
+        offline:false
+      })
+    }
+    else{
+      this.setState({
+        offline:true,
+      })
+    }
   }
   render() {
-    let { message, status, isLoaded, skripsi, file, title, year, abstract, titleAlert, yearAlert, abstractAlert, keywords} = this.state
+    let { message, status, isLoaded, offline, skripsi, file, title, year, abstract, titleAlert, yearAlert, abstractAlert, keywords} = this.state
     if (!localStorage.getItem('token')){
       return <Redirect to={'/'} />
     }
@@ -116,8 +127,9 @@ export class Upload extends Component {
       <div className="row no-margin">
         <div className="upload-box">
           <h3>Unggah</h3>
-          {!isLoaded? <Spinner animation="border" variant="secondary" /> :
-            skripsi ? <><hr/><div className="text-middle"><h5>Anda sudah mengunggah skripsi</h5><p>Cek status skripsi di menu profil</p></div></> :
+          {offline? <p>You're Offline. Check Your connection and refresh</p> 
+            : !isLoaded? <Spinner animation="border" variant="secondary" /> 
+            : skripsi ? <><hr/><div className="text-middle"><h5>Anda sudah mengunggah skripsi</h5><p>Cek status skripsi di menu profil</p></div></> :
           <form ref="uploadForm">
             {status === 200?       
               <>     

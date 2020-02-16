@@ -36,16 +36,15 @@ export class SkripsiDetail extends Component {
   }
   
   componentDidMount(){
+    scrollToTop()
     if (navigator.onLine){
       this.getData()
-      scrollToTop()
       this.setState({
         offline:false
       })
     }
     else{
       this.setState({
-        isLoaded:true,
         offline:true,
       })
     }
@@ -62,7 +61,7 @@ export class SkripsiDetail extends Component {
         <div className="row">
           <div className="col-12">
             <div className="line"></div>
-            <div className="detail-box">
+            <div className="offline-box">
               <p>You're Offline. Check Your connection and refresh</p>
             </div>
           </div>

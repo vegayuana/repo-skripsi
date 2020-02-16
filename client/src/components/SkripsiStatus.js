@@ -9,7 +9,8 @@ import { Link } from 'react-router-dom'
 export class SkripsiStatus extends Component {
   state={
     skripsi:{},
-    isLoaded:false
+    isLoaded:false,
+    Offline:false
   }
   getSkripsi=()=>{
     axios({
@@ -30,17 +31,28 @@ export class SkripsiStatus extends Component {
     })
   }
   componentDidMount(){
-    this.getSkripsi()
+    if (navigator.onLine){
+      this.getSkripsi()
+      this.setState({
+        offline:false
+      })
+    }
+    else{
+      this.setState({
+        offline:true,
+      })
+    }
   }
   render() {
-    let { isLoaded, skripsi} = this.state
+    let { isLoaded, offline, skripsi} = this.state
     return (
       <div>
         <h5>Skripsi</h5>
         <hr/>
-        {!isLoaded? <Spinner animation="border" variant="secondary" /> : 
-          !skripsi ? <div><h5>Anda Belum Mengunggah Skripsi</h5></div> :
-          <>
+        {offline? <p>You're Offline. Check Your connection and refresh</p> 
+          : !isLoaded? <Spinner animation="border" variant="secondary" /> 
+          : !skripsi ? <div><h5>Anda Belum Mengunggah Skripsi</h5></div> 
+          : <>
           <div className="row">
             <div className="col-3">
               <h5>Judul</h5>

@@ -7,6 +7,7 @@ export class ProfileInfo extends Component {
   state={
     user:{},
     isLoaded:false,
+    offline:false,
     newPass:'',
     oldPass:'',
     message:'',
@@ -31,7 +32,17 @@ export class ProfileInfo extends Component {
     })
   }
   componentDidMount(){
-    this.getProfile()
+    if (navigator.onLine){
+      this.getProfile()
+      this.setState({
+        offline:false
+      })
+    }
+    else{
+      this.setState({
+        offline:true,
+      })
+    }
   }
   submit=(e)=>{
     e.preventDefault()
@@ -92,12 +103,13 @@ export class ProfileInfo extends Component {
     })
   }
   render() {
-    let { user, isLoaded, oldPass, newPass, passCheck, status, message} = this.state
+    let { user, isLoaded, oldPass, newPass, passCheck, status, message, offline} = this.state
     console.log('profil')
     return (
       <div>
-      {!isLoaded ? <Spinner animation="border" variant="secondary" /> :
-        <>
+      {offline? <p>You're Offline. Check Your connection and refresh</p>
+      : !isLoaded ? <Spinner animation="border" variant="secondary" /> 
+      : <>
         <p>{user.name}</p>
         <p>{user.npm}</p>
         <div><img src={user.ktm_url} alt='ktm'className='ktm'/></div>

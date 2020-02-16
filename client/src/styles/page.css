@@ -15,6 +15,12 @@ body{
   font-weight: 400;
   overflow-x: hidden;
 }
+body.offline{
+  -moz-filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
+  filter: gray;
+  filter: grayscale(100%);
+}
 .fullscreen{
   min-height: 60vh;
 }
@@ -440,6 +446,18 @@ a{
   padding: 20px;
   font-weight: bold;
   color: grey;
+}
+.offline-box{
+  background-color: white;
+  border-radius: 0px;
+  border: 1px solid #edf5e1;
+  box-shadow: 0 3px 20px rgba(0,0,0,.05);
+  padding: 20px;
+  min-height: 100%;
+  margin-bottom: 1rem;
+}
+.offline-box p{
+  text-align: center;
 }
 @keyframes cssAnimation {
   to   { opacity: 0; }

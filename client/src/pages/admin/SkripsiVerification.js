@@ -34,9 +34,9 @@ export class SkripsiVerification extends Component {
     })
   }
   componentDidMount(){
+    scrollToTop()
     if (navigator.onLine){
       this.getData()
-      scrollToTop()
       this.setState({
         offline:false
       })
