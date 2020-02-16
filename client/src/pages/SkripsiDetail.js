@@ -58,7 +58,16 @@ export class SkripsiDetail extends Component {
     }
     return (
       <div className="main-box"> 
-        { offline ? <tr><td colSpan="10" className="text-center offline-text">You're Offline. Check Your connection and relode</td></tr> :
+        { offline ? 
+        <div className="row">
+          <div className="col-12">
+            <div className="line"></div>
+            <div className="detail-box">
+              <p>You're Offline. Check Your connection and refresh</p>
+            </div>
+          </div>
+        </div>
+        :
         <>  
         <div className="row">
           <div className="col-12 col-md-4">

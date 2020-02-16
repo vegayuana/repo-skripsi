@@ -125,7 +125,7 @@ export class AccountVerification extends Component {
             </thead>
             <tbody>
             { !isLoaded ? <tr><td colSpan="7" className="text-center"><Spinner animation="border"  variant="secondary" /></td></tr>
-              : offline ? <tr><td colSpan="10" className="text-center offline-text">You're Offline. Check Your connection and relode</td></tr>
+              : offline ? <tr><td colSpan="10" className="text-center offline-text">You're Offline. Check Your connection and refresh</td></tr>
               : !users? <tr><td colSpan="10" className="text-center">No Data</td></tr>
               : users.map((user, i) =>
               <tr key={i}>
