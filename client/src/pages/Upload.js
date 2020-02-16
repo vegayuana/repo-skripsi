@@ -113,11 +113,11 @@ export class Upload extends Component {
     }
     return (
       <>
-      {!isLoaded? <Spinner animation="border" variant="secondary" /> :
       <div className="row no-margin">
         <div className="upload-box">
           <h3>Unggah</h3>
-          {skripsi ? <><hr/><div className="text-middle"><h5>Anda sudah mengunggah skripsi</h5><p>Cek status skripsi di menu profil</p></div></> :
+          {!isLoaded? <Spinner animation="border" variant="secondary" /> :
+            skripsi ? <><hr/><div className="text-middle"><h5>Anda sudah mengunggah skripsi</h5><p>Cek status skripsi di menu profil</p></div></> :
           <form ref="uploadForm">
             {status === 200?       
               <>     

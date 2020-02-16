@@ -18,6 +18,7 @@ export class Content extends PureComponent {
     currentPage:1,
     postsPerPage:10
   }
+
   getSkripsi=()=>{
     axios({
       method: 'get',

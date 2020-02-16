@@ -39,13 +39,13 @@ app.use('/test', routes)
 app.use('/', registerRoutes)
 app.use('/', authRoutes)
 app.use('/skripsi', skripsiRoutes)
-app.use('/skripsi', skripsiDetailRoutes)
+app.use('/skripsi', auth.gen, skripsiDetailRoutes)
 app.use('/user', auth.users, userRoutes)
 app.use('/admin', auth.admin, adminRoutes)
 
 //static
-app.use('/files/ktm', authRoutes, express.static(path.join(__dirname, 'files', 'ktm')))
-app.use('/files/skripsi', authRoutes, express.static(path.join(__dirname, 'files', 'skripsi')))
+app.use('/files/ktm', express.static(path.join(__dirname, 'files', 'ktm')))
+app.use('/files/skripsi', express.static(path.join(__dirname, 'files', 'skripsi')))
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"))

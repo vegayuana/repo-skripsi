@@ -42,7 +42,7 @@
         align-items: center;
       }
       #startingLoader b{
-        color: #05386B;
+        color: white;
         font-size: 1.3rem;
         font-family: Arial, Helvetica, sans-serif;
         margin-top: 10px;
@@ -81,6 +81,18 @@
           }
         }
       })
+      window.addEventListener('fetch', function(event) {
+  event.respondWith(
+    caches.open('your-app').then(function(cache) {
+      return cache.match(event.request).then(function (response) {
+        return response || fetch(event.request).then(function(response) {
+          cache.put(event.request, response.clone());
+          return response;
+        });
+      });
+    })
+  );
+});
     </script>
   </body>
 </html>

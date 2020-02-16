@@ -26,7 +26,7 @@ export default function List(props) {
       <Modal className="list-skripsi" show={showModal} onHide={handleClose} centered>
         <div className="line" style={{backgroundColor:'#5cdb95'}}></div>
         <Modal.Header closeButton></Modal.Header>
-        <Modal.Body>Log in to get full access</Modal.Body>
+        <Modal.Body>Log in untuk mengakses detail skripsi</Modal.Body>
       </Modal>
     </div>
   )

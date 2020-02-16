@@ -8,7 +8,8 @@ require('../db/connection')
 
 //Show User Acc
 router.get('/show-acc', (req, res) =>{  
-  let sql = 'SELECT * FROM USERS WHERE role = "user"'
+  let sql = `SELECT * FROM USERS WHERE role = "user" 
+            ORDER BY created_at desc`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
     res.send(result)
@@ -55,7 +56,8 @@ router.delete('/unverified/:id', (req, res) =>{
 //Show Skripsi
 router.get('/show-skripsi', (req, res) =>{  
   let sql = `SELECT skripsi.id, skripsi.user_id, skripsi.title, skripsi.published_year, skripsi.abstract, skripsi.file_url, skripsi.uploaded_at, skripsi.processed_at, skripsi.is_approved, users.name 
-            FROM skripsi join users where skripsi.user_id = users.id`
+            FROM skripsi join users where skripsi.user_id = users.id 
+            ORDER BY uploaded_at desc`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
     res.send(result)
