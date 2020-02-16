@@ -53,10 +53,24 @@ function registerValidSW(swUrl, config) {
         installingWorker.onstatechange = () => {
           //------------install
           if (installingWorker.state === 'installed') {
+            window.addEventListener('fetch', e => {
+              console.log('Service Worker: Fetching');
+              e.respondWith(
+                fetch(e.request)
+                  .then(res => {
+                    // Make copy/clone of response
+                    const resClone = res.clone();
+                    // Open cahce
+                    caches.open('api_sw').then(cache => {
+                      // Add response to cache
+                      cache.put(e.request, resClone);
+                    });
+                    return res;
+                  })
+                  .catch(err => caches.match(e.request).then(res => res))
+              );
+            });
             if (navigator.serviceWorker.controller) {
-              console.log('1',navigator)
-              console.log('2',navigator.serviceWorker)
-              console.log('3',navigator.serviceWorker)
               // At this point, the updated precached content has been fetched,
               // but the previous service worker will still serve the older
               // content until all client tabs are closed.
