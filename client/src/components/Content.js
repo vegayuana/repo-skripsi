@@ -37,6 +37,18 @@ export class Content extends PureComponent {
       })
       localStorage.setItem('list', JSON.stringify(res.data))
     }).catch((err) => { 
+      if(err.response) console.log(err.response)
+    })
+  }
+  componentDidMount(){
+    if (navigator.onLine){
+      this.getSkripsi()
+      scrollToTop()
+      this.setState({
+        offline:false
+      })
+    }
+    else{
       if (localStorage.getItem('list')){
         let data = JSON.parse(localStorage.getItem('list'))
         this.setState({ 
@@ -51,11 +63,7 @@ export class Content extends PureComponent {
           }))].sort()
         })
       }
-      if(err.response) console.log(err.response)
-    })
-  }
-  componentDidMount(){
-    this.getSkripsi()
+    }
   }
   onChange =(e)=>{
     let text = e.target.value.toLowerCase()
