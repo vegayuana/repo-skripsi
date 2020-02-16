@@ -43,7 +43,6 @@ export class Content extends PureComponent {
   componentDidMount(){
     if (navigator.onLine){
       this.getSkripsi()
-      scrollToTop()
       this.setState({
         offline:false
       })
