@@ -10,6 +10,7 @@ export class AccountVerification extends Component {
   state ={
     users: [],
     isLoaded: false,
+    offline:false,
     showModal: false,
     id:'',
     message:''
@@ -33,8 +34,19 @@ export class AccountVerification extends Component {
     })
   }
   componentDidMount(){
-    this.getData()
-    scrollToTop()
+    if (navigator.onLine){
+      this.getData()
+      scrollToTop()
+      this.setState({
+        offline:false
+      })
+    }
+    else{
+      this.setState({
+        isLoaded:true,
+        offline:true,
+      })
+    }
   }
   unverified = (id) => {
     axios({
@@ -84,7 +96,7 @@ export class AccountVerification extends Component {
     })
   }
   render() {
-    let { isLoaded, users} = this.state
+    let { isLoaded, offline, users} = this.state
     console.log(users)
     if (!localStorage.getItem('token') || this.props.role==='user'){
       return <Redirect to={'/'} />
@@ -113,9 +125,9 @@ export class AccountVerification extends Component {
             </thead>
             <tbody>
             { !isLoaded ? <tr><td colSpan="7" className="text-center"><Spinner animation="border"  variant="secondary" /></td></tr>
+              : offline ? <tr><td colSpan="10" className="text-center offline-text">You're Offline. Check Your connection and relode</td></tr>
               : !users? <tr><td colSpan="10" className="text-center">No Data</td></tr>
-                :
-              users.map((user, i) =>
+              : users.map((user, i) =>
               <tr key={i}>
                 <th scope="row">{i+1}</th>
                 <td>{user.name}</td>

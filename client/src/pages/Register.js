@@ -43,6 +43,12 @@ export class Register extends Component {
           status: err.response.data.status
         })
       }
+      else{
+        this.setState({
+          message: 'Network error, Check your connection',
+          status: 500
+        })
+      }
     })
   }
   submitKTM = e => {
@@ -78,6 +84,12 @@ export class Register extends Component {
         this.setState({
           message: err.response.data.message,
           status: err.response.data.status
+        })
+      }
+      else{
+        this.setState({
+          message: 'Network error, Check your connection',
+          status: 500
         })
       }
     })

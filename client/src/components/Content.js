@@ -18,12 +18,12 @@ export class Content extends PureComponent {
     currentPage:1,
     postsPerPage:10
   }
-
   getSkripsi=()=>{
     axios({
       method: 'get',
       url: '/skripsi/list',
     }).then(res=>{
+      console.log(res.data)
       this.setState({ 
         skripsi: res.data,
         isLoaded: true,
@@ -35,7 +35,22 @@ export class Content extends PureComponent {
           return year.published_year
         }))].sort()
       })
+      localStorage.setItem('list', JSON.stringify(res.data))
     }).catch((err) => { 
+      if (localStorage.getItem('list')){
+        let data = JSON.parse(localStorage.getItem('list'))
+        this.setState({ 
+          skripsi: data,
+          isLoaded: true,
+          skripsiFiltered:data,
+          skripsiFilteredTemp:data,
+          skripsiFilteredCat:data,
+          skripsiFilteredYear:data,
+          years: [...new Set(data.map((year)=>{
+            return year.published_year
+          }))].sort()
+        })
+      }
       if(err.response) console.log(err.response)
     })
   }

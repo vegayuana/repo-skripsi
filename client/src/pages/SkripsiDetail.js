@@ -9,7 +9,8 @@ import { FaFilePdf } from 'react-icons/fa'
 export class SkripsiDetail extends Component {
   state={
     skripsi:[], 
-    isLoaded:false
+    isLoaded:false,
+    offline:false
   }
   getData =()=>{
     let id = this.props.match.params.id
@@ -35,17 +36,30 @@ export class SkripsiDetail extends Component {
   }
   
   componentDidMount(){
-    this.getData()
-    scrollToTop()
+    if (navigator.onLine){
+      this.getData()
+      scrollToTop()
+      this.setState({
+        offline:false
+      })
+    }
+    else{
+      this.setState({
+        isLoaded:true,
+        offline:true,
+      })
+    }
   }
   
   render() {
-    let { isLoaded, skripsi } = this.state
+    let { isLoaded, skripsi, offline } = this.state
     if (!localStorage.getItem('token')){
       return <Redirect to={'/'} />
     }
     return (
-      <div className="main-box">      
+      <div className="main-box"> 
+        { offline ? <tr><td colSpan="10" className="text-center offline-text">You're Offline. Check Your connection and relode</td></tr> :
+        <>  
         <div className="row">
           <div className="col-12 col-md-4">
             <div className="small-box">
@@ -110,6 +124,8 @@ export class SkripsiDetail extends Component {
           </div>
           </div>
         </div>
+        </>
+        }
       </div>
     )
   }

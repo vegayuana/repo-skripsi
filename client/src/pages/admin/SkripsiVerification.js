@@ -10,6 +10,7 @@ export class SkripsiVerification extends Component {
   state ={
     skripsi: [],
     isLoaded: false,
+    offline:false,
     showModal: false,
     message:'',
     id:''
@@ -33,8 +34,19 @@ export class SkripsiVerification extends Component {
     })
   }
   componentDidMount(){
-    this.getData()
-    scrollToTop()
+    if (navigator.onLine){
+      this.getData()
+      scrollToTop()
+      this.setState({
+        offline:false
+      })
+    }
+    else{
+      this.setState({
+        isLoaded:true,
+        offline:true,
+      })
+    }
   }
   unapproved = (id) => {
     axios({
@@ -84,7 +96,7 @@ export class SkripsiVerification extends Component {
     })
   }
   render() {
-    let { isLoaded, skripsi} = this.state
+    let { isLoaded, skripsi, offline} = this.state
     if (!localStorage.getItem('token')|| this.props.role==='user'){
       return <Redirect to={'/'} />
     }
@@ -114,8 +126,9 @@ export class SkripsiVerification extends Component {
             </thead>
             <tbody>
             { !isLoaded ? <tr><td colSpan="10" className="text-center"><Spinner animation="border" variant="secondary" /></td></tr>
+              : offline ? <tr><td colSpan="10" className="text-center offline-text">You're Offline. Check Your connection and relode</td></tr>
               : !skripsi ? <tr><td colSpan="10" className="text-center">No Data</td></tr> 
-                : skripsi.map((item, i) => 
+              : skripsi.map((item, i) => 
                 <tr key={i}>
                   <th scope="row">{i+1}</th>
                   <td>{item.title}</td>

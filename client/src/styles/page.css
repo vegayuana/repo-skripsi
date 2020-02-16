@@ -436,6 +436,11 @@ a{
   transition: 0.5s;
   opacity: 1;
 }
+.offline-text{
+  padding: 20px;
+  font-weight: bold;
+  color: grey;
+}
 @keyframes cssAnimation {
   to   { opacity: 0; }
 }

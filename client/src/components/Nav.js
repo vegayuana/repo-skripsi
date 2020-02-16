@@ -95,6 +95,10 @@ export class Nav extends PureComponent {
           message:err.response.data.message,
           status:err.response.data.status,
         })
+      } else{
+        this.setState({
+          status: 500
+        })
       }
     }) 
   }
@@ -131,12 +135,12 @@ export class Nav extends PureComponent {
                       Login
                     </button>
                     {status===400? 
-                    <div className='alert alert-danger login-alert' role='alert'>
+                    <div className='alert alert-warning login-alert' role='alert'>
                       <strong>{message}</strong>
                     </div>
                     : status===500 ?
-                    <div className='alert alert-warning login-alert' role='alert'>
-                      <strong>Something goes wrong </strong>please try again
+                    <div className='alert alert-danger login-alert' role='alert'>
+                      <strong>Something goes wrong </strong>check your connection and try again
                     </div>
                     :               
                     <></>

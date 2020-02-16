@@ -1,34 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/logo-192.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="HandheldFriendly" content="true" />
-    <meta name="theme-color" content="#379683" />
-    <meta name="description"  content="Web site created using create-react-app"/>
+    <meta charset='utf-8' />
+    <link rel='icon' href='%PUBLIC_URL%/logo-192.png' />
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1' />
+    <meta name='HandheldFriendly' content='true' />
+    <meta name='theme-color' content='#379683' />
+    <meta name='description'  content='Web site created using create-react-app'/>
     
     <!-- Splash Screen untuk IOS -->
-    <meta name="apple-mobile-web-app-title" content="Repo Skripsi">
-    <meta name="apple-mobile-web-app-status-bar-style" content="#379683">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <link rel="apple-touch-icon" size="192x192" href="%PUBLIC_URL%/logo-192.png"/>
-    <link rel="apple-touch-icon" size="512x512" href="%PUBLIC_URL%/logo-512.png"/>
+    <meta name='apple-mobile-web-app-title' content='Repo Skripsi'>
+    <meta name='apple-mobile-web-app-status-bar-style' content='#379683'>
+    <meta name='apple-mobile-web-app-capable' content='yes'>
+    <link rel='apple-touch-icon' size='192x192' href='%PUBLIC_URL%/logo-192.png'/>
+    <link rel='apple-touch-icon' size='512x512' href='%PUBLIC_URL%/logo-512.png'/>
     
     <!-- Preconnect Prefetch Preload -->
-    <link rel="preconnect" href="http:\\localhost:5000" crossorigin>
-    <link rel="dns-prefetch" href="http:\\localhost:5000">
+    <link rel='preconnect' href='http:\\localhost:5000' crossorigin>
+    <link rel='dns-prefetch' href='http:\\localhost:5000'>
 
     <!-- font -->
-    <link href="%PUBLIC_URL%/fonts/font.css" rel="stylesheet" />
+    <link href='%PUBLIC_URL%/fonts/font.css' rel='stylesheet' />
     
     <!-- manifest -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel='manifest' href='%PUBLIC_URL%/manifest.json' />
     <!--
       Only files inside the `public` folder can be referenced from the HTML.
     -->
-    <style type="text/css">
+    <style type='text/css'>
       body{
         margin: 0px;
       }
@@ -57,43 +57,36 @@
   </head>
   <body >
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <div id="startingLoader">
+    <div id='root'></div>
+    <div id='startingLoader'>
       <img src='%PUBLIC_URL%/logo.webp'>
       <b>REPOSITORI SKRIPSI</b>
       <p>Harap tunggu..</p>
     </div>
     <script>
-      function handleNetworkChange(event) {
+      function checkOnline(){
         if (navigator.onLine) {
-          document.body.classList.remove("offline")
+          document.body.classList.remove('offline')
         } else {
-          document.body.classList.add("offline")
+          document.body.classList.add('offline')
         }
       }
-      window.addEventListener("online", handleNetworkChange)
-      window.addEventListener("offline", handleNetworkChange)
+      checkOnline()
 
-      window.addEventListener("click", function(){
+      function handleNetworkChange(event) {
+        checkOnline()
+      }
+      window.addEventListener('online', handleNetworkChange)
+      window.addEventListener('offline', handleNetworkChange)
+
+      window.addEventListener('click', function(){
           if(document.getElementById('toggle1')){
           if (document.getElementById('toggle1').classList.contains('show')){
             document.getElementById('toggle1').classList.remove('show')
           }
         }
       })
-      window.addEventListener('fetch', function(event) {
-
-  // event.respondWith(
-  //   caches.open('your-app').then(function(cache) {
-  //     return cache.match(event.request).then(function (response) {
-  //       return response || fetch(event.request).then(function(response) {
-  //         cache.put(event.request, response.clone());
-  //         return response;
-  //       });
-  //     });
-  //   })
-  // );
-});
+     
     </script>
   </body>
 </html>
