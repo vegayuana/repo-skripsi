@@ -22,6 +22,7 @@ export class Nav extends PureComponent {
     message: '',
     status: null,
     showModal: false,
+    showLoading:false,
     loginState:false
   }
   componentDidMount(){
@@ -57,6 +58,9 @@ export class Nav extends PureComponent {
   }
   submitLogin = e => {
     e.preventDefault()
+    this.setState({
+      showLoading:true
+    })
     axios({
       method: 'post',
       url: '/login',
@@ -67,10 +71,13 @@ export class Nav extends PureComponent {
     }).then(res => {
       let loginInfo = res.data.data
       console.log ('login info', loginInfo)
+      this.setState({
+        showLoading:false
+      })
       if (loginInfo){
         this.setState({
           status:res.data.status,
-          showModal:true
+          showModal:true,
         })
         if (loginInfo.isLogged) {
           this.props.login(loginInfo)
@@ -90,6 +97,9 @@ export class Nav extends PureComponent {
         })
       }
     }).catch((err) => { 
+      this.setState({
+        showLoading:false
+      })
       if(err.response){
         this.setState({
           message:err.response.data.message,
@@ -97,7 +107,7 @@ export class Nav extends PureComponent {
         })
       } else{
         this.setState({
-          status: 500
+          status: 500,
         })
       }
     }) 
@@ -126,13 +136,13 @@ export class Nav extends PureComponent {
           <div className='collapse navbar-collapse' id='toggle1'>
             <ul className='navbar-nav'>
               <li className='nav-item dropdown'>
-                <button className='btn btn-nav btn-transition dropdown' data-toggle='dropdown'>Login</button>
+                <button className='btn btn-nav btn-transition dropdown' data-toggle='dropdown'>Masuk</button>
                 <ul className='dropdown-menu login-form'>
                   <form className='form-inline'>
                     <input type='text' id='npm' className='form-control' placeholder='NPM' onChange={this.handleChange} required/>
                     <input type='password' id='pass' className='form-control' placeholder='Password' onChange={this.handleChange} required/>
                     <button type='submit' className='btn btn-primary' onClick={e => this.submitLogin(e)}>
-                      Login
+                      Masuk
                     </button>
                     {status===400? 
                     <div className='alert alert-warning login-alert' role='alert'>
@@ -150,7 +160,7 @@ export class Nav extends PureComponent {
               </li>
               <li className='nav-item'>
                 <Link to='/register' className='btn btn-nav btn-transition'>
-                  Sign Up
+                  Register
                 </Link>
               </li>
             </ul>
@@ -179,9 +189,14 @@ export class Nav extends PureComponent {
           </>
           }
           <Modal show={this.state.showModal} onHide={this.handleClose} centered>
-            <Modal.Body className='login-modal'>
+            <Modal.Body className='modal-box'>
             <div className='icon-check'><FaRegCheckCircle/></div>
               Log In Berhasil
+            </Modal.Body>
+          </Modal>
+          <Modal show={this.state.showLoading} centered>
+            <Modal.Body className='modal-box'>
+              Sedang diproses ...
             </Modal.Body>
           </Modal>
         </nav>

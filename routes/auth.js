@@ -13,13 +13,13 @@ router.post('/login', (req, res) =>{
   let {npm, password} = req.body
   if ( !npm || !password){
     if (!npm && !password){
-      return utils.template_response(res, 400, "NPM & password need to be filled in" , null)
+      return utils.template_response(res, 400, "NPM & password harus diisi" , null)
     }
     if(!npm){
-      return utils.template_response(res, 400, "NPM need to be filled in" , null)
+      return utils.template_response(res, 400, "NPM harus diisi" , null)
     }
     else{
-      return utils.template_response(res, 400, "Password need to be filled in" , null)
+      return utils.template_response(res, 400, "Password harus" , null)
     }
   }
   
@@ -28,12 +28,12 @@ router.post('/login', (req, res) =>{
     try{
       //Check if user exist 
       if (result.length < 1){
-        return utils.template_response(res, 400, "Account has not been registered" , null)
+        return utils.template_response(res, 400, "Akun belum terdaftar" , null)
       }
       //Check is_active
       let user = result[0]
       if (user.is_active != 1){
-        return utils.template_response(res, 400, "Account has not been activated. Please wait for admin to review", null)
+        return utils.template_response(res, 400, "Akun belum diaktifkan. Harap tunggu admin meninjau akun", null)
       }
       //Compare Pass
       if( await bcrypt.compare(password, user.password)){ 
@@ -57,10 +57,10 @@ router.post('/login', (req, res) =>{
           if (err) {
             return utils.template_response(res, 500, "internal api error", null)
           }
-          return utils.template_response(res, 200, "Login success", {token: bearer, isLogged:true, role:user.role})
+          return utils.template_response(res, 200, "Login Berhasil", {token: bearer, isLogged:true, role:user.role})
         })
       }
-      return utils.template_response(res, 400, "Password does not match", {token: '', isLogged:false})
+      return utils.template_response(res, 400, "Password tidak cocok", {token: '', isLogged:false})
     }
     catch(err){
       return (err)

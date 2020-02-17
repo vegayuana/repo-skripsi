@@ -35,7 +35,7 @@ router.put('/edit-pass', async(req, res) =>{
     let {newPass, oldPass} = req.body
      //Check Fields
     if (!newPass || !oldPass ) {
-      return utils.template_response(res, 400, "All fields need to be filled in" , null)
+      return utils.template_response(res, 400, "Semua field harus diisi" , null)
     }
     let payload={}
     jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
@@ -51,19 +51,19 @@ router.put('/edit-pass', async(req, res) =>{
         if( await bcrypt.compare(oldPass, result[0].password)){
           console.log('Old password matches the database')
           if (oldPass===newPass){
-            return utils.template_response(res, 400, "The new password must be different from the old password", null)
+            return utils.template_response(res, 400, "Password baru harus berbeda dari password lama", null)
           }
           else{
             let password = await bcrypt.hash(newPass, 10)
             let sql = `UPDATE users SET password='${password}' where id='${payload.id}'`
             db.query(sql, (err, result)=>{
               if (err) console.log(err)
-              return utils.template_response(res, 200, "Changing Password Sucessfully", null)
+              return utils.template_response(res, 200, "Edit Password Berhasil", null)
             })
           }
         }
         else{
-          return utils.template_response(res, 400, "Old password does not match the database", null)
+          return utils.template_response(res, 400, "Password lama salah", null)
         }
       }
       catch(err){
@@ -106,7 +106,7 @@ const fileFilter = (req, file, cb) => {
     cb(null, true)
   } else {
     let err={
-      message:'File must be pdf'
+      message:'File harus pdf'
     }
     cb(err, false)
   }
@@ -130,7 +130,7 @@ router.post('/upload/', (req, res) =>{
     let { title, year, abstract, category, keywords} = req.body
     console.log(req.body)
     if (!title || !year || !abstract || !req.file) {
-      return utils.template_response(res, 400, "All fields need to be filled in" , null)
+      return utils.template_response(res, 400, "Semua field harus diisi" , null)
     }
     //Get user id
     let bearer = req.get('Authorization')
@@ -146,7 +146,7 @@ router.post('/upload/', (req, res) =>{
         return utils.template_response(res, 400, err.response, null)
       }  
       if(skripsi.length>0){
-        return utils.template_response(res, 422, "User has uploaded a file" , null)
+        return utils.template_response(res, 422, "Pengguna sudah pernah menggunggah file" , null)
       }
       let path_url = req.file.path
       let post = {
@@ -166,7 +166,7 @@ router.post('/upload/', (req, res) =>{
           return utils.template_response(res, 500, err.message , null)
         } 
       console.log('success!')  
-      return utils.template_response(res, 200, "Upload Successfully", null)
+      return utils.template_response(res, 200, "Unggah Berhasil", null)
       })
     })   
   })
@@ -184,7 +184,7 @@ router.put('/reupload/', (req, res) =>{
     let { title, year, abstract, category, keywords} = req.body
     console.log(req.body)
     if (!title || !year || !abstract || !req.file) {
-      return utils.template_response(res, 400, "All fields need to be filled in" , null)
+      return utils.template_response(res, 400, "Semua field harus diisi" , null)
     }
     //Get user id
     let bearer = req.get('Authorization')
@@ -202,10 +202,10 @@ router.put('/reupload/', (req, res) =>{
         return utils.template_response(res, 400, err.response, null)
       }  
       if(skripsi.length===0){
-        return utils.template_response(res, 422, "User hasn't uploaded a file" , null)
+        return utils.template_response(res, 422, "Pengguna belum menggunggah file" , null)
       }
       if(skripsi[0].is_approve===1){
-        return utils.template_response(res, 422, "File has been published" , null)
+        return utils.template_response(res, 422, "File sudah dipublikasikan" , null)
       }
       let old_file=skripsi[0].file_url
       console.log('Old File', old_file)
@@ -230,8 +230,8 @@ router.put('/reupload/', (req, res) =>{
           console.log(err)
           return utils.template_response(res, 500, err.message , null)
         } 
-      console.log('success!')  
-      return utils.template_response(res, 200, "Reupload Successfully", null)
+      console.log('Success!')  
+      return utils.template_response(res, 200, "Unggah Ulang berhasil", null)
       })
     })   
   })

@@ -3,13 +3,14 @@ import { connect } from 'react-redux'
 import { Redirect, Link } from 'react-router-dom'
 import axios from 'axios'
 import { scrollToTop } from '../helpers/autoScroll'
-import { Spinner } from 'react-bootstrap'
+import { Spinner, Modal } from 'react-bootstrap'
 
 export class Upload extends Component {
   initialState={
     skripsi:{},
     isLoaded:false,
     offline: false,
+    showLoading:false,
     title:'',
     titleAlert:'initial',
     year:'',
@@ -25,6 +26,9 @@ export class Upload extends Component {
   state=this.initialState
   submit = (e) =>{
     e.preventDefault()
+    this.setState({
+      showLoading:true
+    })
     console.log(this.state)
     let {title, year, abstract, category, keywords} = this.state
     let {file} = this.state
@@ -48,8 +52,12 @@ export class Upload extends Component {
       this.setState({
         message:res.data.message,
         status:res.data.status,
+        showLoading:false
       })
     }).catch((err) => { 
+      this.setState({
+        showLoading:false
+      })
       if( err.response){
         this.setState({
           message:err.response.data.message,
@@ -61,6 +69,9 @@ export class Upload extends Component {
   handleInput = (e) =>{
     console.log(e.target.id)
     console.log(e.target.value)
+    if(e.target.id==='title'){
+      e.target.value=e.target.value.replace(/\n/g, ' ')
+    }
     this.setState({
       [e.target.id] : e.target.value,
     })
@@ -127,9 +138,10 @@ export class Upload extends Component {
       <div className="row no-margin">
         <div className="upload-box">
           <h3>Unggah</h3>
-          {offline? <p>You're Offline. Check Your connection and refresh</p> 
+          {offline? <p>Anda sedang offline. Cek koneksi anda dan refresh </p> 
             : !isLoaded? <Spinner animation="border" variant="secondary" /> 
             : skripsi ? <><hr/><div className="text-middle"><h5>Anda sudah mengunggah skripsi</h5><p>Cek status skripsi di menu profil</p></div></> :
+          <>
           <form ref="uploadForm">
             {status === 200?       
               <>     
@@ -141,7 +153,7 @@ export class Upload extends Component {
               <>
               <div className="form-group">
                 <label>Judul *</label>
-                <input type="text" id="title" onBlur={this.handleInput} className="form-control" placeholder="Judul Skripsi"/>
+                <textarea type="text" id="title" maxLength="255" onBlur={this.handleInput} className="form-control" placeholder="Judul Skripsi"/>
                 { titleAlert==='initial'? <></> : !titleAlert ?
                   <div className="alert alert-danger" role="alert">
                     <strong>Judul tidak boleh kosong</strong>
@@ -203,6 +215,12 @@ export class Upload extends Component {
               </>
             }
           </form>
+          <Modal show={this.state.showLoading} centered>
+            <Modal.Body className='modal-box'>
+              Sedang diproses ...
+            </Modal.Body>
+          </Modal>
+          </>
           }
         </div>
       </div>

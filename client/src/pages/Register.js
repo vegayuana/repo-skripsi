@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import bg2 from '../icons/bg2.webp'
 import axios from 'axios'
-import {ProgressBar} from 'react-bootstrap'
+import { scrollToTop } from '../helpers/autoScroll'
+import { ProgressBar, Modal} from 'react-bootstrap'
 export class Register extends Component {
   initialState = {
+    showLoading:false,
     npm: '', 
     pass:'',
     passCheck: '', 
@@ -17,6 +19,9 @@ export class Register extends Component {
   }
   state=this.initialState
   submit = (e) =>{
+    this.setState({
+      showLoading:true
+    })
     e.preventDefault()
     let {npm, pass}= this.state
     let name = this.refs.name.value
@@ -34,25 +39,32 @@ export class Register extends Component {
         message: '',
         displayForm1: 'none',
         displayForm2: 'block',
-        progress: this.state.progress + 33
+        progress: this.state.progress + 33,
+        showLoading:false
       })
     }).catch(err => {
       if (err.response) {
         this.setState({
           message: err.response.data.message,
-          status: err.response.data.status
+          status: err.response.data.status,
         })
       }
       else{
         this.setState({
           message: 'Network error, Check your connection',
-          status: 500
+          status: 500,
         })
       }
+      this.setState({
+        showLoading:false
+      })
     })
   }
   submitKTM = e => {
     e.preventDefault()
+    this.setState({
+      showLoading:true
+    })
     let { npm, pass, file } = this.state
     let name = this.refs.name.value
     const formData = new FormData()
@@ -83,13 +95,14 @@ export class Register extends Component {
       if (err.response) {
         this.setState({
           message: err.response.data.message,
-          status: err.response.data.status
+          status: err.response.data.status,
+          showLoading:false
         })
       }
       else{
         this.setState({
           message: 'Network error, Check your connection',
-          status: 500
+          status: 500,
         })
       }
     })
@@ -140,6 +153,9 @@ export class Register extends Component {
     }
     return true
   }
+  componentDidMount(){
+    scrollToTop()
+  }
   render() {
     let {npm, pass, passCheck, message, status} =this.state
     return (
@@ -154,7 +170,7 @@ export class Register extends Component {
               </div>
               <fieldset style={{ display: this.state.displayForm1 }}>
                 <div className='form-group'>
-                  <label> Name</label>
+                  <label>Nama</label>
                   <input type='text' ref='name' className='form-control' placeholder='Name'/>
                 </div>
                 <div className='form-group'>
@@ -172,7 +188,7 @@ export class Register extends Component {
                   <input type='password' onBlur={this.handleInput} id='pass' className='form-control' placeholder='Password'/>
                 </div>
                 <div className='form-group'>
-                  <label>Confirm Password</label>
+                  <label>Konfirmasi Password</label>
                   <input type='password' onChange={this.handleRetype} className='form-control' placeholder='Password'/>
                 </div>
                 {passCheck === true || !pass ? ( <></> ) : (
@@ -189,7 +205,7 @@ export class Register extends Component {
                   </div>
                 )}
               </fieldset>
-              <fieldset style={{ display: this.state.displayForm2, marginTop: '50px' }}>
+              <fieldset style={{ display: this.state.displayForm2 }}>
                 <div className='form-group'>
                   <label>Foto KTM</label>
                   <input type='file' id='ktm' onChange={this.handleFile} className='form-control-file' accept='.png, .jpg, .jpeg'/>
@@ -203,19 +219,24 @@ export class Register extends Component {
                   </div>
                 )}
               </fieldset>
-              <fieldset style={{ display: this.state.displayForm3, marginTop: '50px' }}>
+              <fieldset style={{ display: this.state.displayForm3}}>
                 {status === 200 ? ( 
-                  <div className='alert alert-success' style={{ textAlign: 'center' }} role='alert'>
+                  <div className='alert alert-success' style={{ textAlign: 'center', marginTop: '0px' }} role='alert'>
                     <strong>{this.state.message}</strong> Please Log In
                   </div>
                 ) : (<></>)}
                 <button className='btn btn-primary' onClick={e => this.back(e)}>
-                  Back
+                  Kembali
                 </button>
               </fieldset>
             </form>
           </div>
           <div className='col-xl-3'></div>
+          <Modal show={this.state.showLoading} centered>
+            <Modal.Body className='modal-box'>
+              Sedang diproses ...
+            </Modal.Body>
+          </Modal>
         </div>
       </>
     )

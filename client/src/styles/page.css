@@ -105,6 +105,16 @@ a{
 .alert{
   margin-top:0.5rem
 }
+.modal-box{
+  text-align: center;
+  background-color: white;
+  border-radius: 5px;
+  border: 0px;
+  padding: 3rem;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #5cdb95;
+}
 .main-box{
   margin: 50px 85px 80px;
 }
@@ -207,9 +217,11 @@ a{
 .detail-box h4 {
   color: #05386B;
   margin-bottom: 0px;
+  font-family: 'Oswald', sans-serif;
 }
 .detail-box h5{
-  font-size: 1.1rem;
+  font-size: 1.3rem;
+  font-family: 'Oswald', sans-serif;
 }
 .detail-box P{
   text-align: end;
@@ -233,6 +245,9 @@ a{
   box-shadow: 0 3px 20px rgba(0,0,0,.05);
   padding: 20px;
   margin-bottom: 2rem;
+}
+.file-box h5{
+  font-family: 'Oswald', sans-serif;
 }
 /* Register */
 .register-box{
@@ -299,6 +314,7 @@ a{
   border-radius: 4px;
   font-size: 14px;
   padding: 5px;
+  margin-bottom: 5px;
 }
 .table-skripsi .btn-table{
   width: 100%;
@@ -380,6 +396,13 @@ a{
 .profile-box .row{
   margin-bottom: 0.2rem;
 }
+.abs{
+  max-height: 400px;
+  overflow-y: auto;
+  box-shadow: inset 0px 0px 5px lightgrey;
+  padding: 10px;
+  margin-bottom: 10px;
+}
 .title{
   text-align: center;
   font-size: 1.4rem;
@@ -422,7 +445,7 @@ a{
 .upload-box h3{
   text-align: center;
 }
-.upload-box textarea{
+.upload-box textarea#abstract{
   height: 150px;
 }
 .table-box Table{
@@ -504,6 +527,9 @@ a{
   .list-box{
     padding: 18px 10px;
   }
+  h3{
+    font-size: 1.5rem;
+  }
   .list h5{
     font-size: 1rem;
   }
@@ -542,12 +568,24 @@ a{
   .profile-box{
     padding: 20px;
   }
+  .profile-box h5, .profile-box p{
+    font-size: 0.8rem;
+  }
+  .profile-box .icon-check{
+    font-size: smaller;
+  }
+  .abs{
+    max-height: 180px;
+  }
   .ribbon{
     padding: 10px 20px;
   }
   .upload-box{
     margin: 10px 20px 2rem;
     padding: 20px
+  }
+  .btn-table{
+    width: 100%;
   }
 }
 @media screen and (min-width: 768px ) and (max-width:999px){

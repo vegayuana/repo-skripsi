@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {Spinner} from 'react-bootstrap'
+import { Spinner, Modal} from 'react-bootstrap'
 import { connect } from 'react-redux'
 import axios from 'axios'
 
@@ -7,6 +7,7 @@ export class ProfileInfo extends Component {
   state={
     user:{},
     isLoaded:false,
+    showLoading:false,
     offline:false,
     newPass:'',
     oldPass:'',
@@ -46,6 +47,9 @@ export class ProfileInfo extends Component {
   }
   submit=(e)=>{
     e.preventDefault()
+    this.setState({
+      showLoading:true
+    })
     let { newPass, oldPass } = this.state
     axios({
       method: 'put',
@@ -61,8 +65,12 @@ export class ProfileInfo extends Component {
       this.setState({
         message:res.data.message,
         status:res.data.status,
+        showLoading:false
       })
     }).catch((err) => { 
+      this.setState({
+        showLoading:false
+      })
       if(err.response){
         this.setState({
           message:err.response.data.message,
@@ -107,7 +115,7 @@ export class ProfileInfo extends Component {
     console.log('profil')
     return (
       <div>
-      {offline? <p>You're Offline. Check Your connection and refresh</p>
+      {offline? <p>Anda sedang offline. Cek koneksi anda dan refresh </p>
       : !isLoaded ? <Spinner animation="border" variant="secondary" /> 
       : <>
         <p>{user.name}</p>
@@ -162,6 +170,11 @@ export class ProfileInfo extends Component {
             </div>
           </div>
         </div>
+        <Modal show={this.state.showLoading} centered>
+          <Modal.Body className='modal-box'>
+            Sedang diproses ...
+          </Modal.Body>
+        </Modal>
         </>
       }
       </div>

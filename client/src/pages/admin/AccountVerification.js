@@ -12,6 +12,8 @@ export class AccountVerification extends Component {
     isLoaded: false,
     offline:false,
     showModal: false,
+    showLoading:false,
+    showAlert:false,
     id:'',
     message:''
   }
@@ -49,6 +51,9 @@ export class AccountVerification extends Component {
     }
   }
   unverified = (id) => {
+    this.setState({
+      showLoading:true
+    })
     axios({
       method: 'delete',
       url: `/admin/unverified/${id}`,
@@ -58,9 +63,15 @@ export class AccountVerification extends Component {
     }).then(()=>{
       this.setState({
         showModal:false,
+        showLoading:false
       })
       this.getData()
     }).catch((err) => { 
+      this.setState({
+        showModal:false,
+        showLoading:false,
+        showAlert:true
+      })
       if(err.response){
         console.log(err.response)
         this.setState({
@@ -70,18 +81,32 @@ export class AccountVerification extends Component {
     })
   }
   verified = (id) => {
+    this.setState({
+      showLoading:true
+    })
     axios({
       method: 'put',
       url: `/admin/verified/${id}`,
       headers:{
         Authorization: this.props.token
       }
+    }).then(res=>{
+      this.setState({
+        showLoading:false
+      })
+      this.getData()
     }).catch((err) => { 
+      this.setState({
+        showLoading:false,
+        showAlert:true
+      })
       if(err.response){
-      console.log(err.response.statusText)
+        console.log(err.response)
+        this.setState({
+          message:err.response.data.message
+        })
       }
     })
-    this.getData()
   }  
   handleShow = (id) =>{
     this.setState({
@@ -92,11 +117,12 @@ export class AccountVerification extends Component {
   handleClose = () => {
     this.setState({
       showModal:false,
+      showAlert:false,
       message:''
     })
   }
   render() {
-    let { isLoaded, offline, users} = this.state
+    let { isLoaded, offline, users, message} = this.state
     console.log(users)
     if (!localStorage.getItem('token') || this.props.role==='user'){
       return <Redirect to={'/'} />
@@ -114,18 +140,18 @@ export class AccountVerification extends Component {
             <thead>
               <tr>
                 <th scope="col">No</th>
-                <th scope="col">Nama</th>
-                <th scope="col">NPM</th>
-                <th scope="col">KTM</th>
-                <th scope="col">Waktu Daftar</th>
-                <th scope="col">Waktu Diproses</th>
-                <th scope="col">Status</th>
+                <th scope="col" className="td-md">Nama</th>
+                <th scope="col" className="td-md">NPM</th>
+                <th scope="col" className="td-md">KTM</th>
+                <th scope="col" className="td-sm">Waktu Daftar</th>
+                <th scope="col" className="td-sm">Waktu Diproses</th>
+                <th scope="col" className="td-md">Status</th>
                 <th scope="col">Handle</th>
               </tr>
             </thead>
             <tbody>
             { !isLoaded ? <tr><td colSpan="7" className="text-center"><Spinner animation="border"  variant="secondary" /></td></tr>
-              : offline ? <tr><td colSpan="10" className="text-center offline-text">You're Offline. Check Your connection and refresh</td></tr>
+              : offline ? <tr><td colSpan="10" className="text-center offline-text">Anda sedang offline. Cek koneksi anda dan refresh </td></tr>
               : !users? <tr><td colSpan="10" className="text-center">No Data</td></tr>
               : users.map((user, i) =>
               <tr key={i}>
@@ -153,11 +179,17 @@ export class AccountVerification extends Component {
         <Modal show={this.state.showModal} onHide={this.handleClose} centered>
           <Modal.Body className='admin-modal'>
             <p>Apakah anda yakin data akun tersebut tidak valid?</p>
-            {!this.state.message? <></> :
-            <div className="alert alert-warning" role="alert">
-              <strong>{this.state.message}</strong>
-            </div> }
             <button onClick={()=>this.unverified(this.state.id)} className="btn-table btn-primary">Ya</button>
+          </Modal.Body>
+        </Modal>
+        <Modal show={this.state.showLoading} centered>
+          <Modal.Body className='modal-box'>
+            Sedang diproses ...
+          </Modal.Body>
+        </Modal>
+        <Modal show={this.state.showAlert} onHide={this.handleClose} centered>
+          <Modal.Body className='modal-box'>
+            <p className="text-danger">{message? <>{message}</> : <>Gagal! </>}. Silahkan ulangi</p>
           </Modal.Body>
         </Modal>
       </div>

@@ -21,8 +21,13 @@ router.put('/verified/:id', (req, res) =>{
   const id = req.params.id
   let sql = `UPDATE users SET is_active=${true}, processed_at=NOW() where id='${id}'`
   db.query(sql, (err, result)=>{
-    if (err) console.log(err)
+    if (err) {
+      console.log(err)
+      return utils.template_response(res, 500, 'Gagal' , null)
+    }
+    return utils.template_response(res, 200, 'Berhasil' , null)
   })
+  return utils.template_response(res, 500, 'Gagal' , null)
 })
 
 //Unverified
@@ -32,7 +37,7 @@ router.delete('/unverified/:id', (req, res) =>{
   db.query(find, (err, result)=>{
     if (err) {
       console.log(err)
-      return utils.template_response(res, 500, 'Failed to delete the photo' , null)
+      return utils.template_response(res, 500, 'Gagal menghapus foto KTM' , null)
     }
     else{
       let file_url=result[0].ktm_url
@@ -44,10 +49,10 @@ router.delete('/unverified/:id', (req, res) =>{
       db.query(sql, (err, result)=>{
         if (err) {
           console.log(err)
-          return utils.template_response(res, 500, 'Failed to delete' , null)
+          return utils.template_response(res, 500, 'Akun gagal Dihapus' , null)
         }
         console.log('Success')
-        return utils.template_response(res, 200, 'Success' , null)
+        return utils.template_response(res, 200, 'Berhasil' , null)
       })
     }
   })
@@ -69,22 +74,28 @@ router.put('/approved/:id', (req, res) =>{
   const id = req.params.id
   let sql = `UPDATE skripsi SET is_approved=${true}, processed_at=NOW() where id='${id}'`
   db.query(sql, (err, result)=>{
-    if (err) console.log(err)
+    if (err) {
+      console.log(err)
+      return utils.template_response(res, 500, 'Gagal' , null)
+    }
+    console.log('approved')
+    return utils.template_response(res, 200, 'Berhasil' , null)
   })
+  return utils.template_response(res, 500, 'Gagal' , null)
 })
 
 //Unpproved Skripsi
 router.put('/unapproved/:id', (req, res) =>{  
   const id = req.params.id
-  console.log('this is id', id)
   let sql = `UPDATE skripsi SET is_approved=${false}, processed_at=NOW() where id='${id}'`
   db.query(sql, (err, result)=>{
     if (err) {
       console.log(err)
-      return utils.template_response(res, 500, 'Failed to delete' , null)
+      return utils.template_response(res, 500, 'Gagal' , null)
     }
-    console.log('Success')
-    return utils.template_response(res, 200, 'Success' , null)
+    console.log('unapproved')
+    return utils.template_response(res, 200, 'Berhasil' , null)
   })
+  return utils.template_response(res, 500, 'Gagal' , null)
 })
 module.exports = router

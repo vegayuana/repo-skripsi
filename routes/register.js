@@ -24,7 +24,7 @@ const fileFilter = (req, file, cb) => {
     cb(null, true)
   } else {
     let err={
-      message:'File must be jpeg, jpg, or png'
+      message:'File harus jpeg, jpg, or png'
     }
     cb(err, false)
   }
@@ -47,7 +47,7 @@ router.post('/register', (req, res) =>{
       return utils.template_response(res, 500, err.message , null)
     }
     if (!req.file){
-      return utils.template_response(res, 500, 'File cannot be empty' , null)
+      return utils.template_response(res, 500, 'File tidak boleh kosong' , null)
     }
     password = await bcrypt.hash(password, 10)
     let data = {
@@ -61,10 +61,10 @@ router.post('/register', (req, res) =>{
     db.query(sql, data, (err, result)=>{
       if (err){
         console.log('Failed',err)
-        return utils.template_response(res, 400, "Failed to register", null)
+        return utils.template_response(res, 400, "Gagal register", null)
       }
       console.log('Success')
-      return utils.template_response(res, 200, "Registered Sucessfully", null)
+      return utils.template_response(res, 200, "Register Berhasil", null)
     })
   }))
 })
@@ -74,21 +74,21 @@ router.post('/check-form', (req, res) =>{
   console.log(req.body)
   //Check Fields
   if (!name || !npm || !password ) {
-    return utils.template_response(res, 400, "All fields need to be filled in" , null)
+    return utils.template_response(res, 400, "Semua field harus diisi" , null)
   }
   //Check min NPM
   if(npm.length<12 || npm.length>=15 ) {
-    return utils.template_response(res, 422, "NPM is incorrect. Require number with 12-14 digits" , null)
+    return utils.template_response(res, 422, "NPM salah. Memerlukan angka 12 digit" , null)
   }
   //Check if npm is already registered
   let findUser = `SELECT npm FROM users where role='user' AND npm='${npm}'`
   db.query(findUser,(err, data)=>{
     if (err) console.log(err.response)
     if(data.length>0){
-      return utils.template_response(res, 422, "NPM is already registered" , null)
+      return utils.template_response(res, 422, "NPM sudah pernah didaftarkan" , null)
     }
-    console.log('data valid')
-    return utils.template_response(res, 200, "Data is valid", null)
+    console.log('Data is valid')
+    return utils.template_response(res, 200, "Data valid", null)
   })
 })
 module.exports = router

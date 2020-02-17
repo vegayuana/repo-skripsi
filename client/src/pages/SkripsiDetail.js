@@ -62,7 +62,7 @@ export class SkripsiDetail extends Component {
           <div className="col-12">
             <div className="line"></div>
             <div className="offline-box">
-              <p>You're Offline. Check Your connection and refresh</p>
+              <p>Anda sedang offline. Cek koneksi anda dan refresh </p>
             </div>
           </div>
         </div>

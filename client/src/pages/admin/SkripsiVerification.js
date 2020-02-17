@@ -12,6 +12,8 @@ export class SkripsiVerification extends Component {
     isLoaded: false,
     offline:false,
     showModal: false,
+    showLoading:false,
+    showAlert:false,
     message:'',
     id:''
   }
@@ -49,6 +51,9 @@ export class SkripsiVerification extends Component {
     }
   }
   unapproved = (id) => {
+    this.setState({
+      showLoading:true
+    })
     axios({
       method: 'put',
       url: `/admin/unapproved/${id}`,
@@ -58,9 +63,15 @@ export class SkripsiVerification extends Component {
     }).then(()=>{
       this.setState({
         showModal:false,
+        showLoading:false
       })
       this.getData()
     }).catch((err) => { 
+      this.setState({
+        showModal:false,
+        showLoading:false,
+        showAlert:true
+      })
       if(err.response){
         console.log(err.response.statusText)
         this.setState({
@@ -70,18 +81,32 @@ export class SkripsiVerification extends Component {
     })
   }
   approved = (id) => {
+    this.setState({
+      showLoading:true
+    })
     axios({
       method: 'put',
       url: `/admin/approved/${id}`,
       headers: {
         Authorization: this.props.token
       } 
+    }).then(res=>{
+      this.setState({
+        showLoading:false
+      })
+      this.getData()
     }).catch((err) => { 
+      this.setState({
+        showLoading:false,
+        showAlert:true
+      })
       if(err.response){
-      console.log(err.response.statusText)
+        console.log(err.response)
+        this.setState({
+          message:err.response.data.message
+        })
       }
     })
-    this.getData()
   }  
   handleShow = (id) =>{
     this.setState({
@@ -92,11 +117,12 @@ export class SkripsiVerification extends Component {
   handleClose = () => {
     this.setState({
       showModal:false,
+      showAlert:false,
       message:''
     })
   }
   render() {
-    let { isLoaded, skripsi, offline} = this.state
+    let { isLoaded, skripsi, offline, message} = this.state
     if (!localStorage.getItem('token')|| this.props.role==='user'){
       return <Redirect to={'/'} />
     }
@@ -126,7 +152,7 @@ export class SkripsiVerification extends Component {
             </thead>
             <tbody>
             { !isLoaded ? <tr><td colSpan="10" className="text-center"><Spinner animation="border" variant="secondary" /></td></tr>
-              : offline ? <tr><td colSpan="10" className="text-center offline-text">You're Offline. Check Your connection and refresh</td></tr>
+              : offline ? <tr><td colSpan="10" className="text-center offline-text">Anda sedang offline. Cek koneksi anda dan refresh </td></tr>
               : !skripsi ? <tr><td colSpan="10" className="text-center">No Data</td></tr> 
               : skripsi.map((item, i) => 
                 <tr key={i}>
@@ -159,11 +185,17 @@ export class SkripsiVerification extends Component {
         <Modal show={this.state.showModal} onHide={this.handleClose} centered>
           <Modal.Body className='admin-modal'>
             <p>Apakah anda yakin untuk menolak publikasi skripsi?</p>
-            {!this.state.message? <></> :
-            <div className="alert alert-warning" role="alert">
-              <strong>{this.state.message}</strong>
-            </div> }
             <button onClick={()=>this.unapproved(this.state.id)} className="btn-table btn-primary">Ya</button>
+          </Modal.Body>
+        </Modal>
+        <Modal show={this.state.showLoading} centered>
+          <Modal.Body className='modal-box'>
+            Sedang diproses ...
+          </Modal.Body>
+        </Modal>
+        <Modal show={this.state.showAlert} onHide={this.handleClose} centered>
+          <Modal.Body className='modal-box'>
+            <p className="text-danger">{message? <>{message}</> : <>Gagal! </>}. Silahkan ulangi</p>
           </Modal.Body>
         </Modal>
       </div>

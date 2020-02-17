@@ -3,12 +3,13 @@ import { connect } from 'react-redux'
 import { Redirect, Link } from 'react-router-dom'
 import axios from 'axios'
 import { scrollToTop } from '../helpers/autoScroll'
-import { Spinner } from 'react-bootstrap'
+import { Spinner, Modal } from 'react-bootstrap'
 
 export class ReUpload extends Component {
   initialState={
     skripsi:{},
     isLoaded:false,
+    showLoading:false,
     title:'',
     titleAlert:'initial',
     year:'',
@@ -24,6 +25,9 @@ export class ReUpload extends Component {
   state=this.initialState
   submit = (e) =>{
     e.preventDefault()
+    this.setState({
+      showLoading:true
+    })
     console.log(this.state)
     let {title, year, abstract, category, keywords} = this.state
     let {file} = this.state
@@ -47,8 +51,12 @@ export class ReUpload extends Component {
       this.setState({
         message:res.data.message,
         status:res.data.status,
+        showLoading:false
       })
     }).catch((err) => { 
+      this.setState({
+        showLoading:false
+      })
       if( err.response){
         this.setState({
           message:err.response.data.message,
@@ -58,8 +66,9 @@ export class ReUpload extends Component {
     })
   }
   handleInput = (e) =>{
-    console.log(e.target.id)
-    console.log(e.target.value)
+    if(e.target.id==='title'){
+      e.target.value=e.target.value.replace(/\n/g, ' ')
+    }
     this.setState({
       [e.target.id] : e.target.value,
     })
@@ -129,7 +138,7 @@ export class ReUpload extends Component {
             <form ref="reuploadForm">
               <div className="form-group">
                 <label>Judul *</label>
-                <input type="text" id="title" onBlur={this.handleInput} className="form-control" placeholder="Judul Skripsi"/>
+                <textarea type="text" id="title" maxLength="255" onBlur={this.handleInput} className="form-control" placeholder="Judul Skripsi"/>
                 { titleAlert==='initial'? <></> : !titleAlert ?
                   <div className="alert alert-danger" role="alert">
                     <strong>Judul tidak boleh kosong</strong>
@@ -192,6 +201,11 @@ export class ReUpload extends Component {
             </>
           }
         </div>
+        <Modal show={this.state.showLoading} centered>
+          <Modal.Body className='modal-box'>
+            Sedang diproses ...
+          </Modal.Body>
+        </Modal>
       </div>
       }
       </>
