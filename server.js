@@ -32,13 +32,13 @@ app.use((req, res, next) =>{
   next()
 })
 
-var http= require('http')
-http.get('*', function(req, res) {  
-  if( req.headers.host==='http://repositori-skripsi.herokuapp.com'){
-    res.redirect('https://' + req.headers.host + req.url);
-
+app.get('*', (req, res, next) => {
+  if (req.headers.host === 'repositori-skripsi.herokuapp.com') {
+   res.redirect('https://' + req.headers.host + req.url)
+  } else {
+   next()
   }
-})
+ })
 
 app => {
   app.use(proxy(["/"], { target: "http://localhost:5000" }))
