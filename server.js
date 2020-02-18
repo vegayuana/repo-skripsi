@@ -31,9 +31,11 @@ app.use((req, res, next) =>{
   console.log("go to middleware")
   next()
 })
+
+//Redirecting http to https
 const redirect = (req, res, next) => {
   if (
-   req.headers.host !== 'localhost:5000' && // pake ini kalau localnya tetep mau jalan
+   req.headers.host !== 'localhost:5000' &&
    req.get('x-forwarded-proto') !== 'https'
   ) {
    res.set('x-forwarded-proto', 'https')
@@ -42,8 +44,6 @@ const redirect = (req, res, next) => {
  }
  app.all('*', redirect)
 
-
- 
 app => {
   app.use(proxy(["/"], { target: "http://localhost:5000" }))
 }
