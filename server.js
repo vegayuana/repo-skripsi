@@ -32,10 +32,9 @@ app.use((req, res, next) =>{
   next()
 })
 
-var http = express.createServer();
-http.get("http://repositori-skripsi.herokuapp.com/", function(request, response){
-  response.redirect('https://' + req.headers.host + req.url)
-}) 
+app.get('http://repositori-skripsi.herokuapp.com', function(req, res) {  
+  res.redirect('https://' + req.headers.host + req.url);
+})
 
 app => {
   app.use(proxy(["/"], { target: "http://localhost:5000" }))
