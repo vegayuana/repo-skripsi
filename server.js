@@ -34,7 +34,7 @@ app.use((req, res, next) =>{
 
 var http= require('http')
 http.get('*', function(req, res) {  
-  if( req.headers.host==='heroku'){
+  if( req.headers.host==='http://repositori-skripsi.herokuapp.com'){
     res.redirect('https://' + req.headers.host + req.url);
 
   }
