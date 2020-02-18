@@ -32,7 +32,8 @@ app.use((req, res, next) =>{
   next()
 })
 
-app.get('http://repositori-skripsi.herokuapp.com', function(req, res) {  
+var http= require('http')
+http.get('http://repositori-skripsi.herokuapp.com', function(req, res) {  
   res.redirect('https://' + req.headers.host + req.url);
 })
 
