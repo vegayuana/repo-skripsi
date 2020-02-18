@@ -39,7 +39,7 @@ app.use((req, res, next) =>{
 //    next()
 //   }
 //  })
-app.get('repositori-skripsi.herokuapp.com', (req, res, next) => {
+app.all('repositori-skripsi.herokuapp.com', (req, res, next) => {
      res.redirect('https://' + req.headers.host + req.url)
    })
 
