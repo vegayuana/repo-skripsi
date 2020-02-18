@@ -25,7 +25,7 @@ export class App extends Component {
       <Provider store={store}>
         <Router>
           <div className="alert alert-secondary alert-offline" id="alert-offline" role="alert">
-            You are offline
+            Anda sedang offline
           </div>
           <Nav setUser={this.setUser}/>
           <img src={bg} alt="Logo" className="bg"/>

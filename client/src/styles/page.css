@@ -21,6 +21,29 @@ body.offline{
   filter: gray;
   filter: grayscale(100%);
 }
+.offline .alert-offline{
+  display: block;
+  animation: cssAnimation 0s 5s forwards;
+  transition: 0.5s;
+  opacity: 1;
+}
+.offline-text{
+  padding: 20px;
+  font-weight: bold;
+  color: grey;
+}
+.offline-box{
+  background-color: white;
+  border-radius: 0px;
+  border: 1px solid #edf5e1;
+  box-shadow: 0 3px 20px rgba(0,0,0,.05);
+  padding: 20px;
+  min-height: 100%;
+  margin-bottom: 1rem;
+}
+.offline-box p{
+  text-align: center;
+}
 .fullscreen{
   min-height: 60vh;
 }
@@ -458,29 +481,6 @@ a{
   z-index: 10000;
   width: 96%;
   display: none;
-}
-.offline .alert-offline{
-  display: block;
-  animation: cssAnimation 0s 5s forwards;
-  transition: 0.5s;
-  opacity: 1;
-}
-.offline-text{
-  padding: 20px;
-  font-weight: bold;
-  color: grey;
-}
-.offline-box{
-  background-color: white;
-  border-radius: 0px;
-  border: 1px solid #edf5e1;
-  box-shadow: 0 3px 20px rgba(0,0,0,.05);
-  padding: 20px;
-  min-height: 100%;
-  margin-bottom: 1rem;
-}
-.offline-box p{
-  text-align: center;
 }
 @keyframes cssAnimation {
   to   { opacity: 0; }
