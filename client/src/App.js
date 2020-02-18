@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import HttpsRedirect from 'react-https-redirect';
 import Routes from './Routes'
 
 import Nav from './components/Nav'
@@ -23,6 +24,7 @@ export class App extends Component {
     return (
       <> 
       <Provider store={store}>
+      <HttpsRedirect>
         <Router>
           <div className="alert alert-secondary alert-offline" id="alert-offline" role="alert">
             Anda sedang offline
@@ -34,6 +36,7 @@ export class App extends Component {
           </div>
           <Footer></Footer>
         </Router>
+        </HttpsRedirect>
       </Provider>
       </>
     )
