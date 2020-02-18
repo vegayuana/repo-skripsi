@@ -31,17 +31,18 @@ app.use((req, res, next) =>{
   console.log("go to middleware")
   next()
 })
+const redirect = (req, res, next) => {
+  if (
+   req.headers.host !== 'localhost:5000' && // pake ini kalau localnya tetep mau jalan
+   req.get('x-forwarded-proto') !== 'https'
+  ) {
+   res.set('x-forwarded-proto', 'https')
+   res.redirect('https://repositori-skripsi.herokuapp.com' + req.url)
+  } else next()
+ }
+ app.all('*', redirect)
 
-app.get('/', (req, res, next) => {
-  if (req.protocol ==='http' && req.headers.host === 'repositori-skripsi.herokuapp.com') {
-   return res.redirect('https://' + req.headers.host + req.url)
-  } else {
-   next()
-  }
- })
 
- 
-  // 
  
 app => {
   app.use(proxy(["/"], { target: "http://localhost:5000" }))
