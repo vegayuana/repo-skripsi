@@ -9,6 +9,7 @@ import Footer from './components/Footer'
 import bg from './icons/bg.webp'
 import './styles/page.css'
 import store from './store'
+import 'typeface-oswald'
 
 export class App extends Component {
   componentDidMount(){
