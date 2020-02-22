@@ -27,7 +27,6 @@ router.put('/verified/:id', (req, res) =>{
     }
     return utils.template_response(res, 200, 'Berhasil' , null)
   })
-  return utils.template_response(res, 500, 'Gagal' , null)
 })
 
 //Unverified
@@ -81,11 +80,10 @@ router.put('/approved/:id', (req, res) =>{
     console.log('approved')
     return utils.template_response(res, 200, 'Berhasil' , null)
   })
-  return utils.template_response(res, 500, 'Gagal' , null)
 })
 
 //Unpproved Skripsi
-router.put('/unapproved/:id', (req, res) =>{  
+router.put('/unapproved/:id', (req, res) =>{ 
   const id = req.params.id
   let sql = `UPDATE skripsi SET is_approved=${false}, processed_at=NOW() where id='${id}'`
   db.query(sql, (err, result)=>{
@@ -96,6 +94,5 @@ router.put('/unapproved/:id', (req, res) =>{
     console.log('unapproved')
     return utils.template_response(res, 200, 'Berhasil' , null)
   })
-  return utils.template_response(res, 500, 'Gagal' , null)
 })
 module.exports = router
