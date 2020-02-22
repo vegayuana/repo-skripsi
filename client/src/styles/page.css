@@ -358,7 +358,7 @@ a{
 }
 .card{
   background-color: white;
-  line-height: 200px;
+  line-height: 150px;
   border: 1px solid #edf5e1;
   border-radius: 3px;
   box-shadow: 1px 3px 8px rgba(0,0,0,.05);
@@ -571,7 +571,7 @@ a{
     padding: 50px;
   }
   .card-text {
-    line-height: 150px;
+    line-height: 200px;
     text-align: center;
   }
   .small-box{
