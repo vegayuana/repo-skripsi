@@ -4,6 +4,6 @@ const db = mysql.createPool({
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.MYSQL_DB,
-  timezone: 'UTC+0'
+  timezone: process.env.TZ,
 })
 module.exports = db

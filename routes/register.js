@@ -8,7 +8,6 @@ const asyncHandler = require('express-async-handler')
 //connect DB
 const db = require('../db/db')
 require('../db/connection') 
-
 //Multer : Handle Uploaded Files
 const multer  = require('multer')
 // Set The Storage Engine
@@ -55,7 +54,7 @@ router.post('/register', (req, res) =>{
       name: name, 
       npm: npm, 
       password: password,
-      ktm_url:req.file.path
+      ktm_url:req.file.path,
     }
     let sql = 'INSERT INTO users SET ?'
     db.query(sql, data, (err, result)=>{

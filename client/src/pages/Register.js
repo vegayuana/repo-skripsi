@@ -43,6 +43,9 @@ export class Register extends Component {
         showLoading:false
       })
     }).catch(err => {
+      this.setState({
+        showLoading:false
+      })
       if (err.response) {
         this.setState({
           message: err.response.data.message,
@@ -55,9 +58,6 @@ export class Register extends Component {
           status: 500,
         })
       }
-      this.setState({
-        showLoading:false
-      })
     })
   }
   submitKTM = e => {
@@ -207,7 +207,7 @@ export class Register extends Component {
               </fieldset>
               <fieldset style={{ display: this.state.displayForm2 }}>
                 <div className='form-group'>
-                  <label>Foto KTM</label>
+                  <label>Foto KTM *5Mb</label>
                   <input type='file' id='ktm' onChange={this.handleFile} className='form-control-file' accept='.png, .jpg, .jpeg'/>
                 </div>
                 <button type='submit' className='btn btn-primary' onClick={e => this.submitKTM(e)} disabled={!passCheck}>
@@ -222,7 +222,7 @@ export class Register extends Component {
               <fieldset style={{ display: this.state.displayForm3}}>
                 {status === 200 ? ( 
                   <div className='alert alert-success' style={{ textAlign: 'center', marginTop: '0px' }} role='alert'>
-                    <strong>{this.state.message}</strong> Please Log In
+                    <strong>{this.state.message}</strong> Harap tunggu verifikasi Admin 
                   </div>
                 ) : (<></>)}
                 <button className='btn btn-primary' onClick={e => this.back(e)}>

@@ -163,7 +163,7 @@ export class AccountVerification extends Component {
                   <img style={{maxWidth:'150px', width:'100%' }}alt="ktm" src={'https://repositori-skripsi.herokuapp.com/' + user.ktm_url}/>
                   }
                 </td>
-                <td>{user.created_at.split('T')[0]} {user.created_at.split('T')[1].split('.000Z')}</td>
+                <td>{user.created_at}</td>
                 <td>{user.is_active === 0 ? <>-</> : <>{user.processed_at.split('T')[0]} {user.processed_at.split('T')[1].split('.000Z')}</>}</td>
                 <td>{user.is_active === 1 ? <div style={{color:'#379683'}}><FaCheck/> Diverifikasi</div> :<>Belum Diverifikasi</>}</td>
                 <td>
