@@ -5,6 +5,7 @@ import {Spinner} from 'react-bootstrap'
 import { FaRegCheckCircle, FaFilePdf } from 'react-icons/fa'
 import { IoMdCloseCircleOutline } from 'react-icons/io'
 import { Link } from 'react-router-dom'
+import moment from 'moment'
 
 export class SkripsiStatus extends Component {
   state={
@@ -106,7 +107,7 @@ export class SkripsiStatus extends Component {
               <h5>Waktu Unggah</h5>
             </div>
             <div className="col-7 col-md-9">
-              <p>{skripsi.uploaded_at.split('T')[0]} {skripsi.uploaded_at.split('T')[1].split('.000Z')}</p>
+              <p>{moment(skripsi.uploaded_at).format("YYYY-MM-D H:mm:ss")}</p>
             </div>
           </div>
           <div className="row">
@@ -124,7 +125,7 @@ export class SkripsiStatus extends Component {
               { skripsi.is_approved===1 ? <h5>Waktu Dipublikasikan</h5> : <h5>Waktu Diproses</h5> }
               </div>
               <div className="col-7 col-md-9">
-                <p>{skripsi.processed_at.split('T')[0]} {skripsi.processed_at.split('T')[1].split('.000Z')}</p>
+                <p>{moment(skripsi.processed_at).format("YYYY-MM-D H:mm:ss")}</p>
               </div>
             </div>
           }
