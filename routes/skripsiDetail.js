@@ -15,4 +15,14 @@ router.get('/detail/', (req, res) =>{
     res.send(result)
   })
 })
+
+router.get('/download/', (req, res) =>{  
+  let { filePath } = req.query
+  console.log('file yg dikirim', filePath)
+  const file = `${filePath}`
+  console.log('file', file)
+  res.download(file)
+})
+
+
 module.exports = router

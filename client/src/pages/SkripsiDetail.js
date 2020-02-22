@@ -49,7 +49,32 @@ export class SkripsiDetail extends Component {
       })
     }
   }
-  
+  download=(filePath)=>{
+    console.log(filePath)
+    axios({
+      method: 'get',
+      url: `/skripsi/download/`,
+      params:{
+        filePath: filePath
+      },
+      responseType: 'blob',
+      headers: {
+        Authorization: localStorage.getItem('token')
+      } 
+    }).then(res=>{
+      console.log(res.data)
+      const url = window.URL.createObjectURL(new Blob([res.data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', 'file.pdf') 
+      document.body.appendChild(link)
+      link.click()
+    }).catch(err=>{
+      if(err.response){
+      console.log(err.response)
+      }
+    })
+  }
   render() {
     let { isLoaded, skripsi, offline } = this.state
     if (!localStorage.getItem('token')){
@@ -126,7 +151,7 @@ export class SkripsiDetail extends Component {
               <h5>FILE</h5>
               <hr/>
               { !skripsi ? <>No Data</> :
-              <a href={'https://repositori-skripsi.herokuapp.com/'+skripsi.file_url} target='_blank' rel='noreferrer noopener'><FaFilePdf className='icons'/> Unduh</a>
+              <a onClick={()=>this.download(skripsi.file_url)}><FaFilePdf className='icons'/> Unduh</a>
               }   
             </div>
           </div>
