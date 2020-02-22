@@ -62,7 +62,10 @@ export class ProfileInfo extends Component {
         oldPass:oldPass
       }
     }).then(res => {
+      this.refs.editForm.reset();
       this.setState({
+        newPass:'',
+        oldPass:'',
         message:res.data.message,
         status:res.data.status,
         showLoading:false
