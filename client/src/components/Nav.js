@@ -150,7 +150,7 @@ export class Nav extends PureComponent {
                     </div>
                     : status===500 ?
                     <div className='alert alert-danger login-alert' role='alert'>
-                      <strong>Something goes wrong </strong>check your connection and try again
+                      <strong>Terjadi Kesalahan!</strong>Periksa koneksi anda dan coba lagi
                     </div>
                     :               
                     <></>

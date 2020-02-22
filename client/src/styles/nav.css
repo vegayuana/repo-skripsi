@@ -72,9 +72,8 @@ a, a:hover{
   z-index: -1;
 }
 .user-menu a{
-  font-family: 'Montserrat', sans-serif;
+  font-family: sans-serif;
   font-size: 1.1rem;
-  font-weight: 400;
   padding: 20px;
   color: white ;
 }
@@ -84,7 +83,7 @@ a, a:hover{
 .user-menu a:active, .user-menu a:hover, .user-menu a:focus {
   background-color: #edf5e1 ;
   color: #05386B ;
-  font-family: 'Montserrat', sans-serif;
+  font-family: sans-serif;
   box-shadow: none;
 }
 .user-menu.show{
@@ -112,7 +111,7 @@ a, a:hover{
 .navbar .login-form .btn{
   background-color: #379683;
   border: 1px solid #379683;
-  font-family: 'Montserrat', sans-serif;
+  font-family: sans-serif;
   color: white;
   transition: 0.5s;
 }

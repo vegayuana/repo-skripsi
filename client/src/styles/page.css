@@ -11,8 +11,7 @@ html{
   box-sizing: border-box;
 }
 body{
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
+  font-family: sans-serif;
   overflow-x: hidden;
 }
 body.offline{
@@ -26,6 +25,9 @@ body.offline{
   animation: cssAnimation 0s 5s forwards;
   transition: 0.5s;
   opacity: 1;
+}
+@keyframes cssAnimation {
+  to   { opacity: 0; }
 }
 .offline-text{
   padding: 20px;
@@ -481,9 +483,6 @@ a{
   z-index: 10000;
   width: 96%;
   display: none;
-}
-@keyframes cssAnimation {
-  to   { opacity: 0; }
 }
 .offline .list-box h5, .offline .list-box p, .offline .list-box i, .offline .filter-box p{
   color: #6c757d;

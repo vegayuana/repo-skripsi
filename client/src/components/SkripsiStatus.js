@@ -90,7 +90,7 @@ export class SkripsiStatus extends Component {
               <h5>Bidang Minat </h5>
             </div>
             <div className="col-7 col-md-9">
-              <p>{skripsi.category===1? <>Artificial Intelligence</> : skripsi.category===2? <>Sistem Informasi</> : skripsi.category===3? <>Jaringan Komputer</> : <></>}</p>
+              <p>{skripsi.category===1? <>Artificial Intelligence</> : skripsi.category===2? <>Sistem Informasi</> : skripsi.category===3? <>Jaringan Komputer</> : <>-</>}</p>
             </div>
           </div>
           <div className="row">
