@@ -5,41 +5,31 @@ import $ from 'jquery'
 import MediaQuery from 'react-responsive'
 
 export default class UserMenu extends Component {
-  state={
-    elmClass:'user-menu'
-  }
   componentDidMount(){
-    $('#userMenu a').click(()=>{
-      $('#userMenu').removeClass( "show" )
-      this.setState({
-        elmClass:'user-menu'
-      })
+    $(document).on("click", (event)=>{
+      if($(event.target).closest("#btn-menu").length){
+        $('#userMenu').toggleClass('show')
+      }
+      else{
+        if(!$(event.target).closest("#userMenu").length){
+          console.log('diluar')
+          $('#userMenu').removeClass("show")
+        }
+      }
     })
-  }
-  handleClick=(e)=>{
-    e.preventDefault()
-    let {elmClass} = this.state
-    if(elmClass==='user-menu'){
-      this.setState({
-        elmClass:'user-menu show'
-      })
-    }
-    else{
-      this.setState({
-        elmClass:'user-menu'
-      })
-    }
-    
+    $('#userMenu a').click(()=>{
+      $('#userMenu').removeClass("show")
+    })
   }
   render() {
     return (
       <>
       <MediaQuery query="(min-width:768px)">
       <div className="right">
-        <button className="btn btn-nav btn-user" onClick={(e)=>this.handleClick(e)} style={{zIndex:1}}>
+        <button className="btn btn-nav btn-user" id="btn-menu" style={{zIndex:1}}>
           <FaUserAlt />
         </button>
-          <div className={this.state.elmClass} id="userMenu">
+          <div className='user-menu' id="userMenu">
             <Link to="/profile" className="dropdown-item" style={{marginTop:'80px'}}>
               Profil
             </Link>
