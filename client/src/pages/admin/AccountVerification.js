@@ -5,6 +5,7 @@ import { Spinner, Breadcrumb, Table, Modal} from 'react-bootstrap'
 import axios from 'axios'
 import {scrollToTop} from '../../helpers/autoScroll'
 import { FaCheck } from 'react-icons/fa'
+import moment from 'moment'
 
 export class AccountVerification extends Component {
   state ={
@@ -123,7 +124,6 @@ export class AccountVerification extends Component {
   }
   render() {
     let { isLoaded, offline, users, message} = this.state
-    console.log(users)
     if (!localStorage.getItem('token') || this.props.role==='user'){
       return <Redirect to={'/'} />
     }
@@ -163,8 +163,8 @@ export class AccountVerification extends Component {
                   <img style={{maxWidth:'150px', width:'100%' }}alt="ktm" src={'https://repositori-skripsi.herokuapp.com/' + user.ktm_url}/>
                   }
                 </td>
-                <td>{user.created_at}</td>
-                <td>{user.is_active === 0 ? <>-</> : <>{user.processed_at.split('T')[0]} {user.processed_at.split('T')[1].split('.000Z')}</>}</td>
+                <td>{moment(user.created_at).format("YYYY-MM-D H:mm:ss")}</td>
+                <td>{user.is_active === 0 ? <>-</> : <>{moment(user.processed_at).format("YYYY-MM-D H:mm:ss")}</>}</td>
                 <td>{user.is_active === 1 ? <div style={{color:'#379683'}}><FaCheck/> Diverifikasi</div> :<>Belum Diverifikasi</>}</td>
                 <td>
                   <button onClick={()=>this.verified( user.id)} className={ user.is_active === 1? "btn-table": "btn-table btn-handle"} disabled={ user.is_active === 1? true : false}>Verifikasi</button>

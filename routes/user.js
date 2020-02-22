@@ -7,6 +7,7 @@ const jwt = require('json-web-token')
 const secret = "repository.secret"
 const path = require('path')
 const fs = require('fs')
+const moment = require('moment')
 
 //connect DB
 const db = require('../db/db')
@@ -157,7 +158,8 @@ router.post('/upload/', (req, res) =>{
         published_year: year, 
         file_url: path_url,
         category: category,
-        keywords: keywords
+        keywords: keywords,
+        uploaded_at:moment().format()
       }
       let sql = 'INSERT INTO skripsi SET ?'
       db.query(sql, post, (err, result)=>{
@@ -224,7 +226,7 @@ router.put('/reupload/', (req, res) =>{
         category: category,
         keywords: keywords
       }
-      let sql = `UPDATE skripsi SET uploaded_at=NOW(), is_approved=${2}, ? where id='${id}'`
+      let sql = `UPDATE skripsi SET uploaded_at='${moment().format()}', is_approved=${2}, ? where id='${id}'`
       db.query(sql, post, (err, result)=>{
         if(err){
           console.log(err)

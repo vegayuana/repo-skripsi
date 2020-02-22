@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const uuid = require('uuid/v4')
 const utils = require('../utils/templates')
 const asyncHandler = require('express-async-handler')
+const moment = require('moment')
 
 //connect DB
 const db = require('../db/db')
@@ -55,6 +56,7 @@ router.post('/register', (req, res) =>{
       npm: npm, 
       password: password,
       ktm_url:req.file.path,
+      created_at:moment().format()
     }
     let sql = 'INSERT INTO users SET ?'
     db.query(sql, data, (err, result)=>{

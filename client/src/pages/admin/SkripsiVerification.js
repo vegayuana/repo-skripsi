@@ -5,6 +5,7 @@ import { Redirect, Link } from 'react-router-dom'
 import axios from 'axios'
 import {scrollToTop} from '../../helpers/autoScroll'
 import { FaFilePdf, FaCheck, FaTimes} from 'react-icons/fa'
+import moment from 'moment'
 
 export class SkripsiVerification extends Component {
   state ={
@@ -170,8 +171,8 @@ export class SkripsiVerification extends Component {
                           item.is_approved === 0 ? <div className='text-danger'><FaTimes/> Ditolak</div> :
                             <>Perlu Ditinjau</>
                         }</td>
-                  <td>{item.uploaded_at.split('T')[0]} {item.uploaded_at.split('T')[1].split('.000Z')}</td>
-                  <td>{item.is_approved===2 ? <></> : <>{item.processed_at.split('T')[0]} {item.processed_at.split('T')[1].split('.000Z')}</>}</td>
+                  <td>{moment(item.uploaded_at).format("YYYY-MM-D H:mm:ss")}</td>
+                  <td>{item.is_approved===2 ? <></> : <>{moment(item.processed_at).format("YYYY-MM-D H:mm:ss")}</>}</td>
                   <td>
                     <button onClick={()=>this.handleShow(item.id)} className={ item.is_approved === 0? "btn-table" : "btn-table btn-danger" }  disabled={ item.is_approved === 0? true : false}>Tolak</button>
                     <button onClick={()=>this.approved(item.id)} className={ item.is_approved === 2? "btn-table btn-handle": "btn-table"} disabled={ item.is_approved === 2? false : true}>Publikasikan</button>

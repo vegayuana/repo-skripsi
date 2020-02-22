@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const utils = require('../utils/templates')
 const fs = require('fs')
+const moment = require('moment')
+
 //connect DB
 const db = require('../db/db')
 require('../db/connection')
@@ -9,7 +11,7 @@ require('../db/connection')
 //Show User Acc
 router.get('/show-acc', (req, res) =>{  
   let sql = `SELECT * FROM USERS WHERE role = "user" 
-            ORDER BY created_at desc`
+            ORDER BY is_active, created_at desc`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
     res.send(result)
@@ -19,7 +21,8 @@ router.get('/show-acc', (req, res) =>{
 //Verification
 router.put('/verified/:id', (req, res) =>{  
   const id = req.params.id
-  let sql = `UPDATE users SET is_active=${true}, processed_at=NOW() where id='${id}'`
+  let time=moment().format()
+  let sql = `UPDATE users SET is_active=${true}, processed_at='${time}' where id='${id}'`
   db.query(sql, (err, result)=>{
     if (err) {
       console.log(err)
@@ -71,7 +74,8 @@ router.get('/show-skripsi', (req, res) =>{
 //Approve Skripsi
 router.put('/approved/:id', (req, res) =>{  
   const id = req.params.id
-  let sql = `UPDATE skripsi SET is_approved=${true}, processed_at=NOW() where id='${id}'`
+  let time=moment().format()
+  let sql = `UPDATE skripsi SET is_approved=${true}, processed_at='${time}' where id='${id}'`
   db.query(sql, (err, result)=>{
     if (err) {
       console.log(err)
@@ -85,7 +89,8 @@ router.put('/approved/:id', (req, res) =>{
 //Unpproved Skripsi
 router.put('/unapproved/:id', (req, res) =>{ 
   const id = req.params.id
-  let sql = `UPDATE skripsi SET is_approved=${false}, processed_at=NOW() where id='${id}'`
+  let time=moment().format()
+  let sql = `UPDATE skripsi SET is_approved=${false}, processed_at='${time}' where id='${id}'`
   db.query(sql, (err, result)=>{
     if (err) {
       console.log(err)
