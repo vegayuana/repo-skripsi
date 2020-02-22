@@ -14,11 +14,22 @@ body{
   font-family: sans-serif;
   overflow-x: hidden;
 }
+h3{
+  font-size: 1.5rem;
+}
 body.offline{
   -moz-filter: grayscale(100%);
   -webkit-filter: grayscale(100%);
   filter: gray;
   filter: grayscale(100%);
+}
+.alert-offline{
+  margin:2%;
+  position: fixed;
+  top: 20px;
+  z-index: 10000;
+  width: 96%;
+  display: none;
 }
 .offline .alert-offline{
   display: block;
@@ -28,23 +39,6 @@ body.offline{
 }
 @keyframes cssAnimation {
   to   { opacity: 0; }
-}
-.offline-text{
-  padding: 20px;
-  font-weight: bold;
-  color: grey;
-}
-.offline-box{
-  background-color: white;
-  border-radius: 0px;
-  border: 1px solid #edf5e1;
-  box-shadow: 0 3px 20px rgba(0,0,0,.05);
-  padding: 20px;
-  min-height: 100%;
-  margin-bottom: 1rem;
-}
-.offline-box p{
-  text-align: center;
 }
 .fullscreen{
   min-height: 60vh;
@@ -76,17 +70,10 @@ body.offline{
   z-index: -100;
 }
 .bg1{
-  position: absolute;
-  top: 370px;
-  left: 20px;
-  width: 300px;
-  z-index: -99;
+  display:none;
 }
 .bg2{
-  position: absolute;
-  top: 300px;
-  right: 100px;
-  width: 400px;
+  display: none;
 }
 a{
   cursor: pointer;
@@ -141,7 +128,7 @@ a{
   color: #5cdb95;
 }
 .main-box{
-  margin: 50px 85px 80px;
+  margin: 10px;
 }
 .main-box hr{
   background-color: #05386B;
@@ -152,7 +139,7 @@ a{
 }
 .search-box{
   z-index: 100;
-  margin: 20px 85px 10px;
+  margin: 10px;
 }
 .filter-box{
   margin: 5px auto;
@@ -182,10 +169,9 @@ a{
   text-align: center;
   z-index: 10000;
 }
-/* List  */
 .list-box{
   margin: 5px 0px 1rem;
-  padding: 18px 30px 10px;
+  padding: 18px 10px;
   box-shadow: 0 2px 8px rgba(0,0,0,.05);
   border: 1px solid #edf5e1;
   border-radius: 5px;
@@ -196,6 +182,7 @@ a{
   transform: scale(1.1)
 }
 .list h5{
+  font-size: 1rem;
   font-weight: 400;
   font-family: 'Oswald', sans-serif;
   color: #05386B;
@@ -235,9 +222,15 @@ a{
   border-radius: 0px;
   border: 1px solid #edf5e1;
   box-shadow: 0 3px 20px rgba(0,0,0,.05);
-  padding: 20px;
-  min-height: 100%;
+  min-height: auto;
+  padding: 0 20px 20px;
   margin-bottom: 1rem;
+}
+.detail-box > div {
+  position: sticky;
+  top:0px;
+  background-color: white;
+  padding-top: 10px;
 }
 .detail-box h4 {
   color: #05386B;
@@ -251,6 +244,10 @@ a{
 .detail-box P{
   text-align: end;
 }
+.abstract .detail-box{
+  height: 350px;
+  overflow-y: scroll;
+}
 .abstract .detail-box p{
   text-align: justify;
 }
@@ -261,8 +258,9 @@ a{
   text-align: justify;
 }
 .file{
-  margin-top: 2rem;
+  margin-top: 0rem;
 }
+
 .file-box{
   background-color: white;
   border-radius: 0px;
@@ -274,14 +272,12 @@ a{
 .file-box h5{
   font-family: 'Oswald', sans-serif;
 }
-/* Register */
 .register-box{
   background-color: white;
   color:#379683;
-  min-height: 400px;
-  max-width: 600px;
-  width: 100%;
-  padding: 50px;
+  min-height: auto;
+  width: 90vw;
+  padding: 30px 20px; 
   margin: 50px auto 100px;
   border: 1px solid #edf5e1;
   box-shadow: 0 2px 8px rgba(0,0,0,.05);
@@ -340,6 +336,7 @@ a{
   font-size: 14px;
   padding: 5px;
   margin-bottom: 5px;
+  width: 100%;
 }
 .table-skripsi .btn-table{
   width: 100%;
@@ -392,6 +389,8 @@ a{
   font-family: 'Montserrat', sans-serif;
   font-size: 1.2rem;
   font-weight: 500;
+  text-align: center;
+  line-height: unset;
   color: #05386B;
   background-color: #edf5e1;
 }
@@ -406,7 +405,7 @@ a{
 .profile-box{
   position: relative;
   background-color: white;
-  padding: 50px;
+  padding: 20px;
   box-shadow: 0 2px 8px rgba(0,0,0,.05);
   border: 1px solid #edf5e1;
   color:#05386B ;
@@ -418,11 +417,17 @@ a{
   top: -10px;
   color: #379683;
 }
+.profile-box h5, .profile-box p{
+  font-size: 0.8rem;
+}
+.profile-box .icon-check{
+  font-size: smaller;
+}
 .profile-box .row{
   margin-bottom: 0.2rem;
 }
 .abs{
-  max-height: 400px;
+  max-height: 180px;
   overflow-y: auto;
   box-shadow: inset 0px 0px 5px lightgrey;
   padding: 10px;
@@ -443,7 +448,10 @@ a{
   color: white;
   box-shadow: 0 2px 8px rgba(0,0,0,.05);
   border-top-right-radius: 10px;
-  padding: 10px 50px;
+  padding: 10px 0px;
+  text-align: center;
+  max-width: 200px;
+  width: 100%;
 }
 .ribbon-right{
   left:-10px;
@@ -461,8 +469,8 @@ a{
   background-color: white;
   color: #379683;
   width: 100%;
-  padding: 50px;
-  margin: 30px 100px;
+  margin: 10px 20px 2rem;
+  padding: 20px;
   border: 1px solid #edf5e1;
   box-shadow: 0 2px 8px rgba(0,0,0,.05);
   font-weight: 500;
@@ -476,16 +484,8 @@ a{
 .table-box Table{
   border: 1px solid #edf5e1;
 }
-.alert-offline{
-  margin:2%;
-  position: fixed;
-  top: 20px;
-  z-index: 10000;
-  width: 96%;
-  display: none;
-}
-.offline .list-box h5, .offline .list-box p, .offline .list-box i, .offline .filter-box p{
-  color: #6c757d;
+.small-box{
+  margin:20px;
 }
 .progress{
   height: 0.5rem;
@@ -493,6 +493,26 @@ a{
 }
 .progress-bar{
   background-color: #379683;
+}
+.offline-box{
+  background-color: white;
+  border-radius: 0px;
+  border: 1px solid #edf5e1;
+  box-shadow: 0 3px 20px rgba(0,0,0,.05);
+  padding: 20px;
+  min-height: 100%;
+  margin-bottom: 1rem;
+}
+.offline-box p{
+  text-align: center;
+}
+.offline-text{
+  padding: 20px;
+  font-weight: bold;
+  color: grey;
+}
+.offline .list-box h5, .offline .list-box p, .offline .list-box i, .offline .filter-box p{
+  color: #6c757d;
 }
 ::-webkit-scrollbar {
   width: 12px;
@@ -513,78 +533,82 @@ a{
   background: #05386B; 
 }
 /*mobile*/
-@media screen and (max-width: 767px) {
-  .bg1{
-    display:none;
-  }
-  .main-box{
-    margin: 10px;
-  }
-  .search-box{
-    margin: 10px;
-  }
-  .list-box{
-    padding: 18px 10px;
-  }
+@media screen and (min-width: 768px) {
   h3{
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
-  .list h5{
-    font-size: 1rem;
-  }
-  .register-box{
-    width: 90vw;
-    min-height: auto;
-    padding: 30px 20px; 
+  .bg1{
+    display: block;
+    position: absolute;
+    top: 370px;
+    left: 20px;
+    width: 300px;
+    z-index: -99;
   }
   .bg2{
-    display: none;
+    display: block;
+    position: absolute;
+    top: 300px;
+    right: 100px;
+    width: 400px;
+  }
+  .main-box{
+    margin: 50px 85px 80px;
+  }
+  .search-box{
+    margin: 20px 85px 10px;
+  }
+  .list-box{
+    padding: 18px 30px 10px;
+  }
+  .list h5{
+    font-size: 1.25rem;
+  }
+  .register-box{
+    min-height: 400px;
+    width: 100%;
+    max-width: 600px;
+    padding: 50px;
   }
   .card-text {
     line-height: 150px;
     text-align: center;
   }
   .small-box{
-    margin:20px;
+    height: 100%;
   }
   .detail-box{
-    min-height: auto;
-    padding: 0 20px 20px;
-  }
-  .detail-box > div {
-    position: sticky;
-    top:0px;
-    background-color: white;
-    padding-top: 10px;
-  }
-  .abstract .detail-box{
-    height: 350px;
-    overflow-y: scroll;
-  }
-  .file{
-    margin-top: 0rem;
-  }
-  .profile-box{
+    min-height: 100%;
     padding: 20px;
   }
+  .abstract .detail-box{
+    height: unset;
+    overflow: unset;
+  }
+  .file{
+    margin-top: 2rem;
+  }
+  .profile-box{
+    padding: 50px;
+  }
   .profile-box h5, .profile-box p{
-    font-size: 0.8rem;
+    font-size: unset;
   }
   .profile-box .icon-check{
-    font-size: smaller;
+    font-size: unset;
   }
   .abs{
-    max-height: 180px;
+    max-height: 400px;
   }
   .ribbon{
-    padding: 10px 20px;
+    padding: 10px 50px;
   }
   .upload-box{
-    margin: 10px 20px 2rem;
-    padding: 20px
+    padding: 50px;
+    margin: 30px 100px;
   }
   .btn-table{
-    width: 100%;
+    width: unset;
   }
 }
 @media screen and (min-width: 768px ) and (max-width:999px){

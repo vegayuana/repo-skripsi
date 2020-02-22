@@ -3,7 +3,6 @@ import UserMenu from '../components/UserMenu'
 import AdminMenu from '../components/AdminMenu'
 import { Link, Redirect } from 'react-router-dom'
 import { setToken, delToken} from '../reducers/authReducer'
-// import { Cookies } from 'react-cookie'
 import { connect } from 'react-redux'
 import { Modal } from 'react-bootstrap' 
 import { FaRegCheckCircle } from 'react-icons/fa'
@@ -129,7 +128,7 @@ export class Nav extends PureComponent {
         {!token ? 
           <>
           {/*Toggler*/}
-          <button className='navbar-toggler' type='button' data-toggle='collapse' data-target='#toggle1' aria-controls='toggle' aria-expanded='false' aria-label='Toggle navigation'>
+          <button className='navbar-toggler' type='button' data-toggle='collapse' data-target='#toggle1'>
             <span className='navbar-toggler-icon'></span>
           </button>
           {/*Collapse Items*/}

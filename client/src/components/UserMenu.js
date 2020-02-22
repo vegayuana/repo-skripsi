@@ -4,23 +4,20 @@ import { Link } from 'react-router-dom'
 import $ from 'jquery'
 import MediaQuery from 'react-responsive'
 
-export default class UserMenu extends Component {
-  componentDidMount(){
-    $(document).on("click", (event)=>{
-      if($(event.target).closest("#btn-menu").length){
-        $('#userMenu').toggleClass('show')
-      }
-      else{
-        if(!$(event.target).closest("#userMenu").length){
-          console.log('diluar')
-          $('#userMenu').removeClass("show")
-        }
-      }
-    })
-    $('#userMenu a').click(()=>{
-      $('#userMenu').removeClass("show")
-    })
+$(document).on("click", (event)=>{
+  if($(event.target).closest("#btn-menu").length){
+    $('#userMenu').toggleClass('show')
   }
+  else{
+    if(!$(event.target).closest("#userMenu").length){
+      $('#userMenu').removeClass("show")
+    }
+  }
+  $('#userMenu a').click(()=>{
+    $('#userMenu').removeClass("show")
+  })
+})
+export default class UserMenu extends Component {
   render() {
     return (
       <>

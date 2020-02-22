@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter as Router , withRouter} from 'react-router-dom'
 import { Provider } from 'react-redux'
 import Routes from './Routes'
 
@@ -31,9 +31,9 @@ export class App extends Component {
           </div>
           <img src={bg} alt="Logo" className="bg"/>
           <div className="fullscreen">
-          <Routes/>
+            <Routes/>
           </div>
-          <Footer></Footer>
+          <Footer/>
         </Router>
       </Provider>
       </>
