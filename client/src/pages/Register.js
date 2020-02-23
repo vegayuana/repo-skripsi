@@ -19,10 +19,11 @@ export class Register extends Component {
   }
   state=this.initialState
   submit = (e) =>{
-    this.setState({
-      showLoading:true
-    })
     e.preventDefault()
+    this.setState({
+      showLoading:true,
+      message:'Sedang diproses ...'
+    })
     let {npm, pass}= this.state
     let name = this.refs.name.value
     let data={
@@ -63,7 +64,8 @@ export class Register extends Component {
   submitKTM = e => {
     e.preventDefault()
     this.setState({
-      showLoading:true
+      showLoading:true,
+      message:'Sedang diproses ...'
     })
     let { npm, pass, file } = this.state
     let name = this.refs.name.value
@@ -92,11 +94,13 @@ export class Register extends Component {
       })
       this.refs.registerForm.reset()
     }).catch(err => {
+      this.setState({
+        showLoading:false
+      })
       if (err.response) {
         this.setState({
           message: err.response.data.message,
           status: err.response.data.status,
-          showLoading:false
         })
       }
       else{
@@ -234,7 +238,7 @@ export class Register extends Component {
           <div className='col-xl-3'></div>
           <Modal show={this.state.showLoading} centered>
             <Modal.Body className='modal-box'>
-              Sedang diproses ...
+              {this.state.message}
             </Modal.Body>
           </Modal>
         </div>
