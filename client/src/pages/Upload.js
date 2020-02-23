@@ -224,7 +224,6 @@ export class Upload extends Component {
           }
         </div>
       </div>
-      }
       </>
     )
   }

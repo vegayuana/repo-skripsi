@@ -83,7 +83,7 @@ export class SkripsiStatus extends Component {
               <h5>File</h5>
             </div>
             <div className="col-7 col-md-9">
-              <a href={'http://localhost:5000/'+skripsi.file_url} alt="skripsi" target='_blank' rel='noreferrer noopener'><FaFilePdf/></a>
+              <a href={'https://repositori-skripsi.herokuapp.com/'+skripsi.file_url} alt="skripsi" target='_blank' rel='noreferrer noopener'><FaFilePdf/></a>
             </div>
           </div>
           <div className="row">
