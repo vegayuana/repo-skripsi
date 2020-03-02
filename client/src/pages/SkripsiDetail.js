@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import {scrollToTop} from '../helpers/autoScroll'
 import { FaFilePdf, FaChevronRight, FaChevronLeft} from 'react-icons/fa'
-// import { Document, pdfjs, Page } from 'react-pdf'
+import { Document, pdfjs, Page } from 'react-pdf'
 import {Cookies} from 'react-cookie'
 const cookie = new Cookies()
 // pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -148,9 +148,9 @@ export class SkripsiDetail extends Component {
                 <button className="btn btn-download"><FaFilePdf className='icons'/> Unduh</button>
               </a>
               }    
-              {/* <Document file={'https://repositori-skripsi.herokuapp.com/'+skripsi.file_url}>
+              <Document file={'https://repositori-skripsi.herokuapp.com/'+skripsi.file_url}>
                 <Page pageNumber={this.state.pageNumber} />
-              </Document> */}
+              </Document>
               <div className="btn-box"> 
                 <button className="btn btn-primary btn-preview" disabled={pageNumber===1? true: false} onClick={()=>this.before()}><FaChevronLeft/></button>
                 <button className="btn btn-primary btn-preview" disabled={pageNumber===18? true: false} onClick={()=>this.next()}><FaChevronRight/></button>
