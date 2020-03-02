@@ -6,6 +6,8 @@ import axios from 'axios'
 import {scrollToTop} from '../../helpers/autoScroll'
 import { FaCheck } from 'react-icons/fa'
 import moment from 'moment'
+import {Cookies} from 'react-cookie'
+const cookie = new Cookies()
 
 export class AccountVerification extends Component {
   state ={
@@ -23,7 +25,7 @@ export class AccountVerification extends Component {
       method: 'get',
       url: '/admin/show-acc',
       headers: {
-        Authorization:localStorage.getItem('token')
+        Authorization:cookie.get('token')
       } 
     }).then( res=>{
       this.setState({ 
@@ -124,7 +126,7 @@ export class AccountVerification extends Component {
   }
   render() {
     let { isLoaded, offline, users, message} = this.state
-    if (!localStorage.getItem('token') || this.props.role==='user'){
+    if (!cookie.get('token') || this.props.role==='user'){
       return <Redirect to={'/'} />
     }
     return (

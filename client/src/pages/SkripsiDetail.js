@@ -4,13 +4,19 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import {scrollToTop} from '../helpers/autoScroll'
-import { FaFilePdf } from 'react-icons/fa'
+import { FaFilePdf, FaChevronRight, FaChevronLeft} from 'react-icons/fa'
+import { Document, pdfjs, Page } from 'react-pdf'
+import {Cookies} from 'react-cookie'
+const cookie = new Cookies()
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 export class SkripsiDetail extends Component {
   state={
     skripsi:[], 
     isLoaded:false,
-    offline:false
+    offline:false,
+    numPages:null,
+    pageNumber:13
   }
   getData =()=>{
     let id = this.props.match.params.id
@@ -21,7 +27,7 @@ export class SkripsiDetail extends Component {
         id : id
       },
       headers: {
-        Authorization: localStorage.getItem('token')
+        Authorization: cookie.get('token')
       } 
     }).then(res=>{
       this.setState({ 
@@ -34,7 +40,18 @@ export class SkripsiDetail extends Component {
       }
     })
   }
-  
+  next = () => {
+    let {pageNumber} = this.state
+    if( pageNumber<=18){
+      this.setState({pageNumber:this.state.pageNumber+1})
+    }
+  }
+  before = () => {
+    let {pageNumber} = this.state
+    if( pageNumber>1){
+      this.setState({pageNumber:this.state.pageNumber-1})
+    }
+  }
   componentDidMount(){
     scrollToTop()
     if (navigator.onLine){
@@ -50,8 +67,8 @@ export class SkripsiDetail extends Component {
     }
   }
   render() {
-    let { isLoaded, skripsi, offline } = this.state
-    if (!localStorage.getItem('token')){
+    let { isLoaded, skripsi, offline, pageNumber } = this.state
+    if (!cookie.get('token')){
       return <Redirect to={'/'} />
     }
     return (
@@ -124,10 +141,22 @@ export class SkripsiDetail extends Component {
             <div className="file-box">
               <h5>FILE</h5>
               <hr/>
+              {!isLoaded ? <Spinner animation="border" variant="secondary" /> :<>
               { !skripsi ? <>No Data</> :
               // <a onClick={()=>this.download(skripsi.file_url)}><FaFilePdf className='icons'/> Unduh</a>
-              <a href={'https://repositori-skripsi.herokuapp.com/'+skripsi.file_url} target='_blank' rel='noreferrer noopener'><FaFilePdf className='icons'/> Unduh</a>
-              }   
+              <a href={'https://repositori-skripsi.herokuapp.com/'+skripsi.file_url} target='_blank' rel='noreferrer noopener'>
+                <button className="btn btn-blue"><FaFilePdf className='icons'/> Unduh</button>
+              </a>
+              }    
+              <Document file={'https://repositori-skripsi.herokuapp.com/'+skripsi.file_url}>
+                <Page pageNumber={this.state.pageNumber} />
+              </Document>
+              <div className="btn-box"> 
+                <button className="btn btn-primary btn-preview" disabled={pageNumber===1? true: false} onClick={()=>this.before()}><FaChevronLeft/></button>
+                <button className="btn btn-primary btn-preview" disabled={pageNumber===18? true: false} onClick={()=>this.next()}><FaChevronRight/></button>
+              </div>
+            </>
+            }
             </div>
           </div>
           </div>

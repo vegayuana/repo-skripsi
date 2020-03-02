@@ -3,7 +3,7 @@ const router = express.Router()
 const bcrypt = require('bcrypt')
 const utils = require('../utils/templates')
 const uuid = require('uuid/v4')
-const jwt = require('json-web-token')
+const jwt = require('jsonwebtoken')
 const secret = "repository.secret"
 const path = require('path')
 const fs = require('fs')
@@ -17,10 +17,7 @@ require('../db/connection')
 router.get('/profile', (req, res) =>{  
   let bearer = req.headers.authorization
   let token = bearer.split(' ')[1]
-  let payload={}
-  jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
-    payload=decodedPayload.request
-  })
+  let payload = jwt.decode(token, secret).request
   let sql =`SELECT * FROM users WHERE npm='${payload.npm}' LIMIT 1`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
@@ -38,10 +35,7 @@ router.put('/edit-pass', async(req, res) =>{
     if (!newPass || !oldPass ) {
       return utils.template_response(res, 400, "Semua field harus diisi" , null)
     }
-    let payload={}
-    jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
-      payload=decodedPayload.request
-    })
+    let payload = jwt.decode(token, secret).request
     if(payload==={}){
       console.log('Need Login info')
       return 
@@ -81,10 +75,7 @@ router.put('/edit-pass', async(req, res) =>{
 router.get('/skripsi', (req, res) =>{  
   let bearer = req.headers.authorization
   let token = bearer.split(' ')[1]
-  let payload={}
-  jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
-    payload=decodedPayload.request
-  })
+  let payload = jwt.decode(token, secret).request
   let sql =`SELECT * FROM skripsi WHERE user_id='${payload.id}' LIMIT 1`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
@@ -130,16 +121,16 @@ router.post('/upload/', (req, res) =>{
     //Check Fields
     let { title, year, abstract, category, keywords} = req.body
     console.log(req.body)
-    if (!title || !year || !abstract || !req.file) {
-      return utils.template_response(res, 400, "Semua field harus diisi" , null)
+    if (!title || !year || !abstract ) {
+      return utils.template_response(res, 400, "Judul, tahun, dan abstrak harus diisi" , null)
+    }
+    if(!req.file){
+      return utils.template_response(res, 400, "File skripsi harus diunggah" , null)
     }
     //Get user id
     let bearer = req.get('Authorization')
     let token = bearer.split(' ')[1]
-    let payload={}
-    jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
-      payload=decodedPayload.request
-    })
+    let payload = jwt.decode(token, secret).request
     //Check if user has uploaded 
     let checkSkripsi =`SELECT * FROM skripsi WHERE user_id='${payload.id}' LIMIT 1`
     db.query(checkSkripsi, (err, skripsi)=>{
@@ -185,16 +176,16 @@ router.put('/reupload/', (req, res) =>{
     //Check Fields
     let { title, year, abstract, category, keywords} = req.body
     console.log(req.body)
-    if (!title || !year || !abstract || !req.file) {
-      return utils.template_response(res, 400, "Semua field harus diisi" , null)
+    if (!title || !year || !abstract ) {
+      return utils.template_response(res, 400, "Judul, tahun, dan abstrak harus diisi" , null)
+    }
+    if(!req.file){
+      return utils.template_response(res, 400, "File skripsi harus diunggah" , null)
     }
     //Get user id
     let bearer = req.get('Authorization')
     let token = bearer.split(' ')[1]
-    let payload={}
-    jwt.decode(secret, token, function (err, decodedPayload, decodedHeader) {
-      payload=decodedPayload.request
-    })
+    let payload = jwt.decode(token, secret).request
     //Check if user has uploaded 
     let checkSkripsi =`SELECT * FROM skripsi WHERE user_id='${payload.id}' LIMIT 1`
     db.query(checkSkripsi, (err, skripsi)=>{

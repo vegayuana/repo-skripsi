@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router , withRouter} from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import Routes from './Routes'
 
@@ -13,12 +13,8 @@ import 'typeface-oswald'
 
 export class App extends Component {
   componentDidMount(){
-    const elem = document.getElementById('startingLoader');
-    window.onload = () => {
-      if (elem) {
-        elem.remove();
-      }
-    }
+    const elem = document.getElementById('startingLoader')
+    elem.remove()
   }
   render() {
     return (

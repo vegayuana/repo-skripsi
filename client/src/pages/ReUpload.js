@@ -4,6 +4,8 @@ import { Redirect, Link } from 'react-router-dom'
 import axios from 'axios'
 import { scrollToTop } from '../helpers/autoScroll'
 import { Spinner, Modal } from 'react-bootstrap'
+import {Cookies} from 'react-cookie'
+const cookie = new Cookies()
 
 export class ReUpload extends Component {
   initialState={
@@ -103,7 +105,12 @@ export class ReUpload extends Component {
     }).then(res=>{
       this.setState({ 
         skripsi: res.data,
-        isLoaded: true
+        isLoaded: true,
+        title:res.data.title,
+        year:res.data.published_year.toString(),
+        abstract:res.data.abstract,
+        category:res.data.category,
+        keywords:res.data.keywords,
       })
     }).catch((err) => { 
       if(err.response){
@@ -116,13 +123,15 @@ export class ReUpload extends Component {
     scrollToTop()
   }
   render() {
-    let { message, status, isLoaded, skripsi, file, title, year, abstract, titleAlert, yearAlert, abstractAlert, keywords} = this.state
-    if (!localStorage.getItem('token')){
+  
+    let { message, status, isLoaded, skripsi, file, title, year, abstract, category, titleAlert, yearAlert, abstractAlert, keywords} = this.state
+    console.log(title, typeof(year), abstract, category, keywords)
+    if (!cookie.get('token')){
       return <Redirect to={'/'} />
     }
     return (
       <>
-      {!isLoaded? <Spinner animation="border" variant="secondary" /> :
+      {!isLoaded? <div className="spin-box"><Spinner animation="border" variant="secondary"/></div> :
       <div className="row no-margin">
         <div className="upload-box">
           <h3>Unggah Ulang</h3>
@@ -138,7 +147,7 @@ export class ReUpload extends Component {
             <form ref="reuploadForm">
               <div className="form-group">
                 <label>Judul *</label>
-                <textarea type="text" id="title" maxLength="255" onBlur={this.handleInput} className="form-control" placeholder="Judul Skripsi"/>
+                <textarea type="text" id="title" maxLength="255" onBlur={this.handleInput} className="form-control" placeholder="Judul Skripsi" defaultValue={skripsi.title}/>
                 { titleAlert==='initial'? <></> : !titleAlert ?
                   <div className="alert alert-danger" role="alert">
                     <strong>Judul tidak boleh kosong</strong>
@@ -147,7 +156,7 @@ export class ReUpload extends Component {
               </div>
               <div className="form-group">
                 <label>Tahun *</label>
-                <input type="number" id="year" onBlur={this.handleInput} className="form-control" placeholder="Tahun Publikasi Skripsi"/>
+                <input type="number" id="year" onBlur={this.handleInput} className="form-control" placeholder="Tahun Publikasi Skripsi" defaultValue={skripsi.published_year}/>
                 { yearAlert==='initial'? <></> : year.length!==4 || year<2000 || year>2100 ?
                   <div className="alert alert-danger" role="alert">
                     <strong>Tahun harus diisi dengan benar</strong>
@@ -156,7 +165,7 @@ export class ReUpload extends Component {
               </div>
               <div className="form-group">
                 <label>Abstrak *</label>
-                <textarea id="abstract" onBlur={this.handleInput} className="form-control" placeholder="Input Abstrak"/>
+                <textarea id="abstract" onBlur={this.handleInput} className="form-control" placeholder="Input Abstrak" defaultValue={skripsi.abstract}/>
                 { abstractAlert==='initial'? <></> : !abstractAlert ?
                   <div className="alert alert-danger" role="alert">
                     <strong>Abstrak tidak boleh kosong</strong>
@@ -174,7 +183,7 @@ export class ReUpload extends Component {
               </div> 
               <div className="form-group">
                 <label>Bidang Minat Skripsi</label>
-                <select className="custom-select" onChange={this.handleInput} id="category">
+                <select className="custom-select" onChange={this.handleInput} id="category" defaultValue={skripsi.category}>
                   <option value=''>Bidang Minat</option>
                   <option value='1'>Artificial Intelligence</option>
                   <option value='2'>Sistem Informasi</option>
@@ -184,14 +193,14 @@ export class ReUpload extends Component {
               <div className="form-group">
                 <label>Kata Kunci </label>
                 <p style={{fontSize: '0.8rem'}}>Input 1-5 kata kunci yang berkaitan dengan skripsi (pisahkan dengan koma)</p>
-                <input type="text" id="keywords" onChange={this.handleInput} className="form-control" placeholder="Kata Kunci"/>
+                <input type="text" id="keywords" onChange={this.handleInput} className="form-control" placeholder="Kata Kunci" defaultValue={skripsi.keywords}/>
                 { keywords.length<255 ? <></> : 
                   <div className="alert alert-danger" role="alert">
                     <strong>Kata kunci terlalu banyak</strong>
                   </div> 
                 }
-              </div>
-              <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)} disabled={!title || !abstract || year.length!==4 || year<2000 || year>2100 || !file || !file.type==="application/pdf" || keywords.length>=255}>Submit</button>
+              </div> 
+              <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)} disabled={!title || !abstract || year.length!==4 || year<2000 || year>2100 || keywords.length>=255}>Submit</button>
               { message ==='' ? <></> : 
                 <div className="alert alert-danger" role="alert">
                   <strong>{this.state.message}</strong>

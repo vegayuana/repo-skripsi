@@ -11,6 +11,8 @@ import axios from 'axios'
 import $ from 'jquery'
 import {scrollToTop} from '../helpers/autoScroll'
 import MediaQuery from 'react-responsive'
+import {Cookies} from 'react-cookie'
+const cookie = new Cookies()
 
 export class Nav extends PureComponent {
   state = {
@@ -25,10 +27,11 @@ export class Nav extends PureComponent {
     loginState:false
   }
   componentDidMount(){
-    if(localStorage.getItem('token')){
+    console.log('ini lo', cookie.get('login'))
+    if(cookie.get('token')){
       let log ={
-        token : localStorage.getItem('token'),
-        role : localStorage.getItem('role')
+        token : cookie.get('token'),
+        role : cookie.get('role')
       }
       this.props.login(log)
     }

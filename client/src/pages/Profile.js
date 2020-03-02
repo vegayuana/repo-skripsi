@@ -4,6 +4,8 @@ import { Redirect } from 'react-router-dom'
 import ProfileInfo from '../components/ProfileInfo'
 import SkripsiStatus from '../components/SkripsiStatus'
 import {scrollToTop} from '../helpers/autoScroll'
+import {Cookies} from 'react-cookie'
+const cookie = new Cookies()
 
 export class Profile extends Component {
   state={
@@ -35,7 +37,7 @@ export class Profile extends Component {
   }
   render() {
     let { style1, style2 } = this.state
-    if (!localStorage.getItem('token')){
+    if (!cookie.get('token')){
       return <Redirect to={'/'} />
     }
     return (

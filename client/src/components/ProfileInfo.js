@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { Spinner, Modal} from 'react-bootstrap'
 import { connect } from 'react-redux'
 import axios from 'axios'
+import moment from 'moment'
+import {Cookies} from 'react-cookie'
+const cookie = new Cookies()
 
 export class ProfileInfo extends Component {
   state={
@@ -20,7 +23,7 @@ export class ProfileInfo extends Component {
       method: 'get',
       url: `/user/profile/`,
       headers: {
-        Authorization: localStorage.getItem('token')
+        Authorization: cookie.get('token')
       } 
     })
     .then(res=>{
@@ -119,13 +122,25 @@ export class ProfileInfo extends Component {
     return (
       <div>
       {offline? <p>Anda sedang offline. Cek koneksi anda dan refresh </p>
-      : !isLoaded ? <Spinner animation="border" variant="secondary" /> 
+      : !isLoaded ? <div className="spin-box"><Spinner animation="border" variant="secondary"/></div>
       : <>
-        <p>{user.name}</p>
-        <p>{user.npm}</p>
-        <div><img src={user.ktm_url} alt='ktm'className='ktm'/></div>
-        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#editPass">Edit Password</button>
+      <div className="row">
+        <div className="col-md-5 img-div"> 
+          <div className="img-box"><img src={user.ktm_url} alt='ktm'className='ktm'/></div>
+        </div>
+        <div className="col-md-7">
+          <h5><b>Nama</b></h5>
+          <p className='column'>{user.name}</p>
+          <h5><b>NPM</b></h5>
+          <p className='column'>{user.npm}</p>
+          <h5><b>Waktu diaktifkan</b></h5>
+          <p className='column'>{moment(user.processed_at).format("YYYY-MM-D H:mm:ss")}</p>
+          <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#editPass">Edit Password</button>
         
+        </div>
+      </div>
+        
+       
         {/* Edit Password Modal */}
         <div className="modal fade" id="editPass" tabIndex="-1" role="dialog" aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered" role="document">

@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcrypt')
-const jwt = require('json-web-token')
+const jwt = require('jsonwebtoken')
 const utils = require('../utils/templates')
 
 //connect DB
@@ -19,10 +19,9 @@ router.post('/login', (req, res) =>{
       return utils.template_response(res, 400, "NPM harus diisi" , null)
     }
     else{
-      return utils.template_response(res, 400, "Password harus" , null)
+      return utils.template_response(res, 400, "Password harus diisi" , null)
     }
   }
-  
   const findUser =`SELECT * FROM users WHERE npm='${npm}'`
   db.query(findUser, npm, async (err, result)=>{
     try{
@@ -36,31 +35,30 @@ router.post('/login', (req, res) =>{
         return utils.template_response(res, 400, "Akun belum diaktifkan. Harap tunggu admin meninjau akun", null)
       }
       //Compare Pass
-      if( await bcrypt.compare(password, user.password)){ 
-        //Generate Token 
-        var payload = {
-          "iss": "repository.apps",
-          "aud": "world",
-          "exp": 1592244331,
-          "iat": 1400062400223,
-          "typ": "repository",
-          "request": {
-            "id": user.id,
-            "npm": user.npm,
-            "role": user.role,
-            "name": user.name,
-          }
+      if( !await bcrypt.compare(password, user.password)){ 
+        return utils.template_response(res, 400, "Password tidak cocok", {token: '', isLogged:false})
+      } 
+      //Generate Token 
+      var payload = {
+        "iss": "repository.apps",
+        "aud": "world",
+        "typ": "JWT",
+        "request": {
+          "id": user.id,
+          "npm": user.npm,
+          "role": user.role,
+          "name": user.name,
         }
-        var secret = "repository.secret"
-        jwt.encode(secret, payload, function (err, token) {
-          let bearer = 'Bearer ' + token
-          if (err) {
-            return utils.template_response(res, 500, "internal api error", null)
-          }
-          return utils.template_response(res, 200, "Login Berhasil", {token: bearer, isLogged:true, role:user.role})
-        })
       }
-      return utils.template_response(res, 400, "Password tidak cocok", {token: '', isLogged:false})
+      var secret = "repository.secret"
+      jwt.sign(payload, secret, { expiresIn: '1d' }, function (err, token) {
+        let bearer = 'Bearer ' + token
+        if (err) {
+          console.log('heo')
+          return utils.template_response(res, 500, "internal api error", null)
+        }
+        return utils.template_response(res, 200, "Login Berhasil", {token: bearer, isLogged:true, role:user.role})
+      })
     }
     catch(err){
       return (err)

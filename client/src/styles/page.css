@@ -79,13 +79,13 @@ a{
   cursor: pointer;
 }
 #button-addon2{
-  background-color: #6c757d;
-  border-color: #6c757d;
-  color: white;
+  background-color: white;
+  border: none;
+  color: #abb1b7;
+  pointer-events: none;
 }
-#button-addon2:hover{
-  background-color: #05386B;
-  border-color: #05386B;
+#button-addon2:focus{
+  box-shadow: none;
 }
 .btn-primary{
   background-color: #379683;
@@ -103,14 +103,14 @@ a{
   border-color: #6c757d;
 }
 .btn-blue{
-  background-color: #05386B;
-  border: 1px solid #05386B;
+  background-color: #032649;
+  border: 1px solid #032649;
   color: white;
   transition: 0.3s;
 }
 .btn-blue:hover ,.btn-blue:active, .btn-blue:focus, .show>.btn-blue.dropdown-toggle {
-  background-color: #05386B !important;
-  border: 1px solid #05386B;
+  background-color: #379683 !important;
+  border: 1px solid #379683 ;
   box-shadow: none !important;
   color: white;
 }
@@ -140,6 +140,13 @@ a{
 .search-box{
   z-index: 100;
   margin: 10px;
+}
+.search-box .input-group{
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+}
+.search-box .form-control{
+  border: none;
 }
 .filter-box{
   margin: 5px auto;
@@ -260,7 +267,6 @@ a{
 .file{
   margin-top: 0rem;
 }
-
 .file-box{
   background-color: white;
   border-radius: 0px;
@@ -271,6 +277,7 @@ a{
 }
 .file-box h5{
   font-family: 'Oswald', sans-serif;
+  color: #05386B;
 }
 .register-box{
   background-color: white;
@@ -374,7 +381,7 @@ a{
 }
 .icons{
   font-size: 2rem;
-  color: #379683;
+  color: white;
 }
 .icon{    
   font-size: 4rem;
@@ -417,6 +424,9 @@ a{
   top: -10px;
   color: #379683;
 }
+.profile-box h5{
+  font-weight: bold;
+}
 .profile-box h5, .profile-box p{
   font-size: 0.8rem;
 }
@@ -426,11 +436,32 @@ a{
 .profile-box .row{
   margin-bottom: 0.2rem;
 }
+.column{
+  color: black;
+  border: 2px solid #05386B;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.img-div{
+  margin-bottom:20px
+}
+.img-box{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.ktm{
+  max-width: 250px;
+  width:100%;
+  margin:auto;
+}
 .abs{
   max-height: 180px;
   overflow-y: auto;
-  box-shadow: inset 0px 0px 5px lightgrey;
+  word-break: break-all;
   padding: 10px;
+  padding-left:0px;
   margin-bottom: 10px;
 }
 .title{
@@ -456,10 +487,6 @@ a{
 .ribbon-right{
   left:-10px;
 }
-.ktm{
-  width: 200px;
-  margin-bottom:2rem
-}
 .icon-check{
   color:#379683;
   font-weight: 500;
@@ -469,6 +496,7 @@ a{
   background-color: white;
   color: #379683;
   width: 100%;
+  height: 50vh;
   margin: 10px 20px 2rem;
   padding: 20px;
   border: 1px solid #edf5e1;
@@ -481,11 +509,45 @@ a{
 .upload-box textarea#abstract{
   height: 150px;
 }
+.msg-upload{
+  text-align: center;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .table-box Table{
   border: 1px solid #edf5e1;
 }
 .small-box{
   margin:20px;
+}
+.btn-box{
+  display: flex;
+  justify-content: center;
+}
+.btn-preview{
+  margin: 0px 5px;
+}
+.react-pdf__Document{
+  margin:10px auto;
+  text-align: center;
+}
+.react-pdf__Page__canvas{
+  max-width: 600px;
+  width: 100% !important;
+  height: auto !important;
+  margin: auto;
+  border: 1px solid lightgrey;
+  box-shadow: 1px 1px 8px lightgrey;
+}
+.react-pdf__Page__annotations{
+  display: none;
+}
+.spin-box{
+  display: flex;
+  justify-content: center;
 }
 .progress{
   height: 0.5rem;
@@ -576,6 +638,7 @@ a{
   }
   .small-box{
     height: 100%;
+    margin: 0px;
   }
   .detail-box{
     min-height: 100%;
@@ -597,11 +660,17 @@ a{
   .profile-box .icon-check{
     font-size: unset;
   }
+  .img-div{
+    margin-bottom:unset
+  }
+  .img-box{
+    border-right: 1px solid #05386B;
+  }
+  .ktm{
+    max-width: 300px;
+  }
   .abs{
     max-height: 400px;
-  }
-  .ribbon{
-    padding: 10px 50px;
   }
   .upload-box{
     padding: 50px;

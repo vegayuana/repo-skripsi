@@ -4,6 +4,8 @@ import { Redirect, Link } from 'react-router-dom'
 import axios from 'axios'
 import { scrollToTop } from '../helpers/autoScroll'
 import { Spinner, Modal } from 'react-bootstrap'
+import {Cookies} from 'react-cookie'
+const cookie = new Cookies()
 
 export class Upload extends Component {
   initialState={
@@ -130,7 +132,7 @@ export class Upload extends Component {
   }
   render() {
     let { message, status, isLoaded, offline, skripsi, file, title, year, abstract, titleAlert, yearAlert, abstractAlert, keywords} = this.state
-    if (!localStorage.getItem('token')){
+    if (!cookie.get('token')){
       return <Redirect to={'/'} />
     }
     return (
@@ -139,8 +141,8 @@ export class Upload extends Component {
         <div className="upload-box">
           <h3>Unggah</h3>
           {offline? <p>Anda sedang offline. Cek koneksi anda dan refresh </p> 
-            : !isLoaded? <Spinner animation="border" variant="secondary" /> 
-            : skripsi ? <><hr/><div className="text-middle"><h5>Anda sudah mengunggah skripsi</h5><p>Cek status skripsi di menu profil</p></div></> :
+            : !isLoaded? <div className="spin-box"><Spinner animation="border" variant="secondary"/></div>
+            : skripsi ? <><hr/><div className="msg-upload"><h5>Anda sudah mengunggah skripsi</h5><p>Cek status skripsi di menu profil</p></div></> :
           <>
           <form ref="uploadForm">
             {status === 200?       
@@ -206,7 +208,7 @@ export class Upload extends Component {
                   </div> 
                 }
               </div>
-              <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)} disabled={!title || !abstract || year.length!==4 || year<2000 || year>2100 || !file || !file.type==="application/pdf" || keywords.length>=255}>Submit</button>
+              <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)} disabled={!title || !abstract || year.length!==4 || year<2000 || year>2100 || !file.type==="application/pdf" || keywords.length>=255}>Submit</button>
               { message ==='' ? <></> : 
                 <div className="alert alert-danger" role="alert">
                   <strong>{this.state.message}</strong>

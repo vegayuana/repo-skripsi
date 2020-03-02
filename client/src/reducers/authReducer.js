@@ -1,19 +1,22 @@
+import {Cookies} from 'react-cookie'
+const cookie = new Cookies()
+
 const initialState = {
   role:'',
   token:''
 }
 
 export const setToken = (loginInfo) => {
-  localStorage.setItem('token', loginInfo.token)
-  localStorage.setItem('role', loginInfo.role)
+  cookie.set('token', loginInfo.token, {path:'/', maxAge:86400})
+  cookie.set('role', loginInfo.role, {path:'/', maxAge:86400})
   return dispatch => {
     dispatch({ type: "SET_TOKEN", payload: loginInfo })
   }
 } 
 
 export const delToken = ()=>{
-  localStorage.removeItem('token')
-  localStorage.removeItem('role')
+  cookie.remove('token')
+  cookie.remove('role')
   return dispatch => {
     dispatch({ type: "DEL_TOKEN", payload: "" })
   }

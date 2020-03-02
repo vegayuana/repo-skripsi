@@ -6,6 +6,8 @@ import axios from 'axios'
 import {scrollToTop} from '../../helpers/autoScroll'
 import { FaFilePdf, FaCheck, FaTimes} from 'react-icons/fa'
 import moment from 'moment'
+import {Cookies} from 'react-cookie'
+const cookie = new Cookies()
 
 export class SkripsiVerification extends Component {
   state ={
@@ -23,7 +25,7 @@ export class SkripsiVerification extends Component {
       method: 'get',
       url: '/admin/show-skripsi',
       headers: {
-        Authorization: localStorage.getItem('token')
+        Authorization: cookie.get('token')
       } 
     }).then(res=>{
       this.setState({ 
@@ -124,7 +126,7 @@ export class SkripsiVerification extends Component {
   }
   render() {
     let { isLoaded, skripsi, offline, message} = this.state
-    if (!localStorage.getItem('token')|| this.props.role==='user'){
+    if (!cookie.get('token')|| this.props.role==='user'){
       return <Redirect to={'/'} />
     }
     return (

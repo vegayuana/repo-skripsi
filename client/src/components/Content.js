@@ -23,7 +23,6 @@ export class Content extends PureComponent {
       method: 'get',
       url: '/skripsi/list',
     }).then(res=>{
-      console.log(res.data)
       this.setState({ 
         skripsi: res.data,
         isLoaded: true,
@@ -49,7 +48,6 @@ export class Content extends PureComponent {
     }
     else{
       if (localStorage.getItem('list')){
-        console.log('hehe')
         let data = JSON.parse(localStorage.getItem('list'))
         this.setState({ 
           skripsi: data,
