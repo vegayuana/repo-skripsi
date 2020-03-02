@@ -10,7 +10,6 @@ import {FaUserAlt} from 'react-icons/fa'
 export class Footer extends Component {
   render() {
     const {pathname} = this.props.location;
-    console.log(pathname)
     return (
       <>
       <div className='footer row no-margin'>
