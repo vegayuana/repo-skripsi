@@ -142,7 +142,7 @@ export class SkripsiVerification extends Component {
             <thead>
               <tr>
                 <th scope="col">No</th>
-                <th scope="col" className="td-lg">Judul</th>
+                <th scope="col" className="td-md">Judul</th>
                 <th scope="col" className="td-md">Penulis</th>
                 <th scope="col" className="td-sm">Tahun</th>
                 <th scope="col" className="td-lg">Abstrak</th>
@@ -163,10 +163,10 @@ export class SkripsiVerification extends Component {
                   <td>{item.title}</td>
                   <td>{item.name}</td>
                   <td>{item.published_year}</td>
-                  <td><div style={{height:'200px', overflowY:'scroll'}}>{item.abstract}</div></td>
+                  <td><div style={{height:'200px', wordBreak:'break-word', overflowY:'auto'}}>{item.abstract}</div></td>
                   <td>
                     {!item.file_url ? <>File Tidak ada</> :
-                    <a href={'https://repositori-skripsi.herokuapp.com/'+item.file_url} target='_blank' rel='noreferrer noopener'><FaFilePdf className='icons'/> Klik</a>
+                    <a href={'https://repositori-skripsi.herokuapp.com/'+item.file_url} target='_blank' rel='noreferrer noopener'><FaFilePdf className="pdf-icon"/> Klik</a>
                     }
                   </td>
                   <td>{ item.is_approved === 1 ? <div style={{color:'#379683'}}><FaCheck/> Dipublikasikan</div> : 

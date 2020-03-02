@@ -54,7 +54,9 @@ export class SkripsiStatus extends Component {
         <hr/>
         {offline? <p>Anda sedang offline. Cek koneksi anda dan refresh </p> 
           : !isLoaded? <div className="spin-box"><Spinner animation="border" variant="secondary"/></div>
-          : !skripsi ? <div><h5>Anda Belum Mengunggah Skripsi</h5></div> 
+          : !skripsi ? <div><h5>Anda Belum Mengunggah Skripsi</h5>
+              <Link to='/upload'><button className='btn btn-primary'>Unggah</button></Link>
+            </div> 
           : <>
           <div className="row">
             <div className="col-4 col-md-3">

@@ -140,12 +140,22 @@ export class Nav extends PureComponent {
               <li className='nav-item dropdown'>
                 <button className='btn btn-nav btn-transition dropdown' data-toggle='dropdown'>Masuk</button>
                 <ul className='dropdown-menu login-form'>
-                  <form className='form-inline'>
-                    <input type='text' id='npm' className='form-control' placeholder='NPM' onChange={this.handleChange} required/>
-                    <input type='password' id='pass' className='form-control' placeholder='Password' onChange={this.handleChange} required/>
-                    <button type='submit' className='btn btn-primary' onClick={e => this.submitLogin(e)}>
-                      Masuk
-                    </button>
+                  <form className='form'>
+                    <div className="padding-15">
+                      <div className="row">
+                        <div className="col-6 col-md-5 no-padding">
+                          <input type='text' id='npm' className='form-control' placeholder='NPM' onChange={this.handleChange} required/>
+                        </div>
+                        <div className="col-6 col-md-5 no-padding">
+                          <input type='password' id='pass' className='form-control' placeholder='Password' onChange={this.handleChange} required/>
+                        </div>
+                        <div className="col-12 col-md-2 no-padding">
+                          <button type='submit' className='btn btn-primary' onClick={e => this.submitLogin(e)}>
+                            Masuk
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                     {status===400? 
                     <div className='alert alert-warning login-alert' role='alert'>
                       <strong>{message}</strong>

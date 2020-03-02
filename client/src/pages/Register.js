@@ -3,6 +3,9 @@ import bg2 from '../icons/bg2.webp'
 import axios from 'axios'
 import { scrollToTop } from '../helpers/autoScroll'
 import { ProgressBar, Modal} from 'react-bootstrap'
+import { Redirect } from 'react-router-dom'
+import { Cookies } from 'react-cookie'
+const cookie = new Cookies()
 export class Register extends Component {
   initialState = {
     showLoading:false,
@@ -161,7 +164,10 @@ export class Register extends Component {
     scrollToTop()
   }
   render() {
-    let {npm, pass, passCheck, message, status} =this.state
+    let {npm, pass, passCheck, message, status, showLoading} =this.state
+    if (cookie.get('token')){
+      return <Redirect to={'/'} />
+    }
     return (
       <>
         <img src={bg2} alt='Logo' className='bg2' />
@@ -203,7 +209,11 @@ export class Register extends Component {
                 <button type='submit' className='btn btn-primary' onClick={e => this.submit(e)} disabled={!passCheck}>
                   Submit
                 </button>
-                {message === '' ? ( <></> ) : (
+                {showLoading===true? 
+                <div className='alert alert-success' role='alert'>
+                  <strong>{this.state.message}</strong>
+                </div> : 
+                message === '' ? ( <></> ) : (
                   <div className='alert alert-danger' role='alert'>
                     <strong>{this.state.message}</strong>
                   </div>
@@ -217,7 +227,10 @@ export class Register extends Component {
                 <button type='submit' className='btn btn-primary' onClick={e => this.submitKTM(e)} disabled={!passCheck}>
                   Submit
                 </button>
-                {message === '' ? (<></>) : (
+                {showLoading===true? 
+                <div className='alert alert-success' role='alert'>
+                  <strong>{this.state.message}</strong>
+                </div> : message === '' ? (<></>) : (
                   <div className='alert alert-danger' role='alert'>
                     <strong>{this.state.message}</strong>
                   </div>
@@ -238,7 +251,7 @@ export class Register extends Component {
           <div className='col-xl-3'></div>
           <Modal show={this.state.showLoading} centered>
             <Modal.Body className='modal-box'>
-              {this.state.message}
+              Sedang diproses...
             </Modal.Body>
           </Modal>
         </div>

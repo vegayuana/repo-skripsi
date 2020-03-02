@@ -109,6 +109,18 @@ a{
   transition: 0.3s;
 }
 .btn-blue:hover ,.btn-blue:active, .btn-blue:focus, .show>.btn-blue.dropdown-toggle {
+  background-color: #05386B !important;
+  border: 1px solid #05386B ;
+  box-shadow: none !important;
+  color: white;
+}
+.btn-download{
+  background-color: #032649;
+  border: 1px solid #032649;
+  color: white;
+  transition: 0.3s;
+}
+.btn-download:hover ,.btn-download:active, .btn-download:focus, .show>.btn-download.dropdown-toggle {
   background-color: #379683 !important;
   border: 1px solid #379683 ;
   box-shadow: none !important;
@@ -383,7 +395,11 @@ a{
   font-size: 2rem;
   color: white;
 }
-.icon{    
+.pdf-icon{
+  font-size: 2rem;
+  color: #379683;
+}
+.admin-icon{    
   font-size: 4rem;
   color: #379683;
 }
@@ -440,7 +456,7 @@ a{
   color: black;
   border: 2px solid #05386B;
   padding: 5px 10px;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 .img-div{
   margin-bottom:20px
@@ -496,7 +512,7 @@ a{
   background-color: white;
   color: #379683;
   width: 100%;
-  height: 50vh;
+  min-height: 50vh;
   margin: 10px 20px 2rem;
   padding: 20px;
   border: 1px solid #edf5e1;

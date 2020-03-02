@@ -6,8 +6,8 @@ export default function AdminCard(props) {
     <div className="row no-margin">
       <div className="col-4 card-icon">
         {props.icon === 'Akun' ?
-          <FaUserCheck className="icon"/> :
-            <FaFileAlt className="icon"/> }
+          <FaUserCheck className="admin-icon"/> :
+            <FaFileAlt className="admin-icon"/> }
       </div>
       <div className="col-8 card-text"><p className="no-margin">{props.menu}</p></div>
     </div>

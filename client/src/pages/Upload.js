@@ -181,7 +181,7 @@ export class Upload extends Component {
                 }
               </div>
               <div className="form-group">
-                <label>File * (Maks 20mb)</label>
+                <label>File * (Pdf Maks 20mb)</label>
                 <input type="file" ref="file" onChange={this.handleFile} className="form-control-file" id="file" accept=".pdf"/>
                 { !file ? <></> : file.type==="application/pdf" ? <></> :
                   <div className="alert alert-danger" role="alert">
@@ -208,7 +208,7 @@ export class Upload extends Component {
                   </div> 
                 }
               </div>
-              <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)} disabled={!title || !abstract || year.length!==4 || year<2000 || year>2100 || !file.type==="application/pdf" || keywords.length>=255}>Submit</button>
+              <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)} disabled={!title || !abstract || year.length!==4 || year<2000 || year>2100 || keywords? keywords.length>=255 : <></>}>Submit</button>
               { message ==='' ? <></> : 
                 <div className="alert alert-danger" role="alert">
                   <strong>{this.state.message}</strong>

@@ -194,13 +194,13 @@ export class ReUpload extends Component {
                 <label>Kata Kunci </label>
                 <p style={{fontSize: '0.8rem'}}>Input 1-5 kata kunci yang berkaitan dengan skripsi (pisahkan dengan koma)</p>
                 <input type="text" id="keywords" onChange={this.handleInput} className="form-control" placeholder="Kata Kunci" defaultValue={skripsi.keywords}/>
-                { keywords.length<255 ? <></> : 
+                { !keywords? <></> : keywords.length<255 ? <></> : 
                   <div className="alert alert-danger" role="alert">
                     <strong>Kata kunci terlalu banyak</strong>
                   </div> 
                 }
               </div> 
-              <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)} disabled={!title || !abstract || year.length!==4 || year<2000 || year>2100 || keywords.length>=255}>Submit</button>
+              <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)} disabled={!title || !abstract || year.length!==4 || year<2000 || year>2100 || keywords? keywords.length>=255: <></>}>Submit</button>
               { message ==='' ? <></> : 
                 <div className="alert alert-danger" role="alert">
                   <strong>{this.state.message}</strong>

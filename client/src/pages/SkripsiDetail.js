@@ -145,7 +145,7 @@ export class SkripsiDetail extends Component {
               { !skripsi ? <>No Data</> :
               // <a onClick={()=>this.download(skripsi.file_url)}><FaFilePdf className='icons'/> Unduh</a>
               <a href={'https://repositori-skripsi.herokuapp.com/'+skripsi.file_url} target='_blank' rel='noreferrer noopener'>
-                <button className="btn btn-blue"><FaFilePdf className='icons'/> Unduh</button>
+                <button className="btn btn-download"><FaFilePdf className='icons'/> Unduh</button>
               </a>
               }    
               <Document file={'https://repositori-skripsi.herokuapp.com/'+skripsi.file_url}>

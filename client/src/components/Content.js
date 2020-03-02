@@ -79,6 +79,9 @@ export class Content extends PureComponent {
   yearFilter = (e)=>{
     let year = e.target.id
     let {skripsi, cat} = this.state
+    this.setState({
+      currentPage:1
+    })
     //All
     if(year==='Tahun'){
       if (cat){
@@ -129,6 +132,9 @@ export class Content extends PureComponent {
     let cat = e.target.id
     let text = e.target.innerText
     let {skripsi, year} = this.state
+    this.setState({
+      currentPage:1
+    })
     //All
     if (cat==='all'){
       if (year){
