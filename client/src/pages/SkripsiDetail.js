@@ -6,8 +6,9 @@ import { Redirect } from 'react-router-dom'
 import {scrollToTop} from '../helpers/autoScroll'
 import { FaFilePdf } from 'react-icons/fa'
 import {Cookies} from 'react-cookie'
+import {Document, pdfjs, Page} from 'react-pdf'
 const cookie = new Cookies()
-
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 export class SkripsiDetail extends Component {
   state={
     skripsi:[], 
@@ -36,7 +37,18 @@ export class SkripsiDetail extends Component {
       }
     })
   }
-  
+  next = () => {
+    let {pageNumber} = this.state
+    if( pageNumber<=18){
+      this.setState({pageNumber:this.state.pageNumber+1})
+    }
+  }
+  before = () => {
+    let {pageNumber} = this.state
+    if( pageNumber>1){
+      this.setState({pageNumber:this.state.pageNumber-1})
+    }
+  }
   componentDidMount(){
     scrollToTop()
     if (navigator.onLine){
@@ -132,7 +144,14 @@ export class SkripsiDetail extends Component {
               <a href={'https://repositori-skripsi.herokuapp.com/'+skripsi.file_url} target='_blank' rel='noreferrer noopener'>
                 <button className="btn btn-download"><FaFilePdf className='icons'/> Unduh</button>
               </a>
-              }     
+              }   
+              <Document file={'https://repositori-skripsi.herokuapp.com/'+skripsi.file_url}>
+                <Page pageNumber={this.state.pageNumber} />
+              </Document>
+              <div className="btn-box"> 
+                <button className="btn btn-primary btn-preview" disabled={pageNumber===1? true: false} onClick={()=>this.before()}><FaChevronLeft/></button>
+                <button className="btn btn-primary btn-preview" disabled={pageNumber===18? true: false} onClick={()=>this.next()}><FaChevronRight/></button>
+              </div>
             </>
             }
             </div>

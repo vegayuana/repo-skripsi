@@ -197,10 +197,10 @@ export class Content extends PureComponent {
       <div className="row search-box">
         <div className="col-12">
           <div className="input-group">
-            <input type="text" className="form-control" onChange={this.onChange} placeholder="Nama Penulis, Judul, atau Kata Kunci Terkait" aria-label="Recipient's username" aria-describedby="button-addon2" />
-            <div className="input-group-append">
+          <div className="input-group-prepend">
               <button className="btn btn-outline-secondary" type="button" id="button-addon2"><FaSearch/></button>
             </div>
+            <input type="text" className="form-control" onChange={this.onChange} placeholder="Nama Penulis, Judul, atau Kata Kunci Terkait" aria-label="Recipient's username" aria-describedby="button-addon2" />
           </div>
         </div>
       </div> 

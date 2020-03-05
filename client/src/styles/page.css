@@ -291,6 +291,24 @@ a{
   font-family: 'Oswald', sans-serif;
   color: #05386B;
 }
+.btn-preview{
+  margin: 0px 5px;
+}
+.react-pdf__Document{
+  margin:10px auto;
+  text-align: center;
+}
+.react-pdf__Page__canvas{
+  max-width: 600px;
+  width: 100% !important;
+  height: auto !important;
+  margin: auto;
+  border: 1px solid lightgrey;
+  box-shadow: 1px 1px 8px lightgrey;
+}
+.react-pdf__Page__annotations{
+  display: none;
+}
 .register-box{
   background-color: white;
   color:#379683;
