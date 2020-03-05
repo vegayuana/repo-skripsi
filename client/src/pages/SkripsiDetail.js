@@ -4,7 +4,7 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import {scrollToTop} from '../helpers/autoScroll'
-import { FaFilePdf } from 'react-icons/fa'
+import { FaFilePdf, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import {Cookies} from 'react-cookie'
 import {Document, pdfjs, Page} from 'react-pdf'
 const cookie = new Cookies()
@@ -14,6 +14,7 @@ export class SkripsiDetail extends Component {
     skripsi:[], 
     isLoaded:false,
     offline:false,
+    pageNumber:13
   }
   getData =()=>{
     let id = this.props.match.params.id
@@ -64,7 +65,7 @@ export class SkripsiDetail extends Component {
     }
   }
   render() {
-    let { isLoaded, skripsi, offline } = this.state
+    let { isLoaded, skripsi, offline, pageNumber } = this.state
     if (!cookie.get('token')){
       return <Redirect to={'/'} />
     }
