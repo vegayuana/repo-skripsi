@@ -64,7 +64,7 @@ export class Content extends PureComponent {
     }
   }
   onChange =(e)=>{
-    let text = e.target.value.toLowerCase()
+    let text = e.target.value.toLowerCase().trim()
     let {skripsiFilteredTemp} = this.state
     const filteredData = skripsiFilteredTemp.filter(item => {
       if (item.keywords){

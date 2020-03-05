@@ -127,6 +127,9 @@ router.post('/upload/', (req, res) =>{
     if(!req.file){
       return utils.template_response(res, 400, "File skripsi harus diunggah" , null)
     }
+    if (keywords && keywords.length>=255){
+      return utils.template_response(res, 400, "Keywords terlalu panjang" , null)
+    }
     //Get user id
     let bearer = req.get('Authorization')
     let token = bearer.split(' ')[1]
@@ -181,6 +184,9 @@ router.put('/reupload/', (req, res) =>{
     }
     if(!req.file){
       return utils.template_response(res, 400, "File skripsi harus diunggah" , null)
+    }
+    if(keywords && keywords.length>=255){
+      return utils.template_response(res, 400, "Kata kunci terlalu banyak", null)
     }
     //Get user id
     let bearer = req.get('Authorization')

@@ -32,7 +32,7 @@ export class Footer extends Component {
         <nav className='foot-nav'>
           <Link to='/'><AiFillHome style={pathname==='/' ?{color:'#379683'}:{color:'#6c757d'}}/></Link>
           <Link to='/upload'><MdFileUpload style={pathname==='/upload' ? {fontSize:'2.1rem',color:'#379683'} :{color:'#6c757d',fontSize:'2.1rem'} }/></Link>
-          <Link to='/profile'><FaUserAlt style={pathname.slice(0,8)==='/profile' || pathname.slice(0,9)=='/reupload'  ?{color:'#379683'}:{color:'#6c757d'}}/></Link>
+          <Link to='/profile'><FaUserAlt style={pathname.slice(0,8)==='/profile' || pathname.slice(0,9)==='/reupload'  ?{color:'#379683'}:{color:'#6c757d'}}/></Link>
         </nav>
       </MediaQuery> 
       }
