@@ -18,7 +18,7 @@ router.get('/profile', (req, res) =>{
   let bearer = req.headers.authorization
   let token = bearer.split(' ')[1]
   let payload = jwt.decode(token, secret).request
-  let sql =`SELECT * FROM users WHERE npm='${payload.npm}' LIMIT 1`
+  let sql =`SELECT * FROM users WHERE id='${payload.id}' LIMIT 1`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
     res.send(result[0])
