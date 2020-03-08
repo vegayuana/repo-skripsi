@@ -27,7 +27,6 @@ export class Nav extends PureComponent {
     loginState:false
   }
   componentDidMount(){
-    console.log('ini lo', cookie.get('login'))
     if(cookie.get('token')){
       let log ={
         token : cookie.get('token'),
@@ -50,6 +49,7 @@ export class Nav extends PureComponent {
   }
   handleChange = (e) =>{
     this.setState({
+      status:'',
       [e.target.id] : e.target.value
     })
   }
@@ -154,6 +154,9 @@ export class Nav extends PureComponent {
                             Masuk
                           </button>
                         </div>
+                      </div>
+                      <div className="row">
+                        <Link to="/forgot" onClick={this.forgot} className='nav-forgot'>Lupa Password</Link>
                       </div>
                     </div>
                     {status===400? 

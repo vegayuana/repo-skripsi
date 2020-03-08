@@ -56,8 +56,23 @@ body.offline{
 .no-padding{
   padding: 0px;
 }
+.text-center{
+  text-align: center;
+}
 .text-middle{
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.1rem;
+  color: #379683;
+}
+.middle{
+  justify-content: center;
+  align-items: center;
+  height: 80%;
 }
 .bg{
   max-width: 100vw;
@@ -74,6 +89,18 @@ body.offline{
 }
 .bg2{
   display: none;
+}
+.bg3{
+  max-width: 180px;
+  width: 100%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+.bg3-box{
+  height: 25px;
+  margin: 0px 30px;
 }
 a{
   cursor: pointer;
@@ -140,7 +167,7 @@ a{
   color: #5cdb95;
 }
 .main-box{
-  margin: 10px;
+  margin: 10px 10px 30px;
 }
 .main-box hr{
   background-color: #05386B;
@@ -153,12 +180,12 @@ a{
   z-index: 100;
   margin: 10px;
 }
-.search-box .input-group{
+.search-box .form-control{
+  border:none
+}
+.input-group{
   border: 1px solid #ced4da;
   border-radius: 5px;
-}
-.search-box .form-control{
-  border: none;
 }
 .filter-box{
   margin: 5px auto;
@@ -197,7 +224,7 @@ a{
   background-color: white;
   transition:0.3s;
 }
-.list-box:hover{
+.list-box.transition-list:hover{
   transform: scale(1.1)
 }
 .list h5{
@@ -245,7 +272,7 @@ a{
   padding: 0 20px 20px;
   margin-bottom: 1rem;
 }
-.detail-box > div {
+.detail-header {
   position: sticky;
   top:0px;
   background-color: white;
@@ -269,6 +296,7 @@ a{
 }
 .abstract .detail-box p{
   text-align: justify;
+  font-size: smaller;
 }
 .abstract{
   margin-top: 0rem;
@@ -279,19 +307,22 @@ a{
 .file{
   margin-top: 0rem;
 }
-.file-box{
-  background-color: white;
-  border-radius: 0px;
-  border: 1px solid #edf5e1;
-  box-shadow: 0 3px 20px rgba(0,0,0,.05);
+.file .detail-box{
   padding: 20px;
-  margin-bottom: 2rem;
+  min-height: 655px;
 }
-.file-box h5{
+.num-page{
+  align-self: center;
+}
+.btn-pdf-box{
+  margin-top:20px;
+  display: flex;
+  justify-content: center;
+}
+.btn-pdf-box p{
   font-family: 'Oswald', sans-serif;
-  color: #05386B;
 }
-.btn-preview{
+.btn-pdf{
   margin: 0px 5px;
 }
 .react-pdf__Document{
@@ -308,6 +339,39 @@ a{
 }
 .react-pdf__Page__annotations{
   display: none;
+}
+.info-box{
+  background-color: white;
+  color: #379683;
+  border: 1px solid #edf5e1;
+  border-radius: 2px;
+  box-shadow: 0 3px 20px rgba(0,0,0,.05);
+  min-height: 40vh;
+  margin: 20px;
+  padding: 100px 20px 20px;
+  text-align: center;
+}
+.info-box b{
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.1rem;
+  text-transform: uppercase;;
+}
+.forgot-text h3{
+  text-align: center;
+}
+.forgot-box{
+  margin: 20px;
+  font-family: 'Oswald', sans-serif;
+}
+.info-box .form-control{
+  border: 1px solid #ced4da
+}
+.spin-forgot{
+  color: #379683;
+}
+.spin-forgot.spinnner-border{
+  width: 1.5rem !important;
+  height: 1.5rem !important;
 }
 .register-box{
   background-color: white;
@@ -331,13 +395,17 @@ a{
   font-size: 1rem;
   margin-bottom: 0.3rem;
 }
+.register-text p{
+  text-transform: uppercase;
+  font-family: oswald;
+}
 .register-box .form-control{
   border: none;
   border-bottom: 2px solid #edf5e1;
   border-radius: 0px;
   padding: 0px;
 }
-.register-box .form-control:focus, .search-box .form-control:focus{
+.form-control:focus{
   box-shadow: none;
 }
 /* Table */
@@ -393,6 +461,17 @@ a{
   justify-content: center;
   min-height: 45vh;
 }
+.list-box.admin{
+  max-height: 70px;
+}
+.list-box.admin:hover{
+  transform: scale(1.01)
+}
+.ellipsis{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .card{
   background-color: white;
   line-height: 150px;
@@ -442,6 +521,64 @@ a{
 .admin-modal .btn-primary{
   width:100%;
 }
+.admin-modal p{
+  font-family: 'Oswald', sans-serif;
+  text-align: center;
+}
+.forum-box{
+  height: 65vh;
+  background-color: white;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  box-shadow: 1px 1px 8px rgba(0,0,0,.05);
+  position: relative;
+  padding-bottom: 40px;
+  word-break: break-word;
+}
+.forum-title{
+  font-family: 'Oswald', sans-serif;
+  background-color: white;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  box-shadow: 1px 1px 8px rgba(0,0,0,.05);
+  padding: 10px;
+  color: #379683;
+  font-weight: 400;
+}
+.forum-content{
+  height: 100%;
+  overflow-y: auto;
+  padding-bottom: 20px;
+}
+.forum-text{
+  margin-top: 20px;
+  padding:10px;
+  background-color: #edf5e1;
+  border: 1px solid #ced4da;
+  border-radius: 3px;
+  box-shadow: 1px 1px 3px rgba(0,0,0,.05);
+}
+.forum-text p{
+  margin: 0px;
+}
+.forum-text-user{
+  margin-left: 50px;
+  margin-right: 10px;
+}
+.forum-text-admin{
+  margin-right: 50px;
+  margin-left: 10px;
+}
+.forum-box .head{
+  border-bottom: 1px solid #05386B;
+}
+.forum-box .form-control{
+  border:none
+}
+.question{
+  position: absolute;
+  bottom: 0px;
+}
 /* Profile */
 .profile-box{
   position: relative;
@@ -462,13 +599,23 @@ a{
   font-weight: bold;
 }
 .profile-box h5, .profile-box p{
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 .profile-box .icon-check{
   font-size: smaller;
 }
 .profile-box .row{
   margin-bottom: 0.2rem;
+}
+.status-skripsi hr{
+  margin-bottom: 0px;
+}
+.status-skripsi p,.status-skripsi .icon-check {
+  margin-bottom: 0px;
+  font-size: 0.9rem;
+}
+.td-status{
+  width:unset ;
 }
 .column{
   color: black;
@@ -506,6 +653,9 @@ a{
   color: #05386B;
   padding: 10px;
 }
+.title .form-control{
+  border:none
+}
 .ribbon{
   display: inline-block;
   position: relative;
@@ -517,6 +667,7 @@ a{
   text-align: center;
   max-width: 130px;
   width: 100%;
+  font-family: 'Oswald', sans-serif;
 }
 .ribbon-right{
   left:-10px;
@@ -539,6 +690,7 @@ a{
 }
 .upload-box h3{
   text-align: center;
+  font-family: 'Oswald', sans-serif;
 }
 .upload-box textarea#abstract{
   height: 150px;
@@ -550,6 +702,10 @@ a{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family: oswald;
+}
+.msg-upload h5, .msg-upload p{
+  font-weight: 400;
 }
 .table-box Table{
   border: 1px solid #edf5e1;
@@ -557,13 +713,16 @@ a{
 .small-box{
   margin:20px;
 }
-.btn-box{
-  display: flex;
-  justify-content: center;
-}
 .spin-box{
   display: flex;
   justify-content: center;
+}
+.spin-green{
+  color: #379683;
+}
+.spin-green.spinner-border{
+  width: 1.3rem;
+  height: 1.3rem;
 }
 .progress{
   height: 0.5rem;
@@ -630,6 +789,13 @@ a{
     right: 100px;
     width: 400px;
   }
+  .bg3{
+    max-width: 200px;
+  }
+  .bg3-box{
+    height: 10px;
+    margin:0px 100px
+  }
   .main-box{
     margin: 50px 85px 80px;
   }
@@ -667,14 +833,17 @@ a{
   .file{
     margin-top: 2rem;
   }
+  .file .detail-box{
+    min-height: 960px;
+  }
   .profile-box{
     padding: 50px;
   }
-  .profile-box h5, .profile-box p{
-    font-size: unset;
+  .td-status{
+    width:200px
   }
-  .profile-box .icon-check{
-    font-size: unset;
+  .status-skripsi h5, .status-skripsi .icon-check{
+    font-size: 1rem;
   }
   .img-div{
     margin-bottom:unset
@@ -691,6 +860,9 @@ a{
   .upload-box{
     padding: 50px;
     margin: 30px 100px;
+  }
+  .forgot-box{
+    margin: 20px 200px;
   }
   .btn-table{
     width: unset;

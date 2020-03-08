@@ -123,7 +123,6 @@ export class ReUpload extends Component {
     scrollToTop()
   }
   render() {
-  
     let { message, status, isLoaded, skripsi, file, title, year, abstract, category, titleAlert, yearAlert, abstractAlert, keywords} = this.state
     console.log(title, typeof(year), abstract, category, keywords)
     if (!cookie.get('token')){

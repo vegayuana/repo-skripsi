@@ -2,9 +2,8 @@ import React, { Component } from 'react'
 import { Spinner } from 'react-bootstrap'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
-import {scrollToTop} from '../helpers/autoScroll'
-import { FaFilePdf, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { scrollToTop} from '../helpers/autoScroll'
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import {Cookies} from 'react-cookie'
 import {Document, pdfjs, Page} from 'react-pdf'
 const cookie = new Cookies()
@@ -14,33 +13,57 @@ export class SkripsiDetail extends Component {
     skripsi:[], 
     isLoaded:false,
     offline:false,
-    pageNumber:13
+    pageNumber:1,
+    numPages:null
   }
   getData =()=>{
     let id = this.props.match.params.id
-    axios({
-      method: 'get',
-      url: `/skripsi/detail/`,
-      params:{
-        id : id
-      },
-      headers: {
-        Authorization: cookie.get('token')
-      } 
-    }).then(res=>{
-      this.setState({ 
-        skripsi: res.data[0],
-        isLoaded: true
+    if(this.props.token){
+      axios({
+        method: 'get',
+        url: `/skripsi/detail/`,
+        params:{
+          id : id
+        },
+        headers: {
+          Authorization: cookie.get('token')
+        } 
+      }).then(res=>{
+        this.setState({ 
+          skripsi: res.data[0],
+          isLoaded: true
+        })
+      }).catch(err=>{
+        if(err.response){
+        console.log(err.response)
+        }
       })
-    }).catch(err=>{
-      if(err.response){
-      console.log(err.response)
-      }
-    })
+    }
+    else{
+      axios({
+        method: 'get',
+        url: `/skripsi/info/`,
+        params:{
+          id : id
+        }, 
+      }).then(res=>{
+        this.setState({ 
+          skripsi: res.data[0],
+          isLoaded: true
+        })
+      }).catch(err=>{
+        if(err.response){
+        console.log(err.response)
+        }
+      })
+    }
+  }
+  onDocumentLoadSuccess = ({ numPages }) => {
+    this.setState({ numPages });
   }
   next = () => {
-    let {pageNumber} = this.state
-    if( pageNumber<=18){
+    let {pageNumber, numPages} = this.state
+    if( pageNumber<=numPages){
       this.setState({pageNumber:this.state.pageNumber+1})
     }
   }
@@ -65,10 +88,7 @@ export class SkripsiDetail extends Component {
     }
   }
   render() {
-    let { isLoaded, skripsi, offline, pageNumber } = this.state
-    if (!cookie.get('token')){
-      return <Redirect to={'/'} />
-    }
+    let { isLoaded, skripsi, offline, pageNumber, numPages} = this.state
     return (
       <div className="main-box"> 
         { offline ? 
@@ -91,7 +111,7 @@ export class SkripsiDetail extends Component {
               <>
                 { !skripsi ? <>No Data</> :
                   <>
-                  <div>
+                  <div className="detail-header">
                     <h4>IDENTITAS</h4>
                     <hr/>
                   </div>
@@ -120,10 +140,12 @@ export class SkripsiDetail extends Component {
               <>
               { !skripsi ? <>No Data</> :
               <>
-              <div>
+              <div className="detail-header">
                 <h4>ABSTRAK</h4>
                 <hr/>
               </div>
+              <p>{skripsi.abstrak}</p>
+              <hr/>
               <p>{skripsi.abstract}</p>
               </>
               }
@@ -132,33 +154,35 @@ export class SkripsiDetail extends Component {
             </div>
           </div>
         </div>
+        {!this.props.token? <></> :
         <div className="row file">
           <div className="col-12">
-          <div className="small-box">
-            <div className="line" style={{backgroundColor:'#5cdb95'}}></div>
-            <div className="file-box">
-              <h5>FILE</h5>
-              <hr/>
-              {!isLoaded ? <Spinner animation="border" variant="secondary" /> :<>
-              { !skripsi ? <>No Data</> :
-              // <a onClick={()=>this.download(skripsi.file_url)}><FaFilePdf className='icons'/> Unduh</a>
-              <a href={'https://repositori-skripsi.herokuapp.com/'+skripsi.file_url} target='_blank' rel='noreferrer noopener'>
-                <button className="btn btn-download"><FaFilePdf className='icons'/> Unduh</button>
-              </a>
-              }   
-              <Document file={'https://repositori-skripsi.herokuapp.com/'+skripsi.file_url}>
-                <Page pageNumber={this.state.pageNumber} />
-              </Document>
-              <div className="btn-box"> 
-                <button className="btn btn-primary btn-preview" disabled={pageNumber===1? true: false} onClick={()=>this.before()}><FaChevronLeft/></button>
-                <button className="btn btn-primary btn-preview" disabled={pageNumber===18? true: false} onClick={()=>this.next()}><FaChevronRight/></button>
+            <div className="small-box">
+              <div className="line" style={{backgroundColor:'#5cdb95'}}></div>
+              <div className="detail-box">
+                <h5>FILE</h5>
+                <hr/>
+                {!isLoaded ? <Spinner animation="border" variant="secondary" /> :<>
+                { !skripsi ? <>No Data</> :
+                <>
+                <Document file={'https://repositori-skripsi.herokuapp.com/'+skripsi.file_url}
+                onLoadSuccess={this.onDocumentLoadSuccess}>
+                  <Page pageNumber={pageNumber} />
+                </Document>
+                <div className="btn-pdf-box"> 
+                  <button className="btn btn-primary btn-pdf" disabled={pageNumber===1? true: false} onClick={()=>this.before()}><FaChevronLeft/></button>
+                  <p class="no-margin num-page">Page {pageNumber} of {numPages}</p>
+                  <button className="btn btn-primary btn-pdf" disabled={pageNumber===18? true: false} onClick={()=>this.next()}><FaChevronRight/></button>
+                </div>
+                </>
+                }
+              </>
+              }
               </div>
-            </>
-            }
             </div>
           </div>
-          </div>
         </div>
+        }
         </>
         }
       </div>

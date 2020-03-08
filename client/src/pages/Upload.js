@@ -141,7 +141,7 @@ export class Upload extends Component {
         <div className="upload-box">
           <h3>Unggah</h3>
           {offline? <p>Anda sedang offline. Cek koneksi anda dan refresh </p> 
-            : !isLoaded? <div className="spin-box"><Spinner animation="border" variant="secondary"/></div>
+            : !isLoaded? <div className="spin-box middle"><Spinner animation="border" variant="secondary"/></div>
             : skripsi ? <><hr/><div className="msg-upload"><h5>Anda sudah mengunggah skripsi</h5><p>Cek status skripsi di menu profil</p></div></> :
           <>
           <form ref="uploadForm">

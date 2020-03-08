@@ -26,6 +26,11 @@ export class Admin extends Component {
               <AdminCard menu='Tinjau Skripsi' icon='Skripsi'/>
             </Link>
           </div>
+          <div className="col-12 col-md-4">
+            <Link to='/question-list' className="card">
+              <AdminCard menu='Pertanyaan' icon='Pertanyaan'/>
+            </Link>
+          </div>
         </div>
       </div>
     )

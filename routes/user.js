@@ -18,7 +18,7 @@ router.get('/profile', (req, res) =>{
   let bearer = req.headers.authorization
   let token = bearer.split(' ')[1]
   let payload = jwt.decode(token, secret).request
-  let sql =`SELECT * FROM users WHERE id='${payload.id}' LIMIT 1`
+  let sql =`SELECT * FROM users WHERE npm='${payload.npm}' LIMIT 1`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
     res.send(result[0])
@@ -40,7 +40,7 @@ router.put('/edit-pass', async(req, res) =>{
       console.log('Need Login info')
       return 
     }
-    let findOldPass = `SELECT password FROM users where id='${payload.id}' limit 1`
+    let findOldPass = `SELECT password FROM users where npm='${payload.npm}' limit 1`
     db.query(findOldPass, async(err, result)=>{
       try{
         if( await bcrypt.compare(oldPass, result[0].password)){
@@ -50,7 +50,7 @@ router.put('/edit-pass', async(req, res) =>{
           }
           else{
             let password = await bcrypt.hash(newPass, 10)
-            let sql = `UPDATE users SET password='${password}' where id='${payload.id}'`
+            let sql = `UPDATE users SET password='${password}' where npm='${payload.npm}'`
             db.query(sql, (err, result)=>{
               if (err) console.log(err)
               return utils.template_response(res, 200, "Edit Password Berhasil", null)
@@ -76,7 +76,7 @@ router.get('/skripsi', (req, res) =>{
   let bearer = req.headers.authorization
   let token = bearer.split(' ')[1]
   let payload = jwt.decode(token, secret).request
-  let sql =`SELECT * FROM skripsi WHERE user_id='${payload.id}' LIMIT 1`
+  let sql =`SELECT * FROM skripsi WHERE npm='${payload.npm}' LIMIT 1`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
     res.send(result[0])
@@ -135,7 +135,7 @@ router.post('/upload/', (req, res) =>{
     let token = bearer.split(' ')[1]
     let payload = jwt.decode(token, secret).request
     //Check if user has uploaded 
-    let checkSkripsi =`SELECT * FROM skripsi WHERE user_id='${payload.id}' LIMIT 1`
+    let checkSkripsi =`SELECT * FROM skripsi WHERE npm='${payload.npm}' LIMIT 1`
     db.query(checkSkripsi, (err, skripsi)=>{
       if (err){
         return utils.template_response(res, 400, err.response, null)
@@ -146,7 +146,7 @@ router.post('/upload/', (req, res) =>{
       let path_url = req.file.path
       let post = {
         id: uuid(), 
-        user_id: payload.id,
+        npm: payload.npm,
         title: title,
         abstract: abstract,
         published_year: year, 
@@ -193,7 +193,7 @@ router.put('/reupload/', (req, res) =>{
     let token = bearer.split(' ')[1]
     let payload = jwt.decode(token, secret).request
     //Check if user has uploaded 
-    let checkSkripsi =`SELECT * FROM skripsi WHERE user_id='${payload.id}' LIMIT 1`
+    let checkSkripsi =`SELECT * FROM skripsi WHERE npm='${payload.npm}' LIMIT 1`
     db.query(checkSkripsi, (err, skripsi)=>{
       console.log('data', skripsi[0])
       if (err){
@@ -233,6 +233,42 @@ router.put('/reupload/', (req, res) =>{
       return utils.template_response(res, 200, "Unggah Ulang berhasil", null)
       })
     })   
+  })
+})
+
+//get forum 
+router.get('/forum', (req, res) =>{  
+  let bearer = req.headers.authorization
+  let token = bearer.split(' ')[1]
+  let payload = jwt.decode(token, secret).request
+  let sql =`SELECT forums.text, forums.sent_at, forums.from, users.name FROM forums join users on users.npm =forums.npm WHERE forums.npm='${payload.npm}'`
+  db.query(sql, (err, result)=>{
+    if (err) console.log(err)
+    res.send(result)
+  })
+})
+
+//insert forum 
+router.post('/insert-text', (req, res) =>{  
+  let bearer = req.headers.authorization
+  let token = bearer.split(' ')[1]
+  let payload = jwt.decode(token, secret).request
+  let {text} = req.body
+  let post = {
+    npm: payload.npm,
+    from: 'user',
+    text: text,
+    status: 0, 
+    sent_at: moment().format()
+  }
+  let sql = 'INSERT INTO forums SET ?'
+  db.query(sql, post, (err, result)=>{
+    if(err){
+      console.log(err)
+      return utils.template_response(res, 500, "Gagal mengirim" , null)
+    } 
+  console.log('success!')  
+  return utils.template_response(res, 200, "Berhasil mengirim", null)
   })
 })
 module.exports = router

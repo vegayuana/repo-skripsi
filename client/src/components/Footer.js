@@ -4,7 +4,7 @@ import logo from '../icons/logo.webp'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import MediaQuery from 'react-responsive'
-import {AiFillHome} from 'react-icons/ai'
+import {AiFillHome, AiFillQuestionCircle} from 'react-icons/ai'
 import {MdFileUpload} from 'react-icons/md'
 import {FaUserAlt} from 'react-icons/fa'
 export class Footer extends Component {
@@ -32,6 +32,7 @@ export class Footer extends Component {
         <nav className='foot-nav'>
           <Link to='/'><AiFillHome style={pathname==='/' ?{color:'#379683'}:{color:'#6c757d'}}/></Link>
           <Link to='/upload'><MdFileUpload style={pathname==='/upload' ? {fontSize:'2.1rem',color:'#379683'} :{color:'#6c757d',fontSize:'2.1rem'} }/></Link>
+          <Link to='/question-user'><AiFillQuestionCircle style={pathname.slice(0,10)==='/questions' ? {fontSize:'2rem', color:'#379683'}:{fontSize:'2rem', color:'#6c757d'}}/></Link>
           <Link to='/profile'><FaUserAlt style={pathname.slice(0,8)==='/profile' || pathname.slice(0,9)==='/reupload'  ?{color:'#379683'}:{color:'#6c757d'}}/></Link>
         </nav>
       </MediaQuery> 

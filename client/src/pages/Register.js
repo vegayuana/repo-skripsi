@@ -10,6 +10,7 @@ export class Register extends Component {
   initialState = {
     showLoading:false,
     npm: '', 
+    email:'',
     pass:'',
     passCheck: '', 
     message: '', 
@@ -25,12 +26,12 @@ export class Register extends Component {
     e.preventDefault()
     this.setState({
       showLoading:true,
-      message:'Sedang diproses ...'
     })
-    let {npm, pass}= this.state
+    let {npm, pass,email}= this.state
     let name = this.refs.name.value
     let data={
       name:name,
+      email:email,
       npm:npm,
       password:pass
     }
@@ -46,6 +47,7 @@ export class Register extends Component {
         progress: this.state.progress + 33,
         showLoading:false
       })
+      scrollToTop()
     }).catch(err => {
       this.setState({
         showLoading:false
@@ -58,7 +60,7 @@ export class Register extends Component {
       }
       else{
         this.setState({
-          message: 'Network error, Check your connection',
+          message: 'Network error, Cek Koneksi Anda',
           status: 500,
         })
       }
@@ -68,13 +70,13 @@ export class Register extends Component {
     e.preventDefault()
     this.setState({
       showLoading:true,
-      message:'Sedang diproses ...'
     })
-    let { npm, pass, file } = this.state
+    let { npm, pass, file,email } = this.state
     let name = this.refs.name.value
     const formData = new FormData()
     formData.append('ktm', file)
     formData.append('npm', npm)
+    formData.append('email', email)
     formData.append('name', name)
     formData.append('password', pass)
     console.log(file)
@@ -108,7 +110,7 @@ export class Register extends Component {
       }
       else{
         this.setState({
-          message: 'Network error, Check your connection',
+          message: 'Network error, Cek Koneksi anda',
           status: 500,
         })
       }
@@ -146,25 +148,11 @@ export class Register extends Component {
     e.preventDefault()
     this.setState(this.initialState)
   }
-  shouldComponentUpdate(nextProps, nextState) {
-    if (
-      nextState.message !== this.state.message ||
-      nextState.status !== this.state.status ||
-      nextState.npm !== this.state.npm ||
-      nextState.progress !== this.state.progress
-    ) {
-      return true
-    }
-    if (nextState.passCheck === this.state.passCheck) {
-      return false
-    }
-    return true
-  }
   componentDidMount(){
     scrollToTop()
   }
   render() {
-    let {npm, pass, passCheck, message, status, showLoading} =this.state
+    let {npm, email, pass, passCheck, message, status, showLoading} =this.state
     if (cookie.get('token')){
       return <Redirect to={'/'} />
     }
@@ -181,17 +169,27 @@ export class Register extends Component {
               <fieldset style={{ display: this.state.displayForm1 }}>
                 <div className='form-group'>
                   <label>Nama</label>
-                  <input type='text' ref='name' className='form-control' placeholder='Name'/>
+                  <input type='text' ref='name' className='form-control' placeholder='Nama'/>
                 </div>
+                <div className='form-group'>
+                  <label>Email</label>
+                  <input type='text' id='email' onBlur={this.handleInput} className='form-control' placeholder='Email'/>
+                </div>
+                {email.length>0 && !email.includes('@')? 
+                    <div className='alert alert-warning' role='alert'>
+                      <strong>Mohon inputkan Email yang valid</strong>
+                    </div>
+                    :<></>
+                  }
                 <div className='form-group'>
                   <label>NPM</label>
                   <input type='number' id='npm' onBlur={this.handleInput} className='form-control' placeholder='NPM'/>
                 </div>
-                {npm.length !== 12 && npm.length > 0 ? (
+                {npm.length !== 12 && npm.length > 0 ? 
                   <div className='alert alert-warning' role='alert'>
-                    <strong>NPM is incorrect! </strong>require 12 digits
+                    <strong>NPM salah! </strong>memerlukan 12 digit
                   </div>
-                ) : (<></>)
+                 : <></>
                 }
                 <div className='form-group'>
                   <label>Password</label>
@@ -206,14 +204,10 @@ export class Register extends Component {
                     Password does not match
                   </div>
                 )}
-                <button type='submit' className='btn btn-primary' onClick={e => this.submit(e)} disabled={!passCheck}>
+                <button type='submit' className='btn btn-primary' onClick={e => this.submit(e)} disabled={!npm || npm.length!==12 || !email || !email.includes('@') ||!pass ||!passCheck}>
                   Submit
                 </button>
-                {showLoading===true? 
-                <div className='alert alert-success' role='alert'>
-                  <strong>{this.state.message}</strong>
-                </div> : 
-                message === '' ? ( <></> ) : (
+                {message === '' ? ( <></> ) : (
                   <div className='alert alert-danger' role='alert'>
                     <strong>{this.state.message}</strong>
                   </div>
@@ -227,10 +221,7 @@ export class Register extends Component {
                 <button type='submit' className='btn btn-primary' onClick={e => this.submitKTM(e)} disabled={!passCheck}>
                   Submit
                 </button>
-                {showLoading===true? 
-                <div className='alert alert-success' role='alert'>
-                  <strong>{this.state.message}</strong>
-                </div> : message === '' ? (<></>) : (
+                {message === '' ? (<></>) : (
                   <div className='alert alert-danger' role='alert'>
                     <strong>{this.state.message}</strong>
                   </div>
@@ -238,8 +229,10 @@ export class Register extends Component {
               </fieldset>
               <fieldset style={{ display: this.state.displayForm3}}>
                 {status === 200 ? ( 
-                  <div className='alert alert-success' style={{ textAlign: 'center', marginTop: '0px' }} role='alert'>
-                    <strong>{this.state.message}</strong> Harap tunggu verifikasi Admin 
+                  <div className="text-center register-text" style={{marginBottom:'20px'}}>
+                    <p><b>{this.state.message}</b></p>
+                    <label>Silahkan cek email anda untuk mendapatkan link verifikasi</label>
+                    <label>Link akan aktif selama 30 menit kedepan</label>
                   </div>
                 ) : (<></>)}
                 <button className='btn btn-primary' onClick={e => this.back(e)}>
@@ -249,7 +242,7 @@ export class Register extends Component {
             </form>
           </div>
           <div className='col-xl-3'></div>
-          <Modal show={this.state.showLoading} centered>
+          <Modal show={showLoading} centered>
             <Modal.Body className='modal-box'>
               Sedang diproses...
             </Modal.Body>

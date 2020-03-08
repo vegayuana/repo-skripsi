@@ -9,7 +9,9 @@ const skripsiRoutes = require('./routes/skripsi')
 const skripsiDetailRoutes = require('./routes/skripsiDetail')
 const userRoutes = require('./routes/user')
 const adminRoutes = require('./routes/admin')
-const proxy = require("http-proxy-middleware")
+const emailRoutes = require('./routes/email')
+const newpassRoutes = require('./routes/newPass')
+const proxy = require('http-proxy-middleware')
 
 //-------Configuration
 
@@ -28,7 +30,7 @@ app.use(cors(corsOptions))
 const auth = require('./middleware/auth')
 
 app.use((req, res, next) =>{
-  console.log("go to middleware")
+  console.log('go to middleware')
   next()
 })
 
@@ -45,15 +47,57 @@ const redirect = (req, res, next) => {
  app.all('*', redirect)
 
 app => {
-  app.use(proxy(["/"], { target: "http://localhost:5000" }))
+  app.use(proxy(['/'], { target: 'http://localhost:5000' }))
 }
 app.use('/test', routes)
 app.use('/', registerRoutes)
 app.use('/', authRoutes)
+app.use('/', newpassRoutes)
 app.use('/skripsi', skripsiRoutes)
+app.use('/email', emailRoutes)
 app.use('/skripsi', auth.gen, skripsiDetailRoutes)
 app.use('/user', auth.users, userRoutes)
 app.use('/admin', auth.admin, adminRoutes)
+
+//----------delete unverified data
+// var CronJob = require('cron').CronJob
+// var job = new CronJob('*/1 * * * *', function() {
+//   console.log('delete data unverified every 30 mins')
+  
+//   const db = require('./db/db')
+//   require('./db/connection')
+//   const fs = require('fs')
+//   const moment = require('moment')
+  
+//   let find= `select ktm_url from temp_users where token_expired<'${moment().format()}'`
+//   db.query(find,(err, result)=>{ 
+//     if (err) {
+//       console.log(err)
+//     }
+//     else{
+//       console.log('array of unverified accounts',result)
+//       let ktm_url=result
+//       ktm_url.map(ktm=>{
+//         console.log('ktm', ktm.ktm_url)
+//         fs.unlink(ktm.ktm_url, (err) => {
+//           if (err) console.log(err, 'failed to delete ktm')
+//           else console.log(ktm.ktm_url, 'was deleted')
+//         })
+//       })
+//       let sql = `delete from temp_users where token_expired<'${moment().format()}'`
+//       db.query(sql, (err, result)=>{
+//         if (err) {
+//           console.log(err)
+//           console.log('Failed to delete')
+//           return
+//         }
+//         console.log('Done!')
+//       })
+//     }
+//   })
+// }, null, true)
+// job.start()
+//------------------
 
 //static
 app.use('/files/ktm', express.static(path.join(__dirname, 'files', 'ktm')))

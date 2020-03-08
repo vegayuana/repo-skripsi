@@ -49,7 +49,7 @@ export class SkripsiStatus extends Component {
   render() {
     let { isLoaded, offline, skripsi} = this.state
     return (
-      <div>
+      <div className='status-skripsi'>
         <b>Skripsi</b>
         <hr/>
         {offline? <p>Anda sedang offline. Cek koneksi anda dan refresh </p> 
@@ -58,83 +58,57 @@ export class SkripsiStatus extends Component {
               <Link to='/upload'><button className='btn btn-primary'>Unggah</button></Link>
             </div> 
           : <>
-          <div className="row">
-            <div className="col-4 col-md-3">
-              <h5>Judul</h5>
-            </div>
-            <div className="col-8 col-md-9">
-              <p>{skripsi.title}</p>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-4 col-md-3">
-              <h5>Abstrak</h5>
-            </div>
-            <div className="col-8 col-md-9">
-              <div className="abs">
-                <p>{skripsi.abstract}</p>
-              </div>  
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-4 col-md-3">
-              <h5>Tahun</h5>
-            </div>
-            <div className="col-8 col-md-9">
-              <p>{skripsi.published_year}</p>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-4 col-md-3">
-              <h5>File</h5>
-            </div>
-            <div className="col-8 col-md-9">
-              <a href={'https://repositori-skripsi.herokuapp.com/'+skripsi.file_url} alt="skripsi" target='_blank' rel='noreferrer noopener'><FaFilePdf/></a>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-4 col-md-3">
-              <h5>Bidang Minat </h5>
-            </div>
-            <div className="col-8 col-md-9">
-              <p>{skripsi.category===1? <>Artificial Intelligence</> : skripsi.category===2? <>Sistem Informasi</> : skripsi.category===3? <>Jaringan Komputer</> : <>-</>}</p>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-4 col-md-3">
-              <h5>Kata Kunci</h5>
-            </div>
-            <div className="col-8 col-md-9">
-              <p>{skripsi.keywords? <>{skripsi.keywords}</> : <>-</> }</p>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-4 col-md-3">
-              <h5>Waktu Unggah</h5>
-            </div>
-            <div className="col-8 col-md-9">
-              <p>{moment(skripsi.uploaded_at).format("YYYY-MM-D H:mm:ss")}</p>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-4 col-md-3">
-              <h5>Status</h5>
-            </div>
-            <div className="col-8 col-md-9">
-              {skripsi.is_approved===1 ? <div className='icon-check'><FaRegCheckCircle/> Dipublikasikan</div> :
-              skripsi.is_approved===0 ? <div className='icon-check text-danger'><IoMdCloseCircleOutline/> Ditolak</div>: <p>Belum Ditinjau</p>}
-            </div>
-          </div>
-          {skripsi.is_approved===2 ? <></> : 
-            <div className="row">
-              <div className="col-4 col-md-3">
-              { skripsi.is_approved===1 ? <h5>Waktu Dipublikasikan</h5> : <h5>Waktu Diproses</h5> }
-              </div>
-              <div className="col-8 col-md-9">
-                <p>{moment(skripsi.processed_at).format("YYYY-MM-D H:mm:ss")}</p>
-              </div>
-            </div>
-          }
+          <table class="table">
+            <tbody>
+              <tr>
+                <th scope="row" className="td-status"><h5>Judul</h5></th>
+                <td><p>{skripsi.title}</p></td>
+              </tr>
+              <tr>
+                <th scope="row"><h5>Abstrak</h5></th>
+                <td><p className='abs'>{skripsi.abstrak}</p></td>
+              </tr>
+              <tr>
+                <th scope="row"><h5>Abstract</h5></th>
+                <td><p className='abs'>{skripsi.abstract}</p></td>
+              </tr>
+              <tr>
+                <th scope="row"><h5>Tahun</h5></th>
+                <td><p>{skripsi.published_year}</p></td>
+              </tr>
+              <tr>
+                <th scope="row"><h5>File</h5></th>
+                <td>
+                  <a href={'https://repositori-skripsi.herokuapp.com/'+skripsi.file_url} alt="skripsi" target='_blank' rel='noreferrer noopener'><FaFilePdf/></a>
+                </td>
+              </tr>
+              <tr>
+                <th scope="row"><h5>Bidang Minat</h5></th>
+                <td><p>{skripsi.category===1? <>Artificial Intelligence</> : skripsi.category===2? <>Sistem Informasi</> : skripsi.category===3? <>Jaringan Komputer</> : <>-</>}</p></td>
+              </tr>
+              <tr>
+                <th scope="row"><h5>Kata Kunci</h5></th>
+                <td>  <p>{skripsi.keywords? <>{skripsi.keywords}</> : <>-</> }</p></td>
+              </tr>
+              <tr>
+                <th scope="row"><h5>Waktu Unggah</h5></th>
+                <td> <p>{moment(skripsi.uploaded_at).format("YYYY-MM-D H:mm:ss")}</p></td>
+              </tr>
+              <tr>
+                <th scope="row"><h5>Status</h5></th>
+                <td>
+                  {skripsi.is_approved===1 ? <div className='icon-check'><FaRegCheckCircle/> Dipublikasikan</div> :
+                  skripsi.is_approved===0 ? <div className='icon-check text-danger'><IoMdCloseCircleOutline/> Ditolak</div>: <p>Belum Ditinjau</p>}
+                </td>
+              </tr>
+            {skripsi.is_approved===2 ? <></> : 
+              <tr>
+                <th scope="row">{skripsi.is_approved===1 ? <h5>Waktu Dipublikasikan</h5> : <h5>Waktu Diproses</h5> }</th>
+                <td><p>{moment(skripsi.processed_at).format("YYYY-MM-D H:mm:ss")}</p></td>
+              </tr>
+            }
+            </tbody>
+          </table>
           {skripsi.is_approved===1? <></> : <Link to='/reupload'><button className="btn btn-primary">Edit Unggahan</button></Link>}
           </>
         }

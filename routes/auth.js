@@ -44,7 +44,6 @@ router.post('/login', (req, res) =>{
         "aud": "world",
         "typ": "JWT",
         "request": {
-          "id": user.id,
           "npm": user.npm,
           "role": user.role,
           "name": user.name,
@@ -54,7 +53,6 @@ router.post('/login', (req, res) =>{
       jwt.sign(payload, secret, { expiresIn: '1d' }, function (err, token) {
         let bearer = 'Bearer ' + token
         if (err) {
-          console.log('heo')
           return utils.template_response(res, 500, "internal api error", null)
         }
         return utils.template_response(res, 200, "Login Berhasil", {token: bearer, isLogged:true, role:user.role})

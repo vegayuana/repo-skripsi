@@ -4,7 +4,7 @@ import { Redirect, Link } from 'react-router-dom'
 import { Spinner, Breadcrumb, Table, Modal} from 'react-bootstrap'
 import axios from 'axios'
 import {scrollToTop} from '../../helpers/autoScroll'
-import { FaCheck } from 'react-icons/fa'
+import { FaCheck, FaSearch} from 'react-icons/fa'
 import moment from 'moment'
 import {Cookies} from 'react-cookie'
 const cookie = new Cookies()
@@ -12,6 +12,7 @@ const cookie = new Cookies()
 export class AccountVerification extends Component {
   state ={
     users: [],
+    usersFiltered:[],
     isLoaded: false,
     offline:false,
     showModal: false,
@@ -30,6 +31,7 @@ export class AccountVerification extends Component {
     }).then( res=>{
       this.setState({ 
         users: res.data,
+        usersFiltered:res.data,
         isLoaded: true
       })
     }).catch((err) => { 
@@ -111,6 +113,16 @@ export class AccountVerification extends Component {
       }
     })
   }  
+  onChange =(e)=>{
+    let text = e.target.value.toLowerCase().trim()
+    let {users} = this.state
+    const filteredData = users.filter(item => {
+      return item.name.toLowerCase().includes(text) || item.npm.includes(text)
+    })
+    this.setState({
+      usersFiltered:filteredData,
+    }) 
+  }
   handleShow = (id) =>{
     this.setState({
       showModal:true,
@@ -125,7 +137,7 @@ export class AccountVerification extends Component {
     })
   }
   render() {
-    let { isLoaded, offline, users, message} = this.state
+    let { isLoaded, offline, usersFiltered, message} = this.state
     if (!cookie.get('token') || this.props.role==='user'){
       return <Redirect to={'/'} />
     }
@@ -137,13 +149,26 @@ export class AccountVerification extends Component {
         </Breadcrumb>
         <div className="table-box">
           <div className="line"></div>
-          <div className="title">Akun Mahasiswa</div> 
+          <div className="title">
+            <div className="row">
+              <div className="col-md-9 col-6">Akun Mahasiswa</div>
+              <div className="col-md-3 col-6">
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <button className="btn btn-outline-secondary" type="button" id="button-addon2"><FaSearch/></button>
+                  </div>
+                  <input type="text" className="form-control" onChange={this.onChange} placeholder="Nama atau Npm" aria-label="search" aria-describedby="button-addon2" />
+                </div>
+              </div>
+            </div>
+          </div> 
           <Table responsive striped size="sm">
             <thead>
               <tr>
                 <th scope="col">No</th>
                 <th scope="col" className="td-md">Nama</th>
-                <th scope="col" className="td-md">NPM</th>
+                <th scope="col" className="td-sm">NPM</th>
+                <th scope="col" className="td-md">Email</th>
                 <th scope="col" className="td-md">KTM</th>
                 <th scope="col" className="td-sm">Waktu Daftar</th>
                 <th scope="col" className="td-sm">Waktu Diproses</th>
@@ -154,12 +179,13 @@ export class AccountVerification extends Component {
             <tbody>
             { !isLoaded ? <tr><td colSpan="7" className="text-center"><Spinner animation="border"  variant="secondary" /></td></tr>
               : offline ? <tr><td colSpan="10" className="text-center offline-text">Anda sedang offline. Cek koneksi anda dan refresh </td></tr>
-              : !users? <tr><td colSpan="10" className="text-center">No Data</td></tr>
-              : users.map((user, i) =>
+              : !usersFiltered? <tr><td colSpan="10" className="text-center">No Data</td></tr>
+              : usersFiltered.map((user, i) =>
               <tr key={i}>
                 <th scope="row">{i+1}</th>
                 <td>{user.name}</td>
                 <td>{user.npm}</td>
+                <td>{user.email}</td>
                 <td>
                   {!user.ktm_url ? <>Tidak ada KTM</>:
                   <img style={{maxWidth:'150px', width:'100%' }}alt="ktm" src={'https://repositori-skripsi.herokuapp.com/' + user.ktm_url}/>
@@ -169,8 +195,8 @@ export class AccountVerification extends Component {
                 <td>{user.is_active === 0 ? <>-</> : <>{moment(user.processed_at).format("YYYY-MM-D H:mm:ss")}</>}</td>
                 <td>{user.is_active === 1 ? <div style={{color:'#379683'}}><FaCheck/> Diverifikasi</div> :<>Belum Diverifikasi</>}</td>
                 <td>
-                  <button onClick={()=>this.verified( user.id)} className={ user.is_active === 1? "btn-table": "btn-table btn-handle"} disabled={ user.is_active === 1? true : false}>Verifikasi</button>
-                  <button onClick={()=>this.handleShow(user.id)} className={ user.is_active === 1? "btn-table" : "btn-table btn-danger" } disabled={ user.is_active === 1 ? true : false}>Tidak Terverifikasi</button>
+                  <button onClick={()=>this.verified(user.npm)} className={ user.is_active === 1? "btn-table": "btn-table btn-handle"} disabled={ user.is_active === 1? true : false}>Verifikasi</button>
+                  <button onClick={()=>this.handleShow(user.npm)} className={ user.is_active === 1? "btn-table" : "btn-table btn-danger" } disabled={ user.is_active === 1 ? true : false}>Tidak Terverifikasi</button>
                 </td>
               </tr>
               )
@@ -191,7 +217,7 @@ export class AccountVerification extends Component {
         </Modal>
         <Modal show={this.state.showAlert} onHide={this.handleClose} centered>
           <Modal.Body className='modal-box'>
-            <p className="text-danger">{message? <>{message}</> : <>Gagal! </>}. Silahkan ulangi</p>
+            <p className="text-danger">{message? <>{message}</> : <>Gagal! </>} Silahkan ulangi</p>
           </Modal.Body>
         </Modal>
       </div>

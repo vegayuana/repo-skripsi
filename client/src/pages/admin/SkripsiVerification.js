@@ -4,7 +4,7 @@ import { Spinner, Table, Breadcrumb, Modal} from 'react-bootstrap'
 import { Redirect, Link } from 'react-router-dom'
 import axios from 'axios'
 import {scrollToTop} from '../../helpers/autoScroll'
-import { FaFilePdf, FaCheck, FaTimes} from 'react-icons/fa'
+import { FaFilePdf, FaCheck, FaTimes, FaSearch} from 'react-icons/fa'
 import moment from 'moment'
 import {Cookies} from 'react-cookie'
 const cookie = new Cookies()
@@ -12,6 +12,7 @@ const cookie = new Cookies()
 export class SkripsiVerification extends Component {
   state ={
     skripsi: [],
+    skripsiFiltered:[],
     isLoaded: false,
     offline:false,
     showModal: false,
@@ -30,6 +31,7 @@ export class SkripsiVerification extends Component {
     }).then(res=>{
       this.setState({ 
         skripsi: res.data,
+        skripsiFiltered:res.data,
         isLoaded: true
       })
     }).catch((err) => { 
@@ -111,6 +113,16 @@ export class SkripsiVerification extends Component {
       }
     })
   }  
+  onChange =(e)=>{
+    let text = e.target.value.toLowerCase().trim()
+    let {skripsi} = this.state
+    const filteredData = skripsi.filter(item => {
+      return item.title.toLowerCase().includes(text) || item.name.toLowerCase().includes(text)
+    })
+    this.setState({
+      skripsiFiltered:filteredData,
+    }) 
+  }
   handleShow = (id) =>{
     this.setState({
       showModal:true,
@@ -125,7 +137,7 @@ export class SkripsiVerification extends Component {
     })
   }
   render() {
-    let { isLoaded, skripsi, offline, message} = this.state
+    let { isLoaded, skripsiFiltered, offline, message} = this.state
     if (!cookie.get('token')|| this.props.role==='user'){
       return <Redirect to={'/'} />
     }
@@ -137,7 +149,19 @@ export class SkripsiVerification extends Component {
         </Breadcrumb>
         <div className="table-box">
           <div className="line"></div> 
-          <div className="title">Data Skripsi</div>
+          <div className="title">
+            <div className="row">
+              <div className="col-md-9 col-6">Data Skripsi</div>
+              <div className="col-md-3 col-6">
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <button className="btn btn-outline-secondary" type="button" id="button-addon2"><FaSearch/></button>
+                  </div>
+                  <input type="text" className="form-control" onChange={this.onChange} placeholder="Judul atau Penulis" aria-label="search" aria-describedby="button-addon2" />
+                </div>
+              </div>
+            </div>
+          </div>
           <Table className="table-skripsi" responsive striped bordered size="sm">
             <thead>
               <tr>
@@ -156,8 +180,8 @@ export class SkripsiVerification extends Component {
             <tbody>
             { !isLoaded ? <tr><td colSpan="10" className="text-center"><Spinner animation="border" variant="secondary" /></td></tr>
               : offline ? <tr><td colSpan="10" className="text-center offline-text">Anda sedang offline. Cek koneksi anda dan refresh </td></tr>
-              : !skripsi ? <tr><td colSpan="10" className="text-center">No Data</td></tr> 
-              : skripsi.map((item, i) => 
+              : !skripsiFiltered ? <tr><td colSpan="10" className="text-center">No Data</td></tr> 
+              : skripsiFiltered.map((item, i) => 
                 <tr key={i}>
                   <th scope="row">{i+1}</th>
                   <td>{item.title}</td>
@@ -198,7 +222,7 @@ export class SkripsiVerification extends Component {
         </Modal>
         <Modal show={this.state.showAlert} onHide={this.handleClose} centered>
           <Modal.Body className='modal-box'>
-            <p className="text-danger">{message? <>{message}</> : <>Gagal! </>}. Silahkan ulangi</p>
+            <p className="text-danger">{message? <>{message}</> : <>Gagal! </>} Silahkan ulangi</p>
           </Modal.Body>
         </Modal>
       </div>

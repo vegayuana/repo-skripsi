@@ -140,6 +140,14 @@ a, a:hover{
   font-family: 'Oswald', sans-serif;
   font-weight: 100;
 }
+.nav-forgot{
+  margin-top: 5px;
+  font-size: 1rem;
+  color: #edf5e1;
+}
+.nav-forgot:hover{
+  color: #edf5e1;
+}
 .modal-box .icon-check{
   font-size: 3rem;
 }
@@ -200,5 +208,11 @@ a, a:hover{
     background-color: #05386B;
     border: 1px solid #05386B;
     color:white;
+  }
+  .nav-forgot{
+    color:#379683;
+  }
+  .nav-forgot:hover{
+    color: #379683;
   }
 }
