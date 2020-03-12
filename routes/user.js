@@ -241,7 +241,7 @@ router.get('/forum', (req, res) =>{
   let bearer = req.headers.authorization
   let token = bearer.split(' ')[1]
   let payload = jwt.decode(token, secret).request
-  let sql =`SELECT forums.user_id, forums.text, forums.sent_at, users.name FROM forums join users on users.npm =forums.user_id WHERE forums.id like '${payload.npm}%'`
+  let sql =`SELECT forums.user_id, forums.text, forums.sent_at, users.name FROM forums join users on users.npm =forums.user_id WHERE forums.id like '${payload.npm}%' order by forums.sent_at asc`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
     res.send(result)

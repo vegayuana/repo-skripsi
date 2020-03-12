@@ -191,7 +191,7 @@ router.get('/user-list', (req, res) =>{
 router.get('/forum/', (req, res) =>{  
   let { id } =  req.query
   let sql = `SELECT forums.user_id, forums.text, forums.status, forums.sent_at, users.name FROM forums join users on users.npm=forums.user_id
-            where forums.id like '${id}%'`
+            where forums.id like '${id}%' order by sent_at asc`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
     res.send(result)
