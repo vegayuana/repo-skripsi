@@ -241,7 +241,7 @@ router.get('/forum', (req, res) =>{
   let bearer = req.headers.authorization
   let token = bearer.split(' ')[1]
   let payload = jwt.decode(token, secret).request
-  let sql =`SELECT forums.text, forums.sent_at, forums.from, users.name FROM forums join users on users.npm =forums.npm WHERE forums.npm='${payload.npm}'`
+  let sql =`SELECT forums.user_id, forums.text, forums.sent_at, users.name FROM forums join users on users.npm =forums.user_id WHERE forums.id like '${payload.npm}%'`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
     res.send(result)
@@ -254,9 +254,10 @@ router.post('/insert-text', (req, res) =>{
   let token = bearer.split(' ')[1]
   let payload = jwt.decode(token, secret).request
   let {text} = req.body
+  let randomId = uuid().substring(0, 5)
   let post = {
-    npm: payload.npm,
-    from: 'user',
+    id: payload.npm+randomId,
+    user_id: payload.npm,
     text: text,
     status: 0, 
     sent_at: moment().format()

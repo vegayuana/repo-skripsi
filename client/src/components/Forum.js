@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import { Spinner } from 'react-bootstrap'
 
-export default class Question extends Component {
+export default class Forum extends Component {
   render() {
     let {dataLoaded, chats, offline, message } =this.props
     return (
@@ -18,9 +18,9 @@ export default class Question extends Component {
             </div> 
           }
           {chats.map((chat,i)=>
-            <div className={chat.from==='user'? "forum-text forum-text-user" : "forum-text forum-text-admin"} key={i}>
+            <div className={chat.user_id==='admin'? 'forum-text forum-text-admin' : 'forum-text forum-text-user' } key={i}>
               <div className="head">
-                <b>{chat.from==='user'? chat.name : 'Admin'}</b>
+                <b>{chat.user_id==='admin'? 'Admin' : chat.name}</b>
               </div>
               <p>{chat.text}</p>
               <p style={{fontSize: 'smaller', color:'grey'}}>{moment(chat.sent_at).format("YYYY-MM-D H:mm:ss")}</p>

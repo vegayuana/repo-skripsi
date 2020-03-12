@@ -575,7 +575,7 @@ a{
 .forum-box .form-control{
   border:none
 }
-.question{
+.forum{
   position: absolute;
   bottom: 0px;
 }
@@ -739,6 +739,7 @@ a{
   padding: 20px;
   min-height: 100%;
   margin-bottom: 1rem;
+  font-family: 'Oswald', sans-serif;
 }
 .offline-box p{
   text-align: center;
@@ -750,6 +751,14 @@ a{
 }
 .offline .list-box h5, .offline .list-box p, .offline .list-box i, .offline .filter-box p{
   color: #6c757d;
+}
+.MuiInputBase-root{
+  background-color: white;
+  border: none;
+}
+.autocomp-box{
+  display: flex;
+  margin-bottom: 15px;
 }
 ::-webkit-scrollbar {
   width: 12px;

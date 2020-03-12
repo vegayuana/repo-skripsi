@@ -27,8 +27,8 @@ const ReUpload = Loadable({
   loader: () => import('./pages/ReUpload'),
   loading:Loading
 })
-const QuestionUser = Loadable({
-  loader: () => import('./pages/QuestionUser'),
+const UserForum = Loadable({
+  loader: () => import('./pages/UserForum'),
   loading:Loading
 })
 const Forgot = Loadable({
@@ -51,12 +51,12 @@ const SkripsiVerification = Loadable({
   loader: () => import('./pages/admin/SkripsiVerification'),
   loading:Loading
 })
-const QuestionList = Loadable({
-  loader: () => import('./pages/admin/QuestionList'),
+const ForumList = Loadable({
+  loader: () => import('./pages/admin/ForumList'),
   loading:Loading
 })
-const QuestionAdmin = Loadable({
-  loader: () => import('./pages/admin/QuestionAdmin'),
+const AdminForum = Loadable({
+  loader: () => import('./pages/admin/AdminForum'),
   loading:Loading
 })
 
@@ -72,9 +72,9 @@ export default function Routes() {
       <Route path='/admin' component={Admin}/>
       <Route path='/account-verification' component={AccountVerification} />
       <Route path='/skripsi-verification' component={SkripsiVerification} />
-      <Route path='/question-list' component={QuestionList} />
-      <Route path='/question-admin/:id' component={QuestionAdmin} />
-      <Route path='/question-user' component={QuestionUser} />
+      <Route path='/forum-list' component={ForumList} />
+      <Route path='/admin-forum/:id' component={AdminForum} />
+      <Route path='/user-forum' component={UserForum} />
       <Route path='/forgot' component={Forgot}/>
       <Route path='/email-verification/:id' component={EmailVerification}/>
     </Switch>

@@ -5,19 +5,24 @@ import axios from 'axios'
 import {scrollToTop} from '../../helpers/autoScroll'
 import {MdNotificationsActive} from 'react-icons/md'
 import {FaCheck} from 'react-icons/fa'
+
+import Autocomplete from '@material-ui/lab/Autocomplete'
+import TextField from '@material-ui/core/TextField';
 import {Cookies} from 'react-cookie'
 const cookie = new Cookies()
 
-export class QuestionList extends Component {
+export class ForumList extends Component {
   state={
     isLoaded:false,
     offline:false,
-    questions:[]
+    forums:[],
+    users:[],
+    selectedUser:null,
   }
-  getQuestions = () =>{
+  getForums = () =>{
     axios({
       method: 'get',
-      url: '/admin/question-list',
+      url: '/admin/forum-list',
       headers: {
         Authorization: cookie.get('token')
       } 
@@ -28,17 +33,16 @@ export class QuestionList extends Component {
         if(!map.has(item.name)){
           map.set(item.name, true)
           data.push({
-            npm: item.npm,
+            id: item.id.substring(0,12),
             text: item.text,
             status: item.status, 
             sent_at: item.sent_at, 
-            form: item.from,
             name:item.name
           })
         }
       }
       this.setState({ 
-        questions: data,
+        forums: data,
         isLoaded: true
       })
     }).catch((err) => { 
@@ -50,10 +54,25 @@ export class QuestionList extends Component {
       })
     })
   }
+  getUser=()=>{
+    axios({
+      method: 'get',
+      url: '/admin/user-list',
+      headers: {
+        Authorization: cookie.get('token')
+      } 
+    }).then(res=>{
+      console.log(res.data)
+      this.setState({
+        users:res.data
+      })
+    })
+  }
   componentDidMount(){
     scrollToTop()
     if (navigator.onLine){
-      this.getQuestions()
+      this.getUser()
+      this.getForums()
       this.setState({
         offline:false
       })
@@ -66,7 +85,8 @@ export class QuestionList extends Component {
     }
   }
   render() {
-    let {offline, isLoaded, questions} = this.state
+    let {offline, isLoaded, forums, selectedUser} = this.state
+    console.log(selectedUser===null)
     if (!cookie.get('token')|| this.props.role==='user'){
       return <Redirect to={'/'} />
     }
@@ -76,24 +96,39 @@ export class QuestionList extends Component {
           <Link to='/admin'>Home</Link>
           <Breadcrumb.Item active> / Pertanyaan</Breadcrumb.Item>
         </Breadcrumb>
+        <div className="autocomp-box">
+          <div style={{width:'-webkit-fill-available'}}>
+          <Autocomplete
+            id="combo-box-demo"
+            options={this.state.users}
+            getOptionLabel={option => option.npm + ' - ' + option.name}
+            onChange={(e,v) => this.setState({selectedUser:v})}// onChange={this.handleSelected}
+            renderInput={params => <TextField {...params} onChange={({ target }) => this.setState({selectedUser: target.value})} label="Mahasiswa" variant="outlined" />}
+          />
+          </div>
+          <div style={{width:'140px'}}>
+            {selectedUser===null? <button className='btn btn-blue' style={{height:'56px', float:'right'}}>Kirim Pesan</button> 
+            : <Link to={'/admin-forum/'+selectedUser.npm} ><button className='btn btn-blue' style={{height:'56px', float:'right'}}>Kirim Pesan</button></Link>}
+          </div>
+        </div>
         {offline? <div className="text-middle"><p>Anda sedang offline. Cek koneksi anda dan refresh </p> </div>
         : !isLoaded ? <div className="text-middle"><Spinner animation="border" variant="secondary"/></div>
-        : !questions ? <div style={{textAlign:'center'}}>Tidak ada pertanyaan</div>
-        : questions.length===0 ? <div style={{textAlign:'center'}}>Tidak ada pertanyaan</div> :
-        questions.map((question, i) =>
-          <Link to={'/question-admin/'+question.npm} key={i}>
+        : !forums ? <div style={{textAlign:'center'}}>Tidak ada pertanyaan</div>
+        : forums.length===0 ? <div style={{textAlign:'center'}}>Tidak ada pertanyaan</div> :
+        forums.map((forum, i) =>
+          <Link to={'/admin-forum/'+forum.id} key={i}>
             <div className="list-box admin">
               <div className="list row">
                 <div className="col-4">
-                  <b><h5>{question.name}</h5></b>
+                  <b><h5>{forum.name}</h5></b>
                 </div>
                 <div className="col-6">
                   <div className="ellipsis">
-                    {question.text}
+                    {forum.text}
                   </div>
                 </div>
                 <div className="col-2 float-right">
-                  <h5 className="float-right">{question.status===1? <FaCheck className="icon-check"/> : <MdNotificationsActive class="text-danger" style={{fontSize:'1.3rem'}}/>}</h5>
+                  <h5 className="float-right">{forum.status===1? <FaCheck className="icon-check"/> : <MdNotificationsActive className ="text-danger" style={{fontSize:'1.3rem'}}/>}</h5>
                 </div> 
               </div>
             </div>
@@ -104,4 +139,4 @@ export class QuestionList extends Component {
     )
   }
 }
-export default QuestionList
+export default ForumList

@@ -1,8 +1,12 @@
+
 const express = require('express')
 const router = express.Router()
 const utils = require('../utils/templates')
 const fs = require('fs')
 const moment = require('moment')
+const uuid = require('uuid/v4')
+const jwt = require('jsonwebtoken')
+const secret = "repository.secret"
 
 //connect DB
 const db = require('../db/db')
@@ -164,10 +168,20 @@ router.put('/unapproved/:id', (req, res) =>{
   })
 })
 
-//Show question
-router.get('/question-list', (req, res) =>{  
-  let sql = `SELECT forums.npm, forums.text, forums.status, forums.sent_at, forums.from, users.name FROM forums join users on users.npm=forums.npm         
+//Show Forum
+router.get('/forum-list', (req, res) =>{  
+  let sql = `SELECT forums.id, forums.text, forums.status, forums.sent_at, users.name FROM forums join users on forums.id like concat(users.npm, '%')         
             ORDER BY forums.status asc, forums.sent_at desc`
+  db.query(sql, (err, result)=>{
+    if (err) console.log(err)
+    res.send(result)
+  })
+})
+
+//Get user 
+router.get('/user-list', (req, res) =>{  
+  let sql = `SELECT users.npm, users.name from users where role='user'     
+            ORDER BY users.npm`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
     res.send(result)
@@ -176,8 +190,8 @@ router.get('/question-list', (req, res) =>{
 
 router.get('/forum/', (req, res) =>{  
   let { id } =  req.query
-  let sql = `SELECT forums.npm, forums.text, forums.status, forums.sent_at, forums.from, users.name FROM forums join users on users.npm=forums.npm 
-            where forums.npm=${id}`
+  let sql = `SELECT forums.user_id, forums.text, forums.status, forums.sent_at, users.name FROM forums join users on users.npm=forums.user_id
+            where forums.id like '${id}%'`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
     res.send(result)
@@ -186,31 +200,33 @@ router.get('/forum/', (req, res) =>{
 
 //insert forum 
 router.post('/insert-text', (req, res) =>{  
-  let {text, npm} = req.body
+  let {text, id} = req.body
+  let bearer = req.headers.authorization
+  let token = bearer.split(' ')[1]
+  let payload = jwt.decode(token, secret).request
+  let randomId = uuid().substring(0, 5)
   let post = {
-    npm: npm,
-    from: 'admin',
+    id: id+randomId,
+    user_id: payload.npm,
     text: text,
     status: 1, 
     sent_at: moment().format()
   }
-  let update = `update forums set status=${1} where npm='${npm}'`
-  db.query(update, async(err, result)=>{
-    try{
-      let sql = 'INSERT INTO forums SET ?'
-      db.query(sql, post, (err, result)=>{
+  let update = `update forums set status=${1} where id like '${id}%'`
+  db.query(update, (err, result)=>{
+    if(err){
+      console.log(err)
+      return utils.template_response(res, 500, "Gagal mengubah status" , null)
+    }
+    let sql = 'INSERT INTO forums SET ?'
+    db.query(sql, post, (err, result)=>{
       if(err){
         console.log(err)
         return utils.template_response(res, 500, "Gagal mengirim" , null)
       } 
       console.log('success!')  
       return utils.template_response(res, 200, "Berhasil mengirim", null)
-      })
-    }
-    catch{
-      console.log(err)
-      return utils.template_response(res, 500, "Gagal mengubah status" , null)
-    }
+    })
   })
 })
 module.exports = router

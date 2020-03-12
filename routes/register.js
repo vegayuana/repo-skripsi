@@ -150,7 +150,7 @@ router.get('/verify-email/', (req, res) =>{
     db.query(findUser,(err, user)=>{
       if (err) console.log(err.response)
       if(user.length>0){
-        return utils.template_response(res, 200, "Akun sudah terdaftar" , null)
+        return utils.template_response(res, 200, "Akun sudah pernah didaftarkan" , null)
       }
       let insertSql = `INSERT INTO users (name, npm, ktm_url, password, email, created_at)
       SELECT name, npm, ktm_url, password, email, created_at

@@ -27,7 +27,7 @@ export class Admin extends Component {
             </Link>
           </div>
           <div className="col-12 col-md-4">
-            <Link to='/question-list' className="card">
+            <Link to='/forum-list' className="card">
               <AdminCard menu='Pertanyaan' icon='Pertanyaan'/>
             </Link>
           </div>

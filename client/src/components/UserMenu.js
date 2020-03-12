@@ -33,7 +33,7 @@ export default class UserMenu extends Component {
             <Link to="/upload" className="dropdown-item">
               Unggah Skripsi
             </Link>
-            <Link to="/question-user" className="dropdown-item">
+            <Link to="/user-forum" className="dropdown-item">
               Kontak Admin
             </Link>
             <Link to="/" className="dropdown-item" onClick={()=>this.props.logout()}>

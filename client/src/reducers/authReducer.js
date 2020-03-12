@@ -6,6 +6,7 @@ const initialState = {
   token:''
 }
 
+//Action
 export const setToken = (loginInfo) => {
   cookie.set('token', loginInfo.token, {path:'/', maxAge:86400})
   cookie.set('role', loginInfo.role, {path:'/', maxAge:86400})
