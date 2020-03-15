@@ -6,8 +6,6 @@ import axios from 'axios'
 import {scrollToTop} from '../../helpers/autoScroll'
 import { FaFilePdf, FaCheck, FaTimes, FaSearch} from 'react-icons/fa'
 import moment from 'moment'
-import {Cookies} from 'react-cookie'
-const cookie = new Cookies()
 
 export class SkripsiVerification extends Component {
   state ={
@@ -26,7 +24,7 @@ export class SkripsiVerification extends Component {
       method: 'get',
       url: '/admin/show-skripsi',
       headers: {
-        Authorization: cookie.get('token')
+        Authorization: this.props.token
       } 
     }).then(res=>{
       this.setState({ 
@@ -138,7 +136,7 @@ export class SkripsiVerification extends Component {
   }
   render() {
     let { isLoaded, skripsiFiltered, offline, message} = this.state
-    if (!cookie.get('token')|| this.props.role==='user'){
+    if (!this.props.token || this.props.role==='user'){
       return <Redirect to={'/'} />
     }
     return (
@@ -167,9 +165,10 @@ export class SkripsiVerification extends Component {
               <tr>
                 <th scope="col">No</th>
                 <th scope="col" className="td-md">Judul</th>
-                <th scope="col" className="td-md">Penulis</th>
+                <th scope="col" className="td-sm">Penulis</th>
                 <th scope="col" className="td-sm">Tahun</th>
                 <th scope="col" className="td-lg">Abstrak</th>
+                <th scope="col" className="td-lg">Abstract</th>
                 <th scope="col" className="td-sm">File</th>
                 <th scope="col" className="td-md">Status</th>
                 <th scope="col" className="td-sm">Waktu Unggah</th>
@@ -187,10 +186,11 @@ export class SkripsiVerification extends Component {
                   <td>{item.title}</td>
                   <td>{item.name}</td>
                   <td>{item.published_year}</td>
+                  <td><div style={{height:'200px', wordBreak:'break-word', overflowY:'auto'}}>{item.abstrak}</div></td>
                   <td><div style={{height:'200px', wordBreak:'break-word', overflowY:'auto'}}>{item.abstract}</div></td>
                   <td>
                     {!item.file_url ? <>File Tidak ada</> :
-                    <a href={'https://repositori-skripsi.herokuapp.com/'+item.file_url} target='_blank' rel='noreferrer noopener'><FaFilePdf className="pdf-icon"/> Klik</a>
+                    <a href={'https://repositori-skripsi.herokuapp.com/'+item.file_url} target='_blank' rel='noreferrer noopener'><FaFilePdf className="pdf-icon"/> Buka</a>
                     }
                   </td>
                   <td>{ item.is_approved === 1 ? <div style={{color:'#379683'}}><FaCheck/> Dipublikasikan</div> : 

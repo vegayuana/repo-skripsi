@@ -54,7 +54,7 @@ router.post('/register', (req, res) =>{
     let data = {
       name: name,
       email:email, 
-      npm: npm, 
+      npm: npm,
       password: encryptPassword,
       ktm_url:req.file.path,
       created_at:moment().format(),
@@ -137,31 +137,45 @@ router.get('/verify-email/', (req, res) =>{
   //cek token
   let findToken = `SELECT * FROM temp_users where token='${id}' && token_expired>'${now}' `
   db.query(findToken,(err, data)=>{
-    if (err) console.log(err.response)
-    console.log(data)
+    if (err){
+      console.log(err)
+      return
+    } 
     if(data.length===0){
       console.log('kosong')
       return utils.template_response(res, 422, "Token tidak valid" , null)
     }
     data_temp = data[0]
-    console.log('Token is valid')
-    //cek user
+    console.log(data_temp)
+    console.log('Token valid')
+    //cek User
     let findUser = `SELECT * FROM users where npm='${data_temp.npm}' or email='${data_temp.email}'`
-    db.query(findUser,(err, user)=>{
-      if (err) console.log(err.response)
+    db.query(findUser, (err, user)=>{
+      if (err) {
+        console.log(err)
+        return
+      }
       if(user.length>0){
         return utils.template_response(res, 200, "Akun sudah pernah didaftarkan" , null)
       }
+      //insert ke tabel users
       let insertSql = `INSERT INTO users (name, npm, ktm_url, password, email, created_at)
       SELECT name, npm, ktm_url, password, email, created_at
       FROM temp_users
-      WHERE npm='${data_temp.npm}'`
-      db.query(insertSql,(err, result)=>{
-        if (err) console.log(err.response)
-        console.log(result)
-        let delSql = `delete from temp_users where token=${data_temp.token}`
+      WHERE token='${data_temp.token}'`
+      db.query(insertSql, (err, result)=>{
+        if (err) {
+          console.log('err', err)
+          return
+        }
+        //delete dari table temp
+        let delSql = `delete from temp_users where token='${data_temp.token}'`
         db.query(delSql,(err, del)=>{
-          if (err) console.log(err.response)
+          if (err) {
+            console.log(err)
+            return
+          }
+          console.log('sukses')
           return utils.template_response(res, 200, "Register Berhasil" , null)
         })
       })

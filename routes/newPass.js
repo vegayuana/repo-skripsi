@@ -55,7 +55,6 @@ router.put('/forgot-pass', (req, res) =>{
           console.log(response.body)
           console.log(response.headers)
         })
-        console.log('heheheh')
         return utils.template_response(res, 200, 'Password berhasil diganti' , null)
       })
     }

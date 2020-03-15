@@ -4,7 +4,6 @@ import List from './List'
 
 const ListCard = function(props) {
   let { isLoaded, skripsi} = props
-  console.log('render list')
   return (
     <>
       { !isLoaded ?

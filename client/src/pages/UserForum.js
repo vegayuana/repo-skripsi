@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Spinner } from 'react-bootstrap'
-import axios from 'axios'
+import { connect } from 'react-redux'
 import {scrollToTop} from '../helpers/autoScroll'
-import {Cookies} from 'react-cookie'
+import axios from 'axios'
 import Forum from '../components/Forum'
-const cookie = new Cookies()
 
-export default class UserForum extends Component {
+class UserForum extends Component {
   state={
     text:'',
     dataLoaded:false,
@@ -18,13 +17,13 @@ export default class UserForum extends Component {
   }
   handleText = e =>{
     this.setState({
-      [e.target.id] : e.target.value
+      [e.target.id] : e.target.value.trim()
     })
   }
   submit = e => {
     let {text} =this.state
     e.preventDefault()
-    if(this.state.text){
+    if(text){
       this.setState({
         isLoading:true
       })
@@ -32,7 +31,7 @@ export default class UserForum extends Component {
         method: 'post',
         url: '/user/insert-text',
         headers: {
-          Authorization:cookie.get('token')
+          Authorization:this.props.token
         },
         data: {
           text: text,
@@ -43,7 +42,7 @@ export default class UserForum extends Component {
           text:''
         })
         this.getForum()
-        this.refs.message.reset()
+        this.refs.messages.reset()
       }).catch(err=>{
         console.log(err.response)
         if(err.response){
@@ -66,7 +65,7 @@ export default class UserForum extends Component {
       method: 'get',
       url: '/user/forum',
       headers: {
-        Authorization:cookie.get('token')
+        Authorization:this.props.token
       } 
     }).then(res=>{
       console.log(res)
@@ -98,9 +97,8 @@ export default class UserForum extends Component {
     }
   }
   render() {
-    let {isLoading, dataLoaded, chats, offline, message, text } = this.state
-    console.log()
-    if (!cookie.get('token')){
+    let {isLoading, dataLoaded, chats, offline, message } = this.state
+    if (!this.props.token || this.props.role==='admin'){
       return <Redirect to={'/'} />
     }
     return (
@@ -108,9 +106,9 @@ export default class UserForum extends Component {
         <h4 className='forum-title'>Kontak Admin</h4>
         <div className="forum-box">
           <Forum dataLoaded={dataLoaded} chats={chats} message={message }offline={offline}/>
-          <form ref='message' autoComplete='off'>
+          <form ref='messages' autoComplete='off'>
           <div className="input-group forum">
-            <textarea type="text" className="form-control" style={{height:'40px'}} id='text' onBlur={e => this.handleText(e)} placeholder="Pertanyaan" aria-label="pertanyaan" aria-describedby="basic-addon2"/>
+            <textarea type="text" className="form-control" style={{height:'50px'}} id='text' onBlur={e => this.handleText(e)} placeholder="Pertanyaan" aria-label="pertanyaan" aria-describedby="basic-addon2"/>
             <div className="input-group-append">
               {isLoading? <button className="btn btn-primary" type="button" disabled={true}><Spinner animation="border" className="spin-green"/></button>:
               <button className="btn btn-primary" type="button" onClick={e => this.submit(e)}>Kirim</button>
@@ -123,3 +121,10 @@ export default class UserForum extends Component {
     )
   }
 }
+const mapStateToProps = state => {
+  return{
+    token : state.auth.token,
+    role: state.auth.role
+  }
+}
+export default connect(mapStateToProps, null)(UserForum)

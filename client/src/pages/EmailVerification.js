@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import axios from 'axios'
-import {Spinner} from 'react-bootstrap'
-import { Cookies } from 'react-cookie'
+import { Spinner } from 'react-bootstrap'
+import { connect } from 'react-redux'
 import Bg3 from '../components/Bg3'
-const cookie = new Cookies()
-export default class EmailVerification extends Component {
+
+class EmailVerification extends Component {
   state={
     offline:false,
     isSent:false,
@@ -52,7 +52,7 @@ export default class EmailVerification extends Component {
   }
   render() {
     let { offline, isSent, status, message } = this.state
-    if (cookie.get('token')){
+    if (this.props.token){
       return <Redirect to={'/'} />
     }
     return (
@@ -75,3 +75,9 @@ export default class EmailVerification extends Component {
     )
   }
 }
+const mapStateToProps = state => {
+  return{
+    token : state.auth.token,
+  }
+}
+export default connect(mapStateToProps, null)(EmailVerification)

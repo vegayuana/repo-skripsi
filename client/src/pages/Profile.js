@@ -3,9 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import ProfileInfo from '../components/ProfileInfo'
 import SkripsiStatus from '../components/SkripsiStatus'
-import {scrollToTop} from '../helpers/autoScroll'
-import {Cookies} from 'react-cookie'
-const cookie = new Cookies()
+import { scrollToTop } from '../helpers/autoScroll'
 
 export class Profile extends Component {
   state={
@@ -37,7 +35,7 @@ export class Profile extends Component {
   }
   render() {
     let { style1, style2 } = this.state
-    if (!cookie.get('token')){
+    if (!this.props.token || this.props.role==='admin'){
       return <Redirect to={'/'} />
     }
     return (

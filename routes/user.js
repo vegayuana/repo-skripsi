@@ -119,7 +119,7 @@ router.post('/upload/', (req, res) =>{
       return utils.template_response(res, 500, err.message , null)
     } 
     //Check Fields
-    let { title, year, abstract, category, keywords} = req.body
+    let { title, year, abstrak, abstract, category, keywords} = req.body
     console.log(req.body)
     if (!title || !year || !abstract ) {
       return utils.template_response(res, 400, "Judul, tahun, dan abstrak harus diisi" , null)
@@ -148,6 +148,7 @@ router.post('/upload/', (req, res) =>{
         id: uuid(), 
         npm: payload.npm,
         title: title,
+        abstrak:abstrak,
         abstract: abstract,
         published_year: year, 
         file_url: path_url,

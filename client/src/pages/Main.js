@@ -8,7 +8,6 @@ function Main() {
   useEffect(() => {
     scrollToTop()
   })
-  console.log('render main')
   return (
     <div>
       <img src={bg1} alt="Logo" className="bg1"/>

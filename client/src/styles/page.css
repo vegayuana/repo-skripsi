@@ -105,6 +105,9 @@ body.offline{
 a{
   cursor: pointer;
 }
+.breadcrumb{
+  font-family: 'Oswald', sans-serif;
+}
 #button-addon2{
   background-color: white;
   border: none;
@@ -140,6 +143,11 @@ a{
   border: 1px solid #05386B ;
   box-shadow: none !important;
   color: white;
+}
+.btn-send{
+  height:56px;
+  float:right;
+  font-family: 'Oswald', sans-serif;
 }
 .btn-download{
   background-color: #032649;
@@ -506,9 +514,9 @@ a{
   align-items: center;
 }
 .card-text{
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Oswald', sans-serif;
   font-size: 1.2rem;
-  font-weight: 500;
+  font-weight: 400;
   text-align: center;
   line-height: unset;
   color: #05386B;
@@ -619,7 +627,7 @@ a{
 }
 .column{
   color: black;
-  border: 2px solid #05386B;
+  border: 1px solid #05386B;
   padding: 5px 10px;
   border-radius: 3px;
 }
@@ -638,9 +646,10 @@ a{
   margin:auto;
 }
 .abs{
+  text-align: justify;
   max-height: 180px;
   overflow-y: auto;
-  word-break: break-all;
+  word-break: break-word;
   padding: 10px;
   padding-left:0px;
   margin-bottom: 10px;
@@ -692,7 +701,7 @@ a{
   text-align: center;
   font-family: 'Oswald', sans-serif;
 }
-.upload-box textarea#abstract{
+.upload-box textarea#abstract, .upload-box textarea#abstrak {
   height: 150px;
 }
 .msg-upload{
@@ -852,7 +861,7 @@ a{
     width:200px
   }
   .status-skripsi h5, .status-skripsi .icon-check{
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   .img-div{
     margin-bottom:unset
@@ -872,9 +881,6 @@ a{
   }
   .forgot-box{
     margin: 20px 200px;
-  }
-  .btn-table{
-    width: unset;
   }
 }
 @media screen and (min-width: 768px ) and (max-width:999px){

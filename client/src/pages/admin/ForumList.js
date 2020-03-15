@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
 import { Spinner, Breadcrumb } from 'react-bootstrap'
 import { Redirect, Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import axios from 'axios'
 import {scrollToTop} from '../../helpers/autoScroll'
 import {MdNotificationsActive} from 'react-icons/md'
 import {FaCheck} from 'react-icons/fa'
 
 import Autocomplete from '@material-ui/lab/Autocomplete'
-import TextField from '@material-ui/core/TextField';
-import {Cookies} from 'react-cookie'
-const cookie = new Cookies()
+import TextField from '@material-ui/core/TextField'
 
 export class ForumList extends Component {
   state={
@@ -24,7 +23,7 @@ export class ForumList extends Component {
       method: 'get',
       url: '/admin/forum-list',
       headers: {
-        Authorization: cookie.get('token')
+        Authorization: this.props.token
       } 
     }).then(res=>{
       let data= []
@@ -59,7 +58,7 @@ export class ForumList extends Component {
       method: 'get',
       url: '/admin/user-list',
       headers: {
-        Authorization: cookie.get('token')
+        Authorization: this.props.token
       } 
     }).then(res=>{
       console.log(res.data)
@@ -86,8 +85,7 @@ export class ForumList extends Component {
   }
   render() {
     let {offline, isLoaded, forums, selectedUser} = this.state
-    console.log(selectedUser===null)
-    if (!cookie.get('token')|| this.props.role==='user'){
+    if (!this.props.token || this.props.role==='user'){
       return <Redirect to={'/'} />
     }
     return (
@@ -106,8 +104,8 @@ export class ForumList extends Component {
             renderInput={params => <TextField {...params} onChange={({ target }) => this.setState({selectedUser: target.value})} label="Mahasiswa" variant="outlined" />}
           />
           </div>
-          <div style={{width:'140px'}}>
-            {selectedUser===null? <button className='btn btn-blue' style={{height:'56px', float:'right'}}>Kirim Pesan</button> 
+          <div style={{width:'120px'}}>
+            {selectedUser===null? <button className='btn btn-blue btn-send'>Kirim Pesan</button> 
             : <Link to={'/admin-forum/'+selectedUser.npm} ><button className='btn btn-blue' style={{height:'56px', float:'right'}}>Kirim Pesan</button></Link>}
           </div>
         </div>
@@ -139,4 +137,10 @@ export class ForumList extends Component {
     )
   }
 }
-export default ForumList
+const mapStateToProps = state => {
+  return{
+    token : state.auth.token,
+    role: state.auth.role
+  }
+}
+export default connect(mapStateToProps, null)(ForumList)

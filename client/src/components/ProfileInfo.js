@@ -3,8 +3,6 @@ import { Spinner, Modal} from 'react-bootstrap'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import moment from 'moment'
-import {Cookies} from 'react-cookie'
-const cookie = new Cookies()
 
 export class ProfileInfo extends Component {
   state={
@@ -23,7 +21,7 @@ export class ProfileInfo extends Component {
       method: 'get',
       url: `/user/profile/`,
       headers: {
-        Authorization: cookie.get('token')
+        Authorization: this.props.token
       } 
     })
     .then(res=>{
@@ -118,7 +116,6 @@ export class ProfileInfo extends Component {
   }
   render() {
     let { user, isLoaded, oldPass, newPass, passCheck, status, message, offline} = this.state
-    console.log('profil')
     return (
       <div>
       {offline? <p>Anda sedang offline. Cek koneksi anda dan refresh </p>
@@ -167,7 +164,7 @@ export class ProfileInfo extends Component {
                 </div>
                 { passCheck === false ?
                   <div className="alert alert-warning" role="alert">
-                    Password does not match
+                    Password tidak cocok
                   </div> : <></>}
                 {status===400? 
                     <div className="alert alert-danger" role="alert">
@@ -201,8 +198,7 @@ export class ProfileInfo extends Component {
 }
 const mapStateToProps = state => {
   return{
-    token : state.auth.token,
-    role: state.auth.role
+    token : state.auth.token
   }
 }
 export default connect(mapStateToProps, null)(ProfileInfo)

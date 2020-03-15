@@ -6,8 +6,6 @@ import { FaRegCheckCircle, FaFilePdf } from 'react-icons/fa'
 import { IoMdCloseCircleOutline } from 'react-icons/io'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
-import {Cookies} from 'react-cookie'
-const cookie = new Cookies()
 
 export class SkripsiStatus extends Component {
   state={
@@ -20,7 +18,7 @@ export class SkripsiStatus extends Component {
       method: 'get',
       url: `/user/skripsi/`,
       headers: {
-        Authorization: cookie.get('token')
+        Authorization: this.props.token
       } 
     }).then(res=>{
       this.setState({ 
@@ -118,8 +116,7 @@ export class SkripsiStatus extends Component {
 }
 const mapStateToProps = state => {
   return{
-    token: state.auth.token,
-    role: state.auth.role
+    token: state.auth.token
   }
 }
 export default connect(mapStateToProps, null)(SkripsiStatus)

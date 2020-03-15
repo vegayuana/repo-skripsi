@@ -4,8 +4,6 @@ import { Redirect, Link } from 'react-router-dom'
 import axios from 'axios'
 import { scrollToTop } from '../helpers/autoScroll'
 import { Spinner, Modal } from 'react-bootstrap'
-import {Cookies} from 'react-cookie'
-const cookie = new Cookies()
 
 export class ReUpload extends Component {
   initialState={
@@ -18,6 +16,8 @@ export class ReUpload extends Component {
     yearAlert:'initial',
     abstract:'',
     abstractAlert:'initial',
+    abstrak:'',
+    abstrakAlert:'initial',
     category:'',
     keywords:'',
     file:null,
@@ -31,12 +31,13 @@ export class ReUpload extends Component {
       showLoading:true
     })
     console.log(this.state)
-    let {title, year, abstract, category, keywords} = this.state
+    let {title, year, abstract, abstrak, category, keywords} = this.state
     let {file} = this.state
     const formData = new FormData()
     formData.append('file', file)
     formData.append('title', title)
     formData.append('year', year)
+    formData.append('abstrak', abstrak)
     formData.append('abstract', abstract)
     formData.append('category', category)  
     formData.append('keywords', keywords)  
@@ -79,14 +80,19 @@ export class ReUpload extends Component {
         titleAlert: e.target.value,
       })
     }
-    if (e.target.id==='year'){
+    else if (e.target.id==='year'){
       this.setState({
         yearAlert: e.target.value,
       })
     }
-    if (e.target.id==='abstract'){
+    else if (e.target.id==='abstract'){
       this.setState({
         abstractAlert: e.target.value,
+      })
+    }
+    else if (e.target.id==='abstrak'){
+      this.setState({
+        abstrakAlert: e.target.value,
       })
     }
   }
@@ -108,6 +114,7 @@ export class ReUpload extends Component {
         isLoaded: true,
         title:res.data.title,
         year:res.data.published_year.toString(),
+        abstrak:res.data.abstrak,
         abstract:res.data.abstract,
         category:res.data.category,
         keywords:res.data.keywords,
@@ -119,18 +126,28 @@ export class ReUpload extends Component {
     })
   }
   componentDidMount(){
-    this.checkSkripsi()
     scrollToTop()
+    if (navigator.onLine){
+      this.checkSkripsi()
+      this.setState({
+        offline:false
+      })
+    }
+    else{
+      this.setState({
+        offline:true,
+      })
+    }
   }
   render() {
-    let { message, status, isLoaded, skripsi, file, title, year, abstract, category, titleAlert, yearAlert, abstractAlert, keywords} = this.state
-    console.log(title, typeof(year), abstract, category, keywords)
-    if (!cookie.get('token')){
+    let { message, status, isLoaded, offline, skripsi, file, title, year, abstrak, abstract, titleAlert, yearAlert, abstrakAlert, abstractAlert, keywords} = this.state
+    if (!this.props.token){
       return <Redirect to={'/'} />
     }
     return (
       <>
-      {!isLoaded? <div className="spin-box"><Spinner animation="border" variant="secondary"/></div> :
+      {offline? <p>Anda sedang offline. Cek koneksi anda dan refresh </p> : 
+        !isLoaded? <div className="spin-box"><Spinner animation="border" variant="secondary"/></div> :
       <div className="row no-margin">
         <div className="upload-box">
           <h3>Unggah Ulang</h3>
@@ -164,7 +181,16 @@ export class ReUpload extends Component {
               </div>
               <div className="form-group">
                 <label>Abstrak *</label>
-                <textarea id="abstract" onBlur={this.handleInput} className="form-control" placeholder="Input Abstrak" defaultValue={skripsi.abstract}/>
+                <textarea id="abstrak" onBlur={this.handleInput} className="form-control" placeholder="Input Abstrak" defaultValue={skripsi.abstrak}/>
+                { abstrakAlert==='initial'? <></> : !abstrakAlert ?
+                  <div className="alert alert-danger" role="alert">
+                    <strong>Abstrak tidak boleh kosong</strong>
+                  </div> : <></>
+                }
+              </div>
+              <div className="form-group">
+                <label>Abstrak *</label>
+                <textarea id="abstract" onBlur={this.handleInput} className="form-control" placeholder="Input Abstract" defaultValue={skripsi.abstract}/>
                 { abstractAlert==='initial'? <></> : !abstractAlert ?
                   <div className="alert alert-danger" role="alert">
                     <strong>Abstrak tidak boleh kosong</strong>
@@ -199,7 +225,7 @@ export class ReUpload extends Component {
                   </div> 
                 }
               </div> 
-              <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)} disabled={!title || !abstract || year.length!==4 || year<2000 || year>2100 || !file || keywords.length>=255}>Submit</button>
+              <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)} disabled={!title || !abstract || !abstrak || year.length!==4 || year<2000 || year>2100 || !file || keywords.length>=255}>Submit</button>
               { message ==='' ? <></> : 
                 <div className="alert alert-danger" role="alert">
                   <strong>{this.state.message}</strong>
@@ -223,7 +249,6 @@ export class ReUpload extends Component {
 const mapStateToProps = state => {
   return{
     token : state.auth.token,
-    role: state.auth.role
   }
 }
 export default connect(mapStateToProps, null)(ReUpload)

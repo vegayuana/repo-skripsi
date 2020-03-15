@@ -4,8 +4,8 @@ import axios from 'axios'
 import { scrollToTop } from '../helpers/autoScroll'
 import { ProgressBar, Modal} from 'react-bootstrap'
 import { Redirect } from 'react-router-dom'
-import { Cookies } from 'react-cookie'
-const cookie = new Cookies()
+import { connect } from 'react-redux'
+
 export class Register extends Component {
   initialState = {
     showLoading:false,
@@ -22,7 +22,7 @@ export class Register extends Component {
     progress:34
   }
   state=this.initialState
-  submit = (e) =>{
+  next = (e) =>{
     e.preventDefault()
     this.setState({
       showLoading:true,
@@ -153,7 +153,7 @@ export class Register extends Component {
   }
   render() {
     let {npm, email, pass, passCheck, message, status, showLoading} =this.state
-    if (cookie.get('token')){
+    if (this.props.token){
       return <Redirect to={'/'} />
     }
     return (
@@ -177,7 +177,7 @@ export class Register extends Component {
                 </div>
                 {email.length>0 && !email.includes('@')? 
                     <div className='alert alert-warning' role='alert'>
-                      <strong>Mohon inputkan Email yang valid</strong>
+                      Mohon inputkan Email yang valid
                     </div>
                     :<></>
                   }
@@ -201,11 +201,11 @@ export class Register extends Component {
                 </div>
                 {passCheck === true || !pass ? ( <></> ) : (
                   <div className='alert alert-warning' role='alert'>
-                    Password does not match
+                    Password tidak cocok
                   </div>
                 )}
-                <button type='submit' className='btn btn-primary' onClick={e => this.submit(e)} disabled={!npm || npm.length!==12 || !email || !email.includes('@') ||!pass ||!passCheck}>
-                  Submit
+                <button type='next' className='btn btn-primary' onClick={e => this.next(e)} disabled={!npm || npm.length!==12 || !email || !email.includes('@') ||!pass ||!passCheck}>
+                  Lanjut
                 </button>
                 {message === '' ? ( <></> ) : (
                   <div className='alert alert-danger' role='alert'>
@@ -215,10 +215,10 @@ export class Register extends Component {
               </fieldset>
               <fieldset style={{ display: this.state.displayForm2 }}>
                 <div className='form-group'>
-                  <label>Foto KTM *5Mb</label>
+                  <label>Foto KTM (Maks 5Mb)</label>
                   <input type='file' id='ktm' onChange={this.handleFile} className='form-control-file' accept='.png, .jpg, .jpeg'/>
                 </div>
-                <button type='submit' className='btn btn-primary' onClick={e => this.submitKTM(e)} disabled={!passCheck}>
+                <button type='submit' className='btn btn-primary' onClick={e => this.submitKTM(e)}>
                   Submit
                 </button>
                 {message === '' ? (<></>) : (
@@ -252,4 +252,9 @@ export class Register extends Component {
     )
   }
 }
-export default Register
+const mapStateToProps = state => {
+  return{
+    token: state.auth.token
+  }
+}
+export default connect(mapStateToProps, null)(Register)

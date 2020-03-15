@@ -38,7 +38,7 @@ router.post('/login', (req, res) =>{
       if( !await bcrypt.compare(password, user.password)){ 
         return utils.template_response(res, 400, "Password tidak cocok", {token: '', isLogged:false})
       } 
-      //Generate Token 
+      //Generate JWT 
       var payload = {
         "iss": "repository.apps",
         "aud": "world",

@@ -3,14 +3,13 @@ import { Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import AdminCard from '../../components/AdminCard'
 import {scrollToTop} from '../../helpers/autoScroll'
-import {Cookies} from 'react-cookie'
-const cookie = new Cookies()
+
 export class Admin extends Component {
   componentDidMount(){
     scrollToTop()
   }
   render() {
-    if (!cookie.get('token') || this.props.role==='user'){
+    if (!this.props.token || this.props.role==='user'){
       return <Redirect to={'/'} />
     }
     return (

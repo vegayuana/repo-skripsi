@@ -18,13 +18,11 @@ export class Nav extends PureComponent {
   state = {
     npm: '',
     pass: '',
-    token: '',
-    role: '',
     message: '',
     status: null,
-    showModal: false,
+    showLogin: false,
     showLoading:false,
-    loginState:false
+    justLoggedIn:false, //ketika pertama kali login, agar refresh tidak redirect
   }
   componentDidMount(){
     if(cookie.get('token')){
@@ -38,24 +36,10 @@ export class Nav extends PureComponent {
       $('.collapse').removeClass( 'show' )
     })
   }
-  componentDidUpdate(prevProps){
-    //props berubah akibat login / logout
-    if(prevProps.token!== this.props.token){
-      this.setState({
-        token : this.props.token,
-        role : this.props.role
-      })
-    }
-  }
-  handleChange = (e) =>{
+  handleInput = (e) =>{
     this.setState({
       status:'',
       [e.target.id] : e.target.value
-    })
-  }
-  handleClose = () => {
-    this.setState({
-      showModal:false
     })
   }
   submitLogin = e => {
@@ -72,44 +56,38 @@ export class Nav extends PureComponent {
       }
     }).then(res => {
       let loginInfo = res.data.data
-      console.log ('login info', loginInfo)
-      this.setState({
-        showLoading:false
-      })
-      if (loginInfo){
-        this.setState({
+      console.log(loginInfo)
+      if (loginInfo.isLogged){ //response didapat
+        this.props.login(loginInfo) //set state global
+        this.setState({ //show modal
+          showLoading:false,
           status:res.data.status,
-          showModal:true,
+          justLoggedIn:true,
+          showLogin:true,
         })
-        if (loginInfo.isLogged) {
-          this.props.login(loginInfo)
-          this.setState({
-            loginState:true,
-          })
-        }
         scrollToTop()
         setTimeout(() => 
-          this.setState({
-            showModal:false
+          this.setState({ //hide modal
+            showLogin:false
         }), 1000)
       }
       else{
         this.setState({
+          showLoading:false,
           status:500
         })
       }
     }).catch((err) => { 
-      this.setState({
-        showLoading:false
-      })
       if(err.response){
         this.setState({
           message:err.response.data.message,
           status:err.response.data.status,
+          showLoading:false,
         })
       } else{
         this.setState({
           status: 500,
+          showLoading:false,
         })
       }
     }) 
@@ -117,12 +95,17 @@ export class Nav extends PureComponent {
   logout = () =>{
     this.props.logout()
   }
+  handleClose = () => {
+    this.setState({
+      showLogin:false
+    })
+  }
   render() {
-    let { token, role, message, status, loginState} = this.state
+    let { message, status, justLoggedIn } = this.state
+    let { token, role } = this.props
     return (
       <>
       <nav className='navbar navbar-expand-md sticky-top navbar-dark'>
-        {/*Brand Name*/}
         <Link to='/' className='navbar-brand'>
           <p>
             REPO<span>SKRIPSI</span>
@@ -144,10 +127,10 @@ export class Nav extends PureComponent {
                     <div className="padding-15">
                       <div className="row">
                         <div className="col-6 col-md-5 no-padding">
-                          <input type='text' id='npm' className='form-control' placeholder='NPM' onChange={this.handleChange} required/>
+                          <input type='text' id='npm' className='form-control' placeholder='NPM' onChange={this.handleInput} required/>
                         </div>
                         <div className="col-6 col-md-5 no-padding">
-                          <input type='password' id='pass' className='form-control' placeholder='Password' onChange={this.handleChange} required/>
+                          <input type='password' id='pass' className='form-control' placeholder='Password' onChange={this.handleInput} required/>
                         </div>
                         <div className="col-12 col-md-2 no-padding">
                           <button type='submit' className='btn btn-primary' onClick={e => this.submitLogin(e)}>
@@ -156,7 +139,7 @@ export class Nav extends PureComponent {
                         </div>
                       </div>
                       <div className="row">
-                        <Link to="/forgot" onClick={this.forgot} className='nav-forgot'>Lupa Password</Link>
+                        <Link to="/forgot" className='nav-forgot'>Lupa Password</Link>
                       </div>
                     </div>
                     {status===400? 
@@ -182,13 +165,14 @@ export class Nav extends PureComponent {
           </div>
           </> 
           :role === 'admin' ?
-          <>
-          {loginState===true ? <Redirect to={'/admin'} /> :<></>}
+          <> 
+          {/* justLoggedIn agar redirect ketika login tapi tidak ketika refresh */}
+          {justLoggedIn? <Redirect to={'/admin'} /> :<></>}
           <AdminMenu logout={this.logout}></AdminMenu>
           </> 
           :
           <>
-          {loginState===true? <Redirect to='/' /> : <></>}
+          {justLoggedIn? <Redirect to='/' /> : <></>}
           <MediaQuery query='(min-device-width:768px)'>
             <UserMenu logout={this.logout}></UserMenu>  
           </MediaQuery>
@@ -203,7 +187,7 @@ export class Nav extends PureComponent {
           </MediaQuery>
           </>
           }
-          <Modal show={this.state.showModal} onHide={this.handleClose} centered>
+          <Modal show={this.state.showLogin} onHide={this.handleClose} centered>
             <Modal.Body className='modal-box'>
             <div className='icon-check'><FaRegCheckCircle/></div>
               Log In Berhasil

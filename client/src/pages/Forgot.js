@@ -37,8 +37,7 @@ export class Forgot extends Component {
         email: this.state.email
       }
     }).then(res => {
-      // this.refs.forgotForm.reset();
-      console.log('helo', res.data)
+      this.refs.forgotForm.reset()
       this.setState({
         sending:false,
         status:res.data.status,
@@ -61,7 +60,6 @@ export class Forgot extends Component {
   }
   render() {
     let {status, message, displaySection1, displaySection2, sending, email, npm, checknpm} = this.state
-    console.log(this.state)
     return (
       <>
       <Bg3/>

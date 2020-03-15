@@ -129,7 +129,7 @@ router.delete('/unverified/:id', (req, res) =>{
 
 //Show Skripsi
 router.get('/show-skripsi', (req, res) =>{  
-  let sql = `SELECT skripsi.id, skripsi.title, skripsi.published_year, skripsi.abstract, skripsi.file_url, skripsi.uploaded_at, skripsi.processed_at, skripsi.is_approved, users.name 
+  let sql = `SELECT skripsi.id, skripsi.title, skripsi.published_year, skripsi.abstract, skripsi.abstrak, skripsi.file_url, skripsi.uploaded_at, skripsi.processed_at, skripsi.is_approved, users.name 
             FROM skripsi join users where skripsi.npm = users.npm 
             ORDER BY is_approved desc, uploaded_at desc`
   db.query(sql, (err, result)=>{

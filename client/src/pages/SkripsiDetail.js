@@ -4,9 +4,7 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { scrollToTop} from '../helpers/autoScroll'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
-import {Cookies} from 'react-cookie'
 import {Document, pdfjs, Page} from 'react-pdf'
-const cookie = new Cookies()
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 export class SkripsiDetail extends Component {
   state={
@@ -26,7 +24,7 @@ export class SkripsiDetail extends Component {
           id : id
         },
         headers: {
-          Authorization: cookie.get('token')
+          Authorization: this.props.token
         } 
       }).then(res=>{
         this.setState({ 
@@ -45,7 +43,7 @@ export class SkripsiDetail extends Component {
         url: `/skripsi/info/`,
         params:{
           id : id
-        }, 
+        }
       }).then(res=>{
         this.setState({ 
           skripsi: res.data[0],
@@ -171,7 +169,7 @@ export class SkripsiDetail extends Component {
                 </Document>
                 <div className="btn-pdf-box"> 
                   <button className="btn btn-primary btn-pdf" disabled={pageNumber===1? true: false} onClick={()=>this.before()}><FaChevronLeft/></button>
-                  <p class="no-margin num-page">Page {pageNumber} of {numPages}</p>
+                  <p className="no-margin num-page">Page {pageNumber} of {numPages}</p>
                   <button className="btn btn-primary btn-pdf" disabled={pageNumber===18? true: false} onClick={()=>this.next()}><FaChevronRight/></button>
                 </div>
                 </>
@@ -192,7 +190,6 @@ export class SkripsiDetail extends Component {
 const mapStateToProps = state => {
   return{
     token : state.auth.token,
-    role: state.auth.role
   }
 }
 export default connect(mapStateToProps, null)(SkripsiDetail)
