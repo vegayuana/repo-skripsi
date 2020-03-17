@@ -50,12 +50,17 @@ export class Forgot extends Component {
       if(err.response){
         this.setState({
           status:err.response.data.status,
-          message:err.response.data.message
+          message:err.response.data.message,
+          sending:false,
         })
       }
-      this.setState({
-        sending:false,
-      })
+      else{
+        this.setState({
+          message: 'Network error, Cek Koneksi Anda',
+          status: 500,
+          sending:false,
+        })
+      }
     })
   }
   render() {
@@ -89,7 +94,7 @@ export class Forgot extends Component {
                 }
                 {!message?<></>:
                   <div className='alert alert-warning' role='alert'>
-                    <strong>{message}</strong>
+                    {message}
                     {status===422? <p>Cek kembali email dan npm yang anda masukan</p> : <></>}
                   </div>
                 }

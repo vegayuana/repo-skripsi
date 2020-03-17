@@ -146,88 +146,88 @@ export class ReUpload extends Component {
     }
     return (
       <>
-      {offline? <p>Anda sedang offline. Cek koneksi anda dan refresh </p> : 
-        !isLoaded? <div className="spin-box"><Spinner animation="border" variant="secondary"/></div> :
-      <div className="row no-margin">
-        <div className="upload-box">
+      <div className='row no-margin'>
+        <div className='upload-box'>
           <h3>Unggah Ulang</h3>
-          {skripsi.is_approved===1 ? <></> :
+          {offline? <p className='text-center'>Anda sedang offline. Cek koneksi anda dan refresh </p> 
+           : !isLoaded? <div className='spin-box'><Spinner animation='border' variant='secondary'/></div> 
+           : skripsi.is_approved===1 ? <></> :
             status === 200 ?       
             <>     
-            <div className="alert alert-success" role="alert">
+            <div className='alert alert-success' role='alert'>
               <strong>{this.state.message}</strong>
             </div> 
-            <Link to='/profile'><button className="btn btn-primary">Selesai</button></Link>
+            <Link to='/profile'><button className='btn btn-primary'>Selesai</button></Link>
             </> :
             <>
-            <form ref="reuploadForm">
-              <div className="form-group">
+            <form ref='reuploadForm'>
+              <div className='form-group'>
                 <label>Judul *</label>
-                <textarea type="text" id="title" maxLength="255" onBlur={this.handleInput} className="form-control" placeholder="Judul Skripsi" defaultValue={skripsi.title}/>
+                <textarea type='text' id='title' maxLength='255' onBlur={this.handleInput} className='form-control' placeholder='Judul Skripsi' defaultValue={skripsi.title}/>
                 { titleAlert==='initial'? <></> : !titleAlert ?
-                  <div className="alert alert-danger" role="alert">
+                  <div className='alert alert-danger' role='alert'>
                     <strong>Judul tidak boleh kosong</strong>
                   </div> : <></>
                 }
               </div>
-              <div className="form-group">
+              <div className='form-group'>
                 <label>Tahun *</label>
-                <input type="number" id="year" onBlur={this.handleInput} className="form-control" placeholder="Tahun Publikasi Skripsi" defaultValue={skripsi.published_year}/>
+                <input type='number' id='year' onBlur={this.handleInput} className='form-control' placeholder='Tahun Publikasi Skripsi' defaultValue={skripsi.published_year}/>
                 { yearAlert==='initial'? <></> : year.length!==4 || year<2000 || year>2100 ?
-                  <div className="alert alert-danger" role="alert">
+                  <div className='alert alert-danger' role='alert'>
                     <strong>Tahun harus diisi dengan benar</strong>
                   </div> : <></>
                 }
               </div>
-              <div className="form-group">
+              <div className='form-group'>
                 <label>Abstrak *</label>
-                <textarea id="abstrak" onBlur={this.handleInput} className="form-control" placeholder="Input Abstrak" defaultValue={skripsi.abstrak}/>
+                <textarea id='abstrak' onBlur={this.handleInput} className='form-control' placeholder='Input Abstrak' defaultValue={skripsi.abstrak}/>
                 { abstrakAlert==='initial'? <></> : !abstrakAlert ?
-                  <div className="alert alert-danger" role="alert">
+                  <div className='alert alert-danger' role='alert'>
                     <strong>Abstrak tidak boleh kosong</strong>
                   </div> : <></>
                 }
               </div>
-              <div className="form-group">
+              <div className='form-group'>
                 <label>Abstrak *</label>
-                <textarea id="abstract" onBlur={this.handleInput} className="form-control" placeholder="Input Abstract" defaultValue={skripsi.abstract}/>
+                <textarea id='abstract' onBlur={this.handleInput} className='form-control' placeholder='Input Abstract' defaultValue={skripsi.abstract}/>
                 { abstractAlert==='initial'? <></> : !abstractAlert ?
-                  <div className="alert alert-danger" role="alert">
+                  <div className='alert alert-danger' role='alert'>
                     <strong>Abstrak tidak boleh kosong</strong>
                   </div> : <></>
                 }
               </div>
-              <div className="form-group">
+              <div className='form-group'>
                 <label>File * (Maks 20mb)</label>
-                <input type="file" ref="file" onChange={this.handleFile} className="form-control-file" id="file" accept=".pdf"/>
-                { !file ? <></> : file.type==="application/pdf" ? <></> :
-                  <div className="alert alert-danger" role="alert">
+                <input type='file' ref='file' onChange={this.handleFile} className='form-control-file' id='file' accept='.pdf'/>
+                { !file ? <></> : file.type==='application/pdf' ? <></> :
+                  <div className='alert alert-danger' role='alert'>
                     <strong>File must be PDF</strong>
                   </div> 
                 }
               </div> 
-              <div className="form-group">
+              <div className='form-group'>
                 <label>Bidang Minat Skripsi</label>
-                <select className="custom-select" onChange={this.handleInput} id="category" defaultValue={skripsi.category}>
+                <select className='custom-select' onChange={this.handleInput} id='category' defaultValue={skripsi.category}>
                   <option value=''>Bidang Minat</option>
                   <option value='1'>Artificial Intelligence</option>
                   <option value='2'>Sistem Informasi</option>
                   <option value='3'>Jaringan Komputer</option>
                 </select>
               </div>
-              <div className="form-group">
+              <div className='form-group'>
                 <label>Kata Kunci </label>
                 <p style={{fontSize: '0.8rem'}}>Input 1-5 kata kunci yang berkaitan dengan skripsi (pisahkan dengan koma)</p>
-                <input type="text" id="keywords" onChange={this.handleInput} className="form-control" placeholder="Kata Kunci" defaultValue={skripsi.keywords}/>
+                <input type='text' id='keywords' onChange={this.handleInput} className='form-control' placeholder='Kata Kunci' defaultValue={skripsi.keywords}/>
                 { !keywords? <></> : keywords.length<255 ? <></> : 
-                  <div className="alert alert-danger" role="alert">
+                  <div className='alert alert-danger' role='alert'>
                     <strong>Kata kunci terlalu banyak</strong>
                   </div> 
                 }
               </div> 
-              <button type="submit" className="btn btn-primary" onClick={(e)=>this.submit(e)} disabled={!title || !abstract || !abstrak || year.length!==4 || year<2000 || year>2100 || !file || keywords.length>=255}>Submit</button>
+              <button type='submit' className='btn btn-primary' onClick={(e)=>this.submit(e)} disabled={!title || !abstract || !abstrak || year.length!==4 || year<2000 || year>2100 || !file || keywords.length>=255}>Submit</button>
               { message ==='' ? <></> : 
-                <div className="alert alert-danger" role="alert">
+                <div className='alert alert-danger' role='alert'>
                   <strong>{this.state.message}</strong>
                 </div>
               }
@@ -241,7 +241,6 @@ export class ReUpload extends Component {
           </Modal.Body>
         </Modal>
       </div>
-      }
       </>
     )
   }
