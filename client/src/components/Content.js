@@ -182,7 +182,6 @@ export class Content extends PureComponent {
     }
   }
   render() {
-    console.log('render content')
     let {isLoaded, skripsiFiltered, years, yearSelection, categorySelection, currentPage, postsPerPage} = this.state
     const indexOfLastPost = currentPage * postsPerPage
     const indexOfFirstPost = indexOfLastPost - postsPerPage

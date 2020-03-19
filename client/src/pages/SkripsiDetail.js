@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 import { scrollToTop} from '../helpers/autoScroll'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import {Document, pdfjs, Page} from 'react-pdf'
+import {Cookies} from 'react-cookie'
+const cookie = new Cookies()
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 export class SkripsiDetail extends Component {
   state={
@@ -16,7 +18,8 @@ export class SkripsiDetail extends Component {
   }
   getData =()=>{
     let id = this.props.match.params.id
-    if(this.props.token){
+    console.log('ini props', cookie.get('token'))
+    if(cookie.get('token')){
       axios({
         method: 'get',
         url: `/skripsi/detail/`,
@@ -87,6 +90,7 @@ export class SkripsiDetail extends Component {
   }
   render() {
     let { isLoaded, skripsi, offline, pageNumber, numPages} = this.state
+    console.log('detail')
     return (
       <div className="main-box"> 
         { offline ? 
