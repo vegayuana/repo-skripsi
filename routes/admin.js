@@ -190,7 +190,7 @@ router.get('/user-list', (req, res) =>{
 
 router.get('/forum/', (req, res) =>{  
   let { id } =  req.query
-  let sql = `SELECT forums.user_id, forums.text, forums.status, forums.sent_at, users.name FROM forums join users on users.npm=forums.user_id
+  let sql = `SELECT forums.npm, forums.text, forums.status, forums.sent_at, users.name FROM forums join users on users.npm=forums.npm
             where forums.id like '${id}%' order by sent_at asc`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
@@ -207,7 +207,7 @@ router.post('/insert-text', (req, res) =>{
   let randomId = uuid().substring(0, 5)
   let post = {
     id: id+randomId,
-    user_id: payload.npm,
+    npm: payload.npm,
     text: text,
     status: 1, 
     sent_at: moment().format()

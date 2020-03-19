@@ -115,7 +115,7 @@ export class SkripsiDetail extends Component {
                   </div>
                   <h5>Judul</h5>
                   <p>{skripsi.title}</p>
-                  <h5>Pengarang</h5>
+                  <h5>Penulis</h5>
                   <p>{skripsi.name}</p>
                   <h5>Tahun</h5>
                   <p>{skripsi.published_year}</p>
