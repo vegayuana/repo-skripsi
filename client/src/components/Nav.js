@@ -9,7 +9,7 @@ import { FaRegCheckCircle } from 'react-icons/fa'
 import '../styles/nav.css'
 import axios from 'axios'
 import $ from 'jquery'
-import {scrollToTop} from '../helpers/autoScroll'
+import { scrollToTop } from '../helpers/autoScroll'
 import MediaQuery from 'react-responsive'
 import {Cookies} from 'react-cookie'
 const cookie = new Cookies()

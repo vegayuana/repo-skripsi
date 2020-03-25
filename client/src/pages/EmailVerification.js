@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
 import axios from 'axios'
 import { Spinner } from 'react-bootstrap'
-import { connect } from 'react-redux'
 import Bg3 from '../components/Bg3'
 
 class EmailVerification extends Component {
@@ -77,7 +77,7 @@ class EmailVerification extends Component {
 }
 const mapStateToProps = state => {
   return{
-    token : state.auth.token,
+    token: state.auth.token
   }
 }
 export default connect(mapStateToProps, null)(EmailVerification)

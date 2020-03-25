@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import AdminCard from '../../components/AdminCard'
-import {scrollToTop} from '../../helpers/autoScroll'
+import { scrollToTop } from '../../helpers/autoScroll'
 
 export class Admin extends Component {
   componentDidMount(){
@@ -38,7 +38,7 @@ export class Admin extends Component {
 const mapStateToProps = state => {
   return{
     token : state.auth.token,
-    role: state.auth.role
+    role : state.auth.role
   }
 }
 export default connect(mapStateToProps, null)(Admin)

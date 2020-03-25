@@ -141,7 +141,7 @@ export class ReUpload extends Component {
   }
   render() {
     let { message, status, isLoaded, offline, skripsi, file, title, year, abstrak, abstract, titleAlert, yearAlert, abstrakAlert, abstractAlert, keywords} = this.state
-    if (!this.props.token){
+    if (!this.props.token || this.props.role==='admin'){
       return <Redirect to={'/'} />
     }
     return (
@@ -248,6 +248,7 @@ export class ReUpload extends Component {
 const mapStateToProps = state => {
   return{
     token : state.auth.token,
+    role : state.auth.role
   }
 }
 export default connect(mapStateToProps, null)(ReUpload)

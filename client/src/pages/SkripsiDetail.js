@@ -85,8 +85,12 @@ export class SkripsiDetail extends Component {
       })
     }
   }
+  // componentWillUnmount(){
+  //   document.removeEventListener('remove', this.getData);
+  // }
   render() {
     let { isLoaded, skripsi, offline, pageNumber, numPages} = this.state
+    
     return (
       <div className="main-box"> 
         { offline ? 

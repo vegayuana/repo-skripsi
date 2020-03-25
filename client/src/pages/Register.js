@@ -252,6 +252,7 @@ export class Register extends Component {
     )
   }
 }
+
 const mapStateToProps = state => {
   return{
     token: state.auth.token

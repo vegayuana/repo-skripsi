@@ -56,7 +56,7 @@ export class SkripsiStatus extends Component {
               <Link to='/upload'><button className='btn btn-primary'>Unggah</button></Link>
             </div> 
           : <>
-          <table class="table">
+          <table className="table">
             <tbody>
               <tr>
                 <th scope="row" className="td-status"><h5>Judul</h5></th>

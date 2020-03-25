@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import {Spinner} from 'react-bootstrap'
+import { Spinner } from 'react-bootstrap'
+import { connect } from 'react-redux'
+import { Redirect  } from 'react-router-dom'
 import Bg3 from '../components/Bg3'
 import axios from 'axios'
 
@@ -65,6 +67,9 @@ export class Forgot extends Component {
   }
   render() {
     let {status, message, displaySection1, displaySection2, sending, email, npm, checknpm} = this.state
+    if (this.props.token){
+      return <Redirect to={'/'} />
+    }
     return (
       <>
       <Bg3/>
@@ -119,5 +124,9 @@ export class Forgot extends Component {
     )
   }
 }
-
-export default Forgot
+const mapStateToProps = state => {
+  return{
+    token: state.auth.token
+  }
+}
+export default connect(mapStateToProps, null)(Forgot)

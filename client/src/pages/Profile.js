@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import ProfileInfo from '../components/ProfileInfo'
 import SkripsiStatus from '../components/SkripsiStatus'
 import { scrollToTop } from '../helpers/autoScroll'
+import { connect } from 'react-redux'
 
 export class Profile extends Component {
   state={
@@ -59,7 +59,7 @@ export class Profile extends Component {
 }
 const mapStateToProps = state => {
   return{
-    token : state.auth.token,
+    token: state.auth.token,
     role: state.auth.role
   }
 }

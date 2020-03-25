@@ -1,39 +1,33 @@
-//Lifecycle = register -> install -> activate
+//Lifecycle = register -> install -> activate https://bit.ly/CRA-PWA
 
+//ip localhost ([::1] - 127.0.0.0/8 )
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
-    // [::1] is the IPv6 localhost address.
     window.location.hostname === '[::1]' ||
-    // 127.0.0.0/8 are considered localhost for IPv4.
     window.location.hostname.match(
       /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
     )
 )
 
 export function register(config) {
-  //------Check if env production & sw are supported
+  //Cek apakah service worker support pada browser
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-    // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href)
+    //Service worker tidak jalan jika public file diluar url
     if (publicUrl.origin !== window.location.origin) {
-      // Service worker won't work if PUBLIC_URL is on a different origin
       return
     }
-  
-    //----------Load | when whole page loaded
+
+    //Ketika halaman telah di load 
     window.addEventListener('load', () => {
       const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`
       if (isLocalhost) {
-        // Running on localhost. 
         checkValidServiceWorker(swUrl, config)
         navigator.serviceWorker.ready.then(() => {
-          console.log(
-            'This web app is being served cache-first by a service ' +
-              'worker. To learn more, visit https://bit.ly/CRA-PWA'
-          )
+          console.log('Web app served cache-first')
         })
       } else {
-        // Running not on localhost
+        //Register SW
         registerValidSW(swUrl, config)
       }
     })
@@ -51,22 +45,17 @@ function registerValidSW(swUrl, config) {
           return
         }
         installingWorker.onstatechange = () => {
-          //------------install
+          //------------install SW
           if (installingWorker.state === 'installed') {
+            //Cek apakah sw aktif
             if (navigator.serviceWorker.controller) {
-              // At this point, the updated precached content has been fetched,
-              // but the previous service worker will still serve the older
-              // content until all client tabs are closed.
-              console.log(
-                'New content is available and will be used when all ' +
-                  'tabs for this page are closed. See https://bit.ly/CRA-PWA.'
-              )
+              // Update precached content di fetch tapi SW lama masih di jalankan sampai tab di tutup
+              console.log('Content baru telah di fetch dan siap digunakan saat tab telah ditutup')
               if (config && config.onUpdate) {
                 config.onUpdate(registration)
               }
             } else {
-              // At this point, everything has been precached.
-              console.log('Content is cached for offline use.')
+              console.log('Content telah di cached untuk mode offline.')
               if (config && config.onSuccess) {
                 config.onSuccess(registration)
               }
@@ -76,36 +65,35 @@ function registerValidSW(swUrl, config) {
       }
     })
     .catch(error => {
-      console.error('Error during service worker registration:', error)
+      console.error('Error saat register service worker:', error)
     })
 }
 
 function checkValidServiceWorker(swUrl, config) {
-  // Check if the service worker can be found. If it can't reload the page.
+  // Cek apakah SW sudah ada
   fetch(swUrl, {
     headers: { 'Service-Worker': 'script' }
   })
     .then(response => {
-      // Ensure service worker exists, and that we really are getting a JS file.
       const contentType = response.headers.get('content-type')
       if (
         response.status === 404 ||
         (contentType != null && contentType.indexOf('javascript') === -1)
       ) {
-        // No service worker found. Probably a different app. Reload the page.
+        // SW tidak di temukan 
         navigator.serviceWorker.ready.then(registration => {
           registration.unregister().then(() => {
             window.location.reload()
           })
         })
       } else {
-        // Service worker found. Proceed as normal.
+        // SW ditemukan. Proses dilanjutkan
         registerValidSW(swUrl, config)
       }
     })
     .catch(() => {
       console.log(
-        'No internet connection found. App is running in offline mode.'
+        'Tidak ada koneksi Internet. Web App dalam offline mode.'
       )
     })
 }

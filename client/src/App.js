@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
 import Routes from './Routes'
 
 import Nav from './components/Nav'
@@ -8,7 +9,7 @@ import Footer from './components/Footer'
 
 import bg from './icons/bg.webp'
 import './styles/page.css'
-import store from './store'
+import {store, persistor} from './store'
 import 'typeface-oswald'
 
 export class App extends Component {
@@ -20,6 +21,7 @@ export class App extends Component {
     return (
       <> 
       <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
         <Router>
           <Nav/>
           <div className="alert alert-secondary alert-offline" id="alert-offline" role="alert">
@@ -31,6 +33,7 @@ export class App extends Component {
           </div>
           <Footer/>
         </Router>
+        </PersistGate>
       </Provider>
       </>
     )

@@ -140,7 +140,7 @@ export class ForumList extends Component {
 const mapStateToProps = state => {
   return{
     token : state.auth.token,
-    role: state.auth.role
+    role : state.auth.role
   }
 }
 export default connect(mapStateToProps, null)(ForumList)

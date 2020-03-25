@@ -68,7 +68,6 @@ class UserForum extends Component {
         Authorization:this.props.token
       } 
     }).then(res=>{
-      console.log(res)
       this.setState({ 
         dataLoaded:true,
         chats:res.data
