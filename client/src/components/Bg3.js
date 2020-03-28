@@ -1,5 +1,5 @@
 import React from 'react'
-import bg3 from '../icons/bg3.webp'
+import bg3 from '../icons/bg3.png'
 
 export default function Bg3() {
   return (

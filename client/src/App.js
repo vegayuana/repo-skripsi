@@ -7,7 +7,7 @@ import Routes from './Routes'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
 
-import bg from './icons/bg.webp'
+import bg from './icons/bg.png'
 import './styles/page.css'
 import {store, persistor} from './store'
 import 'typeface-oswald'

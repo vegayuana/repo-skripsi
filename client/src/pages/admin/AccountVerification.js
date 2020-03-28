@@ -53,13 +53,13 @@ export class AccountVerification extends Component {
       })
     }
   }
-  unverified = (id) => {
+  deleteAcc = (id) => {
     this.setState({
       showLoading:true
     })
     axios({
       method: 'delete',
-      url: `/admin/unverified/${id}`,
+      url: `/admin/delete-acc/${id}`,
       headers: {
         Authorization: this.props.token
       } 
@@ -83,13 +83,13 @@ export class AccountVerification extends Component {
       }
     })
   }
-  verified = (id) => {
+  activated = (id) => {
     this.setState({
       showLoading:true
     })
     axios({
       method: 'put',
-      url: `/admin/verified/${id}`,
+      url: `/admin/activated/${id}`,
       headers:{
         Authorization: this.props.token
       }
@@ -149,29 +149,29 @@ export class AccountVerification extends Component {
           <div className="line"></div>
           <div className="title">
             <div className="row">
-              <div className="col-md-9 col-6">Akun Mahasiswa</div>
+              <div className="col-md-9 col-6 table-header">Akun Mahasiswa</div>
               <div className="col-md-3 col-6">
                 <div className="input-group">
                   <div className="input-group-prepend">
                     <button className="btn btn-outline-secondary" type="button" id="button-addon2"><FaSearch/></button>
                   </div>
-                  <input type="text" className="form-control" onChange={this.onChange} placeholder="Nama atau Npm" aria-label="search" aria-describedby="button-addon2" />
+                  <input type="text" className="form-control" onChange={this.onChange} placeholder="Nama atau NPM" aria-label="search" aria-describedby="button-addon2" />
                 </div>
               </div>
             </div>
           </div> 
-          <Table responsive striped size="sm">
+          <Table responsive striped size="sm" className="table-borderless">
             <thead>
               <tr>
                 <th scope="col">No</th>
-                <th scope="col" className="td-md">Nama</th>
+                <th scope="col" className="td-sm">Nama</th>
                 <th scope="col" className="td-sm">NPM</th>
-                <th scope="col" className="td-md">Email</th>
+                <th scope="col" className="td-sm">Email</th>
                 <th scope="col" className="td-md">KTM</th>
-                <th scope="col" className="td-sm">Waktu Daftar</th>
-                <th scope="col" className="td-sm">Waktu Diproses</th>
+                <th scope="col" className="td-md">Waktu Daftar</th>
+                <th scope="col" className="td-md">Waktu Diproses</th>
                 <th scope="col" className="td-md">Status</th>
-                <th scope="col">Handle</th>
+                <th scope="col" className="td-md">Handle</th>
               </tr>
             </thead>
             <tbody>
@@ -191,10 +191,10 @@ export class AccountVerification extends Component {
                 </td>
                 <td>{moment(user.created_at).format("YYYY-MM-D H:mm:ss")}</td>
                 <td>{user.is_active === 0 ? <>-</> : <>{moment(user.processed_at).format("YYYY-MM-D H:mm:ss")}</>}</td>
-                <td>{user.is_active === 1 ? <div style={{color:'#379683'}}><FaCheck/> Diverifikasi</div> :<>Belum Diverifikasi</>}</td>
+                <td>{user.is_active === 1 ? <p className='status status-green'><FaCheck/> Aktif</p> :<p className='status status-muted'>Belum Diproses</p>}</td>
                 <td>
-                  <button onClick={()=>this.verified(user.npm)} className={ user.is_active === 1? "btn-table": "btn-table btn-handle"} disabled={ user.is_active === 1? true : false}>Verifikasi</button>
-                  <button onClick={()=>this.handleShow(user.npm)} className={ user.is_active === 1? "btn-table" : "btn-table btn-danger" } disabled={ user.is_active === 1 ? true : false}>Tidak Terverifikasi</button>
+                  <button onClick={()=>this.activated(user.npm)} className={ user.is_active === 1? "col-12 col-md-6 btn-table": "col-12 col-md-6 btn-table btn-primary"} disabled={ user.is_active === 1? true : false}>Aktifkan</button>
+                  <button onClick={()=>this.handleShow(user.npm)} className={ user.is_active === 1? "col-12 col-md-6 btn-table" : "col-12 col-md-6 btn-table btn-danger" } disabled={ user.is_active === 1 ? true : false}>Hapus</button>
                 </td>
               </tr>
               )
@@ -205,7 +205,7 @@ export class AccountVerification extends Component {
         <Modal show={this.state.showModal} onHide={this.handleClose} centered>
           <Modal.Body className='admin-modal'>
             <p>Apakah anda yakin data akun tersebut tidak valid?</p>
-            <button onClick={()=>this.unverified(this.state.id)} className="btn-table btn-primary">Ya</button>
+            <button onClick={()=>this.deleteAcc(this.state.id)} className="btn-table btn-primary">Ya</button>
           </Modal.Body>
         </Modal>
         <Modal show={this.state.showLoading} centered>

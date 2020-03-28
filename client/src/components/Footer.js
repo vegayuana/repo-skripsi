@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import '../styles/footer.css'
-import logo from '../icons/logo.webp'
+import logo from '../icons/logo.png'
 import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import MediaQuery from 'react-responsive'

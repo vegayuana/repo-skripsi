@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import bg2 from '../icons/bg2.webp'
+import bg2 from '../icons/bg2.png'
 import axios from 'axios'
 import { scrollToTop } from '../helpers/autoScroll'
 import { ProgressBar, Modal} from 'react-bootstrap'

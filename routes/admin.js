@@ -22,8 +22,8 @@ router.get('/show-acc', (req, res) =>{
   })
 })
 
-//Verification
-router.put('/verified/:id', (req, res) =>{  
+//Activated Acc
+router.put('/activated/:id', (req, res) =>{  
   const id = req.params.id
   let time=moment().format()
   let sql = `UPDATE users SET is_active=${true}, processed_at='${time}' where npm='${id}'`
@@ -69,8 +69,8 @@ router.put('/verified/:id', (req, res) =>{
   })
 })
 
-//Unverified
-router.delete('/unverified/:id', (req, res) =>{  
+//Delete Acc
+router.delete('/delete-acc/:id', (req, res) =>{  
   const id = req.params.id
   let find = `SELECT ktm_url, name, email from users WHERE role='user' and npm='${id}' LIMIT 1`
   db.query(find, (err, result)=>{

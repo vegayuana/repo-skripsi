@@ -45,7 +45,7 @@ export default class UserMenu extends Component {
       <MediaQuery query="(max-width:767px)">
        <ul className="navbar-nav">
          <li className="nav-item right">
-           <Link to="/" className="btn btn-nav btn-transition" onClick={() => this.props.logout()}>
+           <Link to="/" className="btn btn-nav" onClick={() => this.props.logout()}>
              Log out
            </Link>
          </li>

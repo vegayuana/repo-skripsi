@@ -185,8 +185,8 @@ a, a:hover{
     background-color: transparent;
   }
   .btn-transition:hover, .btn-transition:active{
-    font-size: 1.7rem; 
-    font-weight: 300;
+    border-radius: 0px;
+    border-bottom: 1px solid white !important;
   }
   .navbar .login-form{
     width: 460px;

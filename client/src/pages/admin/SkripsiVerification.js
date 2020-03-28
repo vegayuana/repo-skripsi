@@ -149,7 +149,7 @@ export class SkripsiVerification extends Component {
           <div className="line"></div> 
           <div className="title">
             <div className="row">
-              <div className="col-md-9 col-6">Data Skripsi</div>
+              <div className="col-md-9 col-6 table-header">Data Skripsi</div>
               <div className="col-md-3 col-6">
                 <div className="input-group">
                   <div className="input-group-prepend">
@@ -160,17 +160,17 @@ export class SkripsiVerification extends Component {
               </div>
             </div>
           </div>
-          <Table className="table-skripsi" responsive striped bordered size="sm">
+          <Table className="table-skripsi table-borderless" responsive striped bordered size="sm">
             <thead>
               <tr>
                 <th scope="col">No</th>
                 <th scope="col" className="td-md">Judul</th>
                 <th scope="col" className="td-sm">Penulis</th>
-                <th scope="col" className="td-sm">Tahun</th>
                 <th scope="col" className="td-lg">Abstrak</th>
                 <th scope="col" className="td-lg">Abstract</th>
-                <th scope="col" className="td-sm">File</th>
-                <th scope="col" className="td-md">Status</th>
+                <th scope="col">Tahun</th>
+                <th scope="col">File</th>
+                <th scope="col" className="td-sm">Status</th>
                 <th scope="col" className="td-sm">Waktu Unggah</th>
                 <th scope="col" className="td-sm">Waktu Diproses</th>
                 <th scope="col">Handle</th>
@@ -185,23 +185,23 @@ export class SkripsiVerification extends Component {
                   <th scope="row">{i+1}</th>
                   <td>{item.title}</td>
                   <td>{item.name}</td>
-                  <td>{item.published_year}</td>
                   <td><div style={{height:'200px', wordBreak:'break-word', overflowY:'auto'}}>{item.abstrak}</div></td>
                   <td><div style={{height:'200px', wordBreak:'break-word', overflowY:'auto'}}>{item.abstract}</div></td>
+                  <td>{item.published_year}</td>
                   <td>
                     {!item.file_url ? <>File Tidak ada</> :
-                    <a href={'https://repositori-skripsi.herokuapp.com/'+item.file_url} target='_blank' rel='noreferrer noopener'><FaFilePdf className="pdf-icon"/> Buka</a>
+                    <a href={'https://repositori-skripsi.herokuapp.com/'+item.file_url} target='_blank' rel='noreferrer noopener'><FaFilePdf className="pdf-icon"/></a>
                     }
                   </td>
-                  <td>{ item.is_approved === 1 ? <div style={{color:'#379683'}}><FaCheck/> Dipublikasikan</div> : 
-                          item.is_approved === 0 ? <div className='text-danger'><FaTimes/> Ditolak</div> :
-                            <>Perlu Ditinjau</>
+                  <td>{ item.is_approved === 1 ? <p className='status status-green'><FaCheck/> Publik</p> : 
+                          item.is_approved === 0 ? <p className='status status-red'><FaTimes/> Ditolak</p> :
+                          <p className='status status-muted'>Perlu Ditinjau</p>
                         }</td>
                   <td>{moment(item.uploaded_at).format("YYYY-MM-D H:mm:ss")}</td>
                   <td>{item.is_approved===2 ? <></> : <>{moment(item.processed_at).format("YYYY-MM-D H:mm:ss")}</>}</td>
                   <td>
                     <button onClick={()=>this.handleShow(item.id)} className={ item.is_approved === 0? "btn-table" : "btn-table btn-danger" }  disabled={ item.is_approved === 0? true : false}>Tolak</button>
-                    <button onClick={()=>this.approved(item.id)} className={ item.is_approved === 2? "btn-table btn-handle": "btn-table"} disabled={ item.is_approved === 2? false : true}>Publikasikan</button>
+                    <button onClick={()=>this.approved(item.id)} className={ item.is_approved === 2? "btn-table btn-primary": "btn-table"} disabled={ item.is_approved === 2? false : true}>Publikasi</button>
                   </td>
                 </tr>
               )

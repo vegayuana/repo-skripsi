@@ -1,7 +1,7 @@
 import React, {useEffect }from 'react'
 import Content from '../components/Content'
 import '../styles/page.css'
-import bg1 from '../icons/bg1.webp'
+import bg1 from '../icons/bg1.png'
 import { scrollToTop } from '../helpers/autoScroll'
 
 function Main() {

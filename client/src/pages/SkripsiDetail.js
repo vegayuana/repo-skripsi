@@ -105,7 +105,7 @@ export class SkripsiDetail extends Component {
         :
         <>  
         <div className="row">
-          <div className="col-12 col-md-4">
+          <div className="col-12 col-md-4 identity">
             <div className="small-box">
             <div className="line"></div>
             <div className="detail-box">

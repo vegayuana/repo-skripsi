@@ -25,7 +25,7 @@ export class Nav extends PureComponent {
     justLoggedIn:false, //ketika pertama kali login, agar refresh tidak redirect
   }
   componentDidMount(){
-    if(cookie.get('token')){
+    if(cookie.get('token')!==this.props.token){
       let log ={
         token : cookie.get('token'),
         role : cookie.get('role')
@@ -179,7 +179,7 @@ export class Nav extends PureComponent {
           <MediaQuery query='(max-device-width:767px)'>
             <ul className='navbar-nav'>
               <li className='nav-item right'>
-                <Link to='/' className='btn btn-nav btn-transition' onClick={()=>this.logout()}>
+                <Link to='/' className='btn btn-nav' onClick={()=>this.logout()}>
                   Log out
                 </Link>
               </li>
