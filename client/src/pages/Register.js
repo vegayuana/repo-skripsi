@@ -98,6 +98,7 @@ export class Register extends Component {
         progress: 100
       })
       this.refs.registerForm.reset()
+      scrollToTop()
     }).catch(err => {
       this.setState({
         showLoading:false
@@ -147,9 +148,6 @@ export class Register extends Component {
   back = e => {
     e.preventDefault()
     this.setState(this.initialState)
-  }
-  componentDidMount(){
-    scrollToTop()
   }
   render() {
     let {npm, email, pass, passCheck, message, status, showLoading} =this.state

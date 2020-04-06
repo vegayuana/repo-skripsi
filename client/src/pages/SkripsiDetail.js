@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Spinner } from 'react-bootstrap'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { scrollToTop} from '../helpers/autoScroll'
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import {Document, pdfjs, Page} from 'react-pdf'
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
@@ -72,7 +71,6 @@ export class SkripsiDetail extends Component {
     }
   }
   componentDidMount(){
-    scrollToTop()
     if (navigator.onLine){
       this.getData()
       this.setState({

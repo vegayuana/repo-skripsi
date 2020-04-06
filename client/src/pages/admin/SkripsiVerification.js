@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Spinner, Table, Breadcrumb, Modal} from 'react-bootstrap'
 import { Redirect, Link } from 'react-router-dom'
 import axios from 'axios'
-import {scrollToTop} from '../../helpers/autoScroll'
 import { FaFilePdf, FaCheck, FaTimes, FaSearch} from 'react-icons/fa'
 import moment from 'moment'
 
@@ -39,7 +38,6 @@ export class SkripsiVerification extends Component {
     })
   }
   componentDidMount(){
-    scrollToTop()
     if (navigator.onLine){
       this.getData()
       this.setState({

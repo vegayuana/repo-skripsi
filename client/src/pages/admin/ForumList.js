@@ -3,7 +3,6 @@ import { Spinner, Breadcrumb } from 'react-bootstrap'
 import { Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import axios from 'axios'
-import {scrollToTop} from '../../helpers/autoScroll'
 import {MdNotificationsActive} from 'react-icons/md'
 import {FaCheck} from 'react-icons/fa'
 
@@ -68,7 +67,6 @@ export class ForumList extends Component {
     })
   }
   componentDidMount(){
-    scrollToTop()
     if (navigator.onLine){
       this.getUser()
       this.getForums()

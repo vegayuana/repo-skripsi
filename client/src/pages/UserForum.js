@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import { Spinner } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import {scrollToTop} from '../helpers/autoScroll'
 import axios from 'axios'
 import Forum from '../components/Forum'
 
@@ -82,7 +81,6 @@ class UserForum extends Component {
     })
   }
   componentDidMount(){
-    scrollToTop()
     if (navigator.onLine){
       this.getForum()
       this.setState({

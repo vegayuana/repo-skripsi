@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import UserMenu from '../components/UserMenu'
 import AdminMenu from '../components/AdminMenu'
 import { Link, Redirect } from 'react-router-dom'
-import { setToken, delToken} from '../reducers/authReducer'
+import { setToken, delToken } from '../reducers/authReducer'
 import { connect } from 'react-redux'
 import { Modal } from 'react-bootstrap' 
 import { FaRegCheckCircle } from 'react-icons/fa'
@@ -25,16 +25,9 @@ export class Nav extends PureComponent {
     justLoggedIn:false, //ketika pertama kali login, agar refresh tidak redirect
   }
   componentDidMount(){
-    if(cookie.get('token')!==this.props.token){
-      let log ={
-        token : cookie.get('token'),
-        role : cookie.get('role')
-      }
-      this.props.login(log)
+    if(cookie.get('token')===undefined){
+      this.props.logout()
     }
-    $('a').click(()=>{
-      $('.collapse').removeClass( 'show' )
-    })
   }
   handleInput = (e) =>{
     this.setState({
@@ -106,19 +99,21 @@ export class Nav extends PureComponent {
     return (
       <>
       <nav className='navbar navbar-expand-md sticky-top navbar-dark'>
+        <div data-toggle="collapse" data-target=".navbar-collapse.show">
         <Link to='/' className='navbar-brand'>
           <p>
             REPO<span>SKRIPSI</span>
           </p>
         </Link>
+        </div>
         {!token ? 
           <>
           {/*Toggler*/}
-          <button className='navbar-toggler' type='button' data-toggle='collapse' data-target='#toggle1'>
+          <button className='navbar-toggler' type='button' data-toggle='collapse' data-target='#nav-menu'>
             <span className='navbar-toggler-icon'></span>
           </button>
           {/*Collapse Items*/}
-          <div className='collapse navbar-collapse' id='toggle1'>
+          <div className='collapse navbar-collapse' id='nav-menu'>
             <ul className='navbar-nav'>
               <li className='nav-item dropdown'>
                 <button className='btn btn-nav btn-transition dropdown' data-toggle='dropdown'>Masuk</button>
@@ -138,7 +133,7 @@ export class Nav extends PureComponent {
                           </button>
                         </div>
                       </div>
-                      <div className="row">
+                      <div className="row" data-toggle="collapse" data-target=".navbar-collapse.show">
                         <Link to="/forgot" className='nav-forgot'>Lupa Password</Link>
                       </div>
                     </div>
@@ -156,7 +151,7 @@ export class Nav extends PureComponent {
                   </form>
                 </ul>
               </li>
-              <li className='nav-item'>
+              <li className='nav-item' data-toggle="collapse" data-target=".navbar-collapse.show">
                 <Link to='/register' className='btn btn-nav btn-transition'>
                   Register
                 </Link>

@@ -2,12 +2,8 @@ import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import AdminCard from '../../components/AdminCard'
-import { scrollToTop } from '../../helpers/autoScroll'
 
 export class Admin extends Component {
-  componentDidMount(){
-    scrollToTop()
-  }
   render() {
     if (!this.props.token || this.props.role==='user'){
       return <Redirect to={'/'} />

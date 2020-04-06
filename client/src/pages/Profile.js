@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import ProfileInfo from '../components/ProfileInfo'
 import SkripsiStatus from '../components/SkripsiStatus'
-import { scrollToTop } from '../helpers/autoScroll'
 import { connect } from 'react-redux'
 
 export class Profile extends Component {
@@ -29,9 +28,6 @@ export class Profile extends Component {
         style2:styleTemp
       })
     }
-  }
-  componentDidMount(){
-    scrollToTop()
   }
   render() {
     let { style1, style2 } = this.state

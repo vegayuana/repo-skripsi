@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Redirect, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Spinner, Breadcrumb } from 'react-bootstrap'
-import { scrollToTop } from '../../helpers/autoScroll'
 import Forum from '../../components/Forum'
 import axios from 'axios'
 
@@ -85,7 +84,6 @@ class AdminForum extends Component {
     })
   }
   componentDidMount(){
-    scrollToTop()
     if (navigator.onLine){
       this.getForum()
       this.setState({

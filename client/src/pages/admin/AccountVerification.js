@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Redirect, Link } from 'react-router-dom'
 import { Spinner, Breadcrumb, Table, Modal} from 'react-bootstrap'
 import axios from 'axios'
-import {scrollToTop} from '../../helpers/autoScroll'
 import { FaCheck, FaSearch} from 'react-icons/fa'
 import moment from 'moment'
 
@@ -39,7 +38,6 @@ export class AccountVerification extends Component {
     })
   }
   componentDidMount(){
-    scrollToTop()
     if (navigator.onLine){
       this.getData()
       this.setState({

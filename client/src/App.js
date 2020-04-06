@@ -11,6 +11,7 @@ import bg from './icons/bg.png'
 import './styles/page.css'
 import {store, persistor} from './store'
 import 'typeface-oswald'
+import ChangePage from './helpers/ChangePage'
 
 export class App extends Component {
   componentDidMount(){
@@ -23,6 +24,7 @@ export class App extends Component {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
         <Router>
+          <ChangePage />
           <Nav/>
           <div className="alert alert-secondary alert-offline" id="alert-offline" role="alert">
             Anda sedang offline

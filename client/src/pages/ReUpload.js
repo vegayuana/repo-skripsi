@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect, Link } from 'react-router-dom'
 import axios from 'axios'
-import { scrollToTop } from '../helpers/autoScroll'
 import { Spinner, Modal } from 'react-bootstrap'
 
 export class ReUpload extends Component {
@@ -126,7 +125,6 @@ export class ReUpload extends Component {
     })
   }
   componentDidMount(){
-    scrollToTop()
     if (navigator.onLine){
       this.checkSkripsi()
       this.setState({
