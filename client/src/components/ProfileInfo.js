@@ -130,6 +130,8 @@ export class ProfileInfo extends Component {
           <p className='column'>{user.name}</p>
           <h5><b>NPM</b></h5>
           <p className='column'>{user.npm}</p>
+          <h5><b>Email</b></h5>
+          <p className='column'>{user.email}</p>
           <h5><b>Waktu diaktifkan</b></h5>
           <p className='column'>{moment(user.processed_at).format("YYYY-MM-D H:mm:ss")}</p>
           <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#editPass">Edit Password</button>
