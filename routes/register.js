@@ -104,7 +104,6 @@ router.post('/register', (req, res) =>{
 
 router.post('/check-form', (req, res) =>{
   let { name, npm, password, email } = req.body
-  console.log(req.body)
   //Check Fields
   if (!name || !npm || !password || !email) {
     return utils.template_response(res, 400, "Semua field harus diisi" , null)

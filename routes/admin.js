@@ -24,15 +24,15 @@ router.get('/show-acc', (req, res) =>{
 
 //Activated Acc
 router.put('/activated/:id', (req, res) =>{  
-  const id = req.params.id
+  const npm = req.params.id
   let time=moment().format()
-  let sql = `UPDATE users SET is_active=${true}, processed_at='${time}' where npm='${id}'`
+  let sql = `UPDATE users SET is_active=${true}, processed_at='${time}' where npm='${npm}'`
   db.query(sql, (err, result)=>{
     if (err) {
       console.log(err)
       return utils.template_response(res, 500, 'Gagal' , null)
     }
-    let findUser = `SELECT name, email FROM users where role='user' AND npm='${id}'`
+    let findUser = `SELECT name, email FROM users where role='user' AND npm='${npm}'`
     db.query(findUser,(err, data)=>{
       if (err) console.log(err.response)
       console.log(data[0].email)
@@ -71,8 +71,8 @@ router.put('/activated/:id', (req, res) =>{
 
 //Delete Acc
 router.delete('/delete-acc/:id', (req, res) =>{  
-  const id = req.params.id
-  let find = `SELECT ktm_url, name, email from users WHERE role='user' and npm='${id}' LIMIT 1`
+  const npm = req.params.id
+  let find = `SELECT ktm_url, name, email from users WHERE role='user' and npm='${npm}' LIMIT 1`
   db.query(find, (err, result)=>{
     if (err) {
       console.log(err)
@@ -85,7 +85,7 @@ router.delete('/delete-acc/:id', (req, res) =>{
         if (err) console.log(err, 'failed to delete ktm')
         else console.log(file_url, 'was deleted')
       })
-      let sql = `delete from users where npm='${id}'`
+      let sql = `delete from users where npm='${npm}'`
       db.query(sql, (err, result)=>{
         if (err) {
           console.log(err)

@@ -30,7 +30,6 @@ export class Upload extends Component {
     this.setState({
       showLoading:true
     })
-    console.log(this.state)
     let {title, year, abstrak, abstract, category, keywords} = this.state
     let {file} = this.state
     const formData = new FormData()
