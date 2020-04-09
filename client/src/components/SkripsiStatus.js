@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
-import {Spinner} from 'react-bootstrap'
+import { Spinner } from 'react-bootstrap'
 import { FaRegCheckCircle, FaFilePdf } from 'react-icons/fa'
 import { IoMdCloseCircleOutline } from 'react-icons/io'
 import { Link } from 'react-router-dom'

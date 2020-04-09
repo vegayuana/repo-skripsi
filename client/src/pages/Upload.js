@@ -68,8 +68,6 @@ export class Upload extends Component {
     })
   }
   handleInput = (e) =>{
-    console.log(e.target.id)
-    console.log(e.target.value)
     if(e.target.id==='title'){
       e.target.value=e.target.value.replace(/\n/g, ' ')
     }

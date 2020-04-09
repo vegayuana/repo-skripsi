@@ -85,7 +85,7 @@ export class ProfileInfo extends Component {
   }
   handleInput = (e) =>{
     this.setState({
-       [e.target.id]: e.target.value,
+      [e.target.id]: e.target.value,
     })
     if(e.target.id==='newPass' && this.refs.confirmPass.value){
       if(e.target.value!==this.refs.confirmPass.value){

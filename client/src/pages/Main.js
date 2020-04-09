@@ -1,4 +1,4 @@
-import React, {useEffect }from 'react'
+import React from 'react'
 import Content from '../components/Content'
 import '../styles/page.css'
 import bg1 from '../icons/bg1.png'
