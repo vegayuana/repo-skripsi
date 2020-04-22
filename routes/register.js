@@ -72,7 +72,7 @@ router.post('/register', (req, res) =>{
       var helper = require('sendgrid').mail;
       var from_email = new helper.Email('no-reply@repositori-skripsi.com');
       var to_email = new helper.Email(email);
-      var subject = 'Email Verification!';
+      var subject = 'Verifikasi Email!';
       var emailText=`<html>
       <body>
       <p>Halo ${name},</p>

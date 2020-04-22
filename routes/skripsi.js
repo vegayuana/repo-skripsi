@@ -9,7 +9,7 @@ require('../db/connection')
 router.get('/list', (req, res) =>{  
   let sql = `SELECT skripsi.id, skripsi.title, skripsi.published_year, skripsi.category, skripsi.keywords, users.name 
               FROM skripsi join users on users.npm = skripsi.npm where is_approved=${1} 
-              ORDER BY published_year desc`
+              ORDER BY published_year desc, skripsi.processed_at desc`
   db.query(sql, (err, result)=>{
     if (err) console.log(err)
     res.send(result)

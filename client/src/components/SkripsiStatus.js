@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { Spinner } from 'react-bootstrap'
-import { FaRegCheckCircle, FaFilePdf } from 'react-icons/fa'
-import { IoMdCloseCircleOutline } from 'react-icons/io'
+import { FaCheck, FaFilePdf, FaTimes } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 
@@ -52,7 +51,7 @@ export class SkripsiStatus extends Component {
         <hr/>
         {offline? <p>Anda sedang offline. Cek koneksi anda dan refresh </p> 
           : !isLoaded? <div className="spin-box"><Spinner animation="border" variant="secondary"/></div>
-          : !skripsi ? <div><h5>Anda Belum Mengunggah Skripsi</h5>
+          : skripsi ? <div><p className='status-not'>Anda Belum Mengunggah Skripsi</p>
               <Link to='/upload'><button className='btn btn-primary'>Unggah</button></Link>
             </div> 
           : <>
@@ -95,8 +94,8 @@ export class SkripsiStatus extends Component {
               <tr>
                 <th scope="row"><h5>Status</h5></th>
                 <td>
-                  {skripsi.is_approved===1 ? <div className='icon-check'><FaRegCheckCircle/> Dipublikasikan</div> :
-                  skripsi.is_approved===0 ? <div className='icon-check text-danger'><IoMdCloseCircleOutline/> Ditolak</div>: <p>Belum Ditinjau</p>}
+                  {skripsi.is_approved===1 ?<p className='status status-green'><FaCheck/> Dipublikasikan</p> :
+                  skripsi.is_approved===0 ? <p className='status status-red'><FaTimes/> Ditolak</p> : <p className='status status-muted'>Belum Ditinjau</p>}
                 </td>
               </tr>
             {skripsi.is_approved===2 ? <></> : 

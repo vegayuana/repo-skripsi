@@ -643,6 +643,16 @@ body.offline{
 .status-skripsi hr{
   margin-bottom: 0px;
 }
+.status-skripsi b{
+  font-family: 'oswald', san serif;
+  font-size: 1.4rem;
+}
+.status-not{
+  margin-top:20px;
+  margin-bottom: 20px !important;
+  font-family: 'oswald', san serif;
+  font-size: 1.2rem !important;
+}
 .status-skripsi p,.status-skripsi .icon-check {
   margin-bottom: 0px;
   font-size: 0.9rem;
@@ -736,7 +746,7 @@ body.offline{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: oswald;
+  font-family: 'Oswald', sans-serif;;
 }
 .msg-upload h5, .msg-upload p{
   font-weight: 400;
