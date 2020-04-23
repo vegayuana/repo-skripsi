@@ -45,6 +45,7 @@ body.offline{
 }
 .fullscreen{
   min-height: 60vh;
+  overflow-x: hidden;
 }
 .display-flex{
   display: flex;
