@@ -81,8 +81,14 @@ export class SkripsiStatus extends Component {
               </tr>
               <tr>
                 <th scope="row"><h5>Bidang Minat</h5></th>
-                <td><p>{skripsi.category===1? <>Artificial Intelligence</> : skripsi.category===2? <>Sistem Informasi</> : skripsi.category===3? <>Jaringan Komputer</> : <>-</>}</p></td>
-              </tr>
+                <td><p>{skripsi.category===1 ? <>Sistem Cerdas dan Sistem Grafika (SCSG)</> : 
+                        skripsi.category===2 ? <>Sistem Informasi dan Rekayasa Perangkat Lunak (SIRPL)</> : 
+                        skripsi.category===3 ? <>Jaringan Komputer dan Komunikasi Data (JKKD)</> : 
+                        skripsi.category===4 ? <>Ilmu Komputasi dan Metode Numerik (IKMN)</> 
+                        : <></> }
+                    </p> 
+                </td>
+               </tr>
               <tr>
                 <th scope="row"><h5>Kata Kunci</h5></th>
                 <td>  <p>{skripsi.keywords? <>{skripsi.keywords}</> : <>-</> }</p></td>

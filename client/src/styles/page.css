@@ -6,13 +6,14 @@
 #edf5e1 grey
 box-shadow: 0 2px 8px rgba(0,0,0,.05);
 */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap');
 html{
   font-size:100%;
-  box-sizing: border-box;
 }
 body{
-  font-family: Helvetica, sans-serif;
-  overflow-x: hidden;
+  font-family: 'Lato', sans-serif;
+  box-sizing: border-box;
+  background-color: #379683;
 }
 h3{
   font-size: 1.5rem;
@@ -46,6 +47,7 @@ body.offline{
 .fullscreen{
   min-height: 60vh;
   overflow-x: hidden;
+  background-color: white;
 }
 .display-flex{
   display: flex;
@@ -226,6 +228,11 @@ body.offline{
   width: 100%;
   text-align: center;
   z-index: 10000;
+  padding: 0px;
+}
+.filter-box .dropdown-menu .dropdown-item {
+  white-space: normal !important;
+  border-bottom: 1px solid #adbac587;
 }
 .list-box{
   margin: 5px 0px 1rem;
@@ -648,6 +655,9 @@ body.offline{
   font-family: 'oswald', san serif;
   font-size: 1.4rem;
 }
+.status-skripsi .status{
+  width: max-content;
+}
 .status-not{
   margin-top:20px;
   margin-bottom: 20px !important;
@@ -739,6 +749,9 @@ body.offline{
 }
 .upload-box textarea#abstract, .upload-box textarea#abstrak {
   height: 150px;
+}
+.upload-box option{
+  font-size: 1rem;
 }
 .msg-upload{
   text-align: center;

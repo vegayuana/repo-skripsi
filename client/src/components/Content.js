@@ -230,9 +230,10 @@ export class Content extends PureComponent {
                   </button>
                   <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <button className="dropdown-item" onClick={this.categoryFilter} id="all">Semua</button>
-                    <button className="dropdown-item" onClick={this.categoryFilter} id={1}>Artifical Intelligence</button>
-                    <button className="dropdown-item" onClick={this.categoryFilter} id={2}>Sistem Informasi</button>
-                    <button className="dropdown-item" onClick={this.categoryFilter} id={3}>Jaringan Komputer</button>
+                    <button className="dropdown-item" onClick={this.categoryFilter} id={1}>Sistem Cerdas dan Sistem Grafika (SCSG)</button>
+                    <button className="dropdown-item" onClick={this.categoryFilter} id={2}>Minat Sistem Informasi dan Rekayasa Perangkat Lunak (SIRPL)</button>
+                    <button className="dropdown-item" onClick={this.categoryFilter} id={3}>Minat Sistem Cerdas dan Sistem Grafika (SCSG)</button>
+                    <button className="dropdown-item" onClick={this.categoryFilter} id={4}>Minat Ilmu Komputasi dan Metode Numerik (IKMN)</button>
                   </div>
                 </div>
               </div>

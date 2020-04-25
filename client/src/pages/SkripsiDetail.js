@@ -118,7 +118,12 @@ export class SkripsiDetail extends Component {
                   <h5>Tahun</h5>
                   <p>{skripsi.published_year}</p>
                   <h5>Kategori</h5>
-                  <p>{skripsi.category===1 ? <>Artificial Intelligence</> : skripsi.category===2 ? <>Sistem Informasi</> : skripsi.category===3 ? <>Jaringan Komputer</> : <>-</> }</p>
+                  <p>{skripsi.category===1 ? <>Sistem Cerdas dan Sistem Grafika (SCSG)</> : 
+                      skripsi.category===2 ? <>Sistem Informasi dan Rekayasa Perangkat Lunak (SIRPL)</> : 
+                      skripsi.category===3 ? <>Jaringan Komputer dan Komunikasi Data (JKKD)</> : 
+                      skripsi.category===4 ? <>Ilmu Komputasi dan Metode Numerik (IKMN)</> 
+                      : <></> }
+                  </p>
                   <h5>Kata Kunci</h5>
                   <p>{skripsi.keywords ? skripsi.keywords : <>-</>}</p>
                   </>

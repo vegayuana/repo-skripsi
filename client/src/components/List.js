@@ -7,7 +7,11 @@ export default function List(props) {
       <div className="list row">
         <div className="col-10">
           <b><h5>{skripsi.title}</h5></b>
-          <p className="category">{skripsi.category===1 ? <>Artificial Intelligence</> : skripsi.category===2 ? <>Sistem informasi</> : skripsi.category===3 ? <>Jaringan Komputer</> : <></> }</p>
+          <p className="category">{skripsi.category===1 ? <>Sistem Cerdas dan Sistem Grafika (SCSG)</> : 
+                                  skripsi.category===2 ? <>Sistem Informasi dan Rekayasa Perangkat Lunak (SIRPL)</> : 
+                                  skripsi.category===3 ? <>Jaringan Komputer dan Komunikasi Data (JKKD)</> : 
+                                  skripsi.category===4 ? <>Ilmu Komputasi dan Metode Numerik (IKMN)</> 
+                                  : <></> }</p>
           <p>{skripsi.name}</p>
           {skripsi.keywords? <i>kata kunci: {skripsi.keywords}</i> : <></>}
         </div>

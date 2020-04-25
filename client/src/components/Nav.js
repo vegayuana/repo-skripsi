@@ -10,8 +10,6 @@ import '../styles/nav.css'
 import axios from 'axios'
 import { scrollToTop } from '../helpers/autoScroll'
 import MediaQuery from 'react-responsive'
-import {Cookies} from 'react-cookie'
-const cookie = new Cookies()
 
 export class Nav extends PureComponent {
   state = {
@@ -23,11 +21,11 @@ export class Nav extends PureComponent {
     showLoading:false,
     justLoggedIn:false, //ketika pertama kali login, agar refresh tidak redirect
   }
-  componentDidMount(){
-    if(cookie.get('token')===undefined){
-      this.props.logout()
-    }
-  }
+  // componentDidMount(){
+  //   if(cookie.get('token')===undefined){
+  //     this.props.logout()
+  //   }
+  // }
   handleInput = (e) =>{
     this.setState({
       status:'',
@@ -48,7 +46,6 @@ export class Nav extends PureComponent {
       }
     }).then(res => {
       let loginInfo = res.data.data
-      console.log(loginInfo)
       if (loginInfo.isLogged){ //response didapat
         this.props.login(loginInfo) //set state global
         this.setState({ //show modal

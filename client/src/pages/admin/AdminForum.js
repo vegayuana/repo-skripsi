@@ -106,7 +106,7 @@ class AdminForum extends Component {
          <Breadcrumb>
           <Link to='/admin'>Home</Link>
           <Link to='/forum-list'> / Pertanyaan</Link>
-          <Breadcrumb.Item active> / Forum</Breadcrumb.Item>
+          <Breadcrumb.Item active> / Kontak</Breadcrumb.Item>
         </Breadcrumb>
         <div className="forum-box">
           <Forum dataLoaded={dataLoaded} message={message} chats={chats} offline={offline}/>

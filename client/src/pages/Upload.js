@@ -203,9 +203,10 @@ export class Upload extends Component {
                 <label>Bidang Minat Skripsi</label>
                 <select className='custom-select' onChange={this.handleInput} id='category'>
                   <option value=''>Bidang Minat</option>
-                  <option value='1'>Artificial Intelligence</option>
-                  <option value='2'>Sistem Informasi</option>
-                  <option value='3'>Jaringan Komputer</option>
+                  <option value='1'>Sistem Cerdas dan Sistem Grafika (SCSG)</option>
+                  <option value='2'>Sistem Informasi dan Rekayasa Perangkat Lunak (SIRPL)</option>
+                  <option value='3'>Jaringan Komputer dan Komunikasi Data (JKKD)</option>
+                  <option value='4'>Ilmu Komputasi dan Metode Numerik (IKMN)</option>
                 </select>
               </div>
               <div className='form-group'>

@@ -1,23 +1,18 @@
-import {Cookies} from 'react-cookie'
-const cookie = new Cookies()
-
+import moment from 'moment'
 const initialState = {
   role:'',
-  token:''
+  token:'',
+  loadedAt:''
 }
 
 //Action
 export const setToken = (loginInfo) => {
-  cookie.set('token', loginInfo.token, {path:'/', maxAge:86400})
-  cookie.set('role', loginInfo.role, {path:'/', maxAge:86400})
   return dispatch => {
     dispatch({ type: "SET_TOKEN", payload: loginInfo })
   }
 } 
 
 export const delToken = ()=>{
-  cookie.remove('token')
-  cookie.remove('role')
   return dispatch => {
     dispatch({ type: "DEL_TOKEN", payload: "" })
   }
@@ -29,6 +24,7 @@ const authReducer = (state = initialState, action) =>{
     case 'SET_TOKEN':
       return {
         ...state,
+        loadedAt: moment(),
         role: action.payload.role,
         token: action.payload.token
       }
