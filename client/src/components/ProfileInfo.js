@@ -12,9 +12,9 @@ export class ProfileInfo extends Component {
     offline:false,
     newPass:'',
     oldPass:'',
+    confirmPass:'',
     message:'',
-    status:null,
-    passCheck:''
+    status:null
   }
   getProfile= ()=>{
     axios({
@@ -88,22 +88,6 @@ export class ProfileInfo extends Component {
       [e.target.id]: e.target.value,
       status:null
     })
-    if(e.target.id==='newPass' && this.refs.confirmPass.value){
-      if(e.target.value!==this.refs.confirmPass.value){
-        this.setState({passCheck: false})
-      }
-      else{
-        this.setState({passCheck: true})
-      }
-    }
-  }
-  handleRetype = (e) =>{
-    if (e.target.value !== this.state.newPass){
-      this.setState({passCheck: false})
-    }
-    else{
-      this.setState({passCheck: true})
-    }
   }
   clear = (e) =>{
     this.refs.editForm.reset()
@@ -112,14 +96,14 @@ export class ProfileInfo extends Component {
       oldPass:'',
       message:'',
       status:null,
-      passCheck:''  
+      confirmPass:''  
     })
   }
   render() {
-    let { user, isLoaded, oldPass, newPass, passCheck, status, message, offline} = this.state
+    let { user, isLoaded, oldPass, newPass, confirmPass, status, message, offline} = this.state
     return (
       <div>
-      {offline? <p>Anda sedang offline. Cek koneksi anda dan refresh </p>
+      { offline ? <p>Anda sedang offline. Cek koneksi anda dan refresh </p>
       : !isLoaded ? <div className="spin-box"><Spinner animation="border" variant="secondary"/></div>
       : <>
       <div className="row">
@@ -136,63 +120,67 @@ export class ProfileInfo extends Component {
           <h5><b>Waktu diaktifkan</b></h5>
           <p className='column'>{moment(user.processed_at).format("YYYY-MM-D H:mm:ss")}</p>
           <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#editPass">Edit Password</button>
-        
         </div>
       </div>
         
-        {/* Edit Password Modal */}
-        <div className="modal fade" id="editPass" tabIndex="-1" role="dialog" aria-hidden="true">
-          <div className="modal-dialog modal-dialog-centered" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">Edit Password</h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+      {/* Edit Password Modal */}
+      <div className="modal fade" id="editPass" tabIndex="-1" role="dialog" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">Edit Password</h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <form ref='editForm'>
+              <div className="form-group">
+                <label>Password Lama</label>
+                <input type="password" id="oldPass" className="form-control" placeholder="Password" onBlur={this.handleInput} />
               </div>
-              <div className="modal-body">
-                <form ref='editForm'>
-                <div className="form-group">
-                  <label>Password Lama</label>
-                  <input type="password" id="oldPass" className="form-control" placeholder="Password" onBlur={this.handleInput} />
-                </div>
-                <div className="form-group">
-                  <label>Password Baru</label>
-                  <input type="password" id="newPass" className="form-control" placeholder="Password" onChange={this.handleInput}/>
-                </div>
-                <div className="form-group">
-                  <label>Konfirmasi Password Baru</label>
-                  <input type="password" ref='confirmPass' className="form-control" placeholder="Konfirmasi Password" onChange={this.handleRetype}/>
-                </div>
-                { passCheck === false ?
-                  <div className="alert alert-warning" role="alert">
-                    Password tidak cocok
-                  </div> : <></>}
-                {status===400? 
-                    <div className="alert alert-danger" role="alert">
-                      <strong>{message}</strong>
-                    </div>
-                  :status===200? 
-                    <div className="alert alert-success" role="alert">
-                      <strong>{message}</strong>
-                    </div>
-                  :<></>
-                }
-                <button type="button" className="btn btn-danger mr-2" data-dismiss="modal" onClick={this.clear}>{ status===200? <>Tutup</> : <>Batalkan</>}</button>
-                { status===200? <></> :
-                <button type="button" className="btn btn-primary" onClick={this.submit} disabled={!passCheck || !newPass || !oldPass || !this.refs.confirmPass.value}>Simpan Perubahan</button>
-                }
-                </form>
+              <div className="form-group">
+                <label>Password Baru</label>
+                <input type="password" id="newPass" className="form-control" placeholder="Password" onChange={this.handleInput}/>
               </div>
+              <div className="form-group">
+                <label>Konfirmasi Password Baru</label>
+                <input type="password" id='confirmPass' className="form-control" placeholder="Konfirmasi Password" onChange={this.handleInput}/>
+              </div>
+              { confirmPass === newPass || !confirmPass ? <></> :
+                <div className="alert alert-warning" role="alert">
+                  Password tidak cocok
+                </div> 
+              }
+              {status===400? 
+                  <div className="alert alert-danger" role="alert">
+                    <strong>{message}</strong>
+                  </div>
+                :status===200? 
+                  <div className="alert alert-success" role="alert">
+                    <strong>{message}</strong>
+                  </div>
+                :<></>
+              }
+              <button type="button" className="btn btn-danger mr-2" data-dismiss="modal" onClick={this.clear}>
+                { status===200? <>Tutup</> : <>Batalkan</>}
+              </button>
+              { status===200? <></> :
+              <button type="button" className="btn btn-primary" onClick={this.submit} disabled={ !newPass || !oldPass || !confirmPass || confirmPass!==newPass }>
+                Simpan Perubahan
+              </button>
+              }
+              </form>
             </div>
           </div>
         </div>
-        <Modal show={this.state.showLoading} centered>
-          <Modal.Body className='modal-box'>
-            Sedang diproses ...
-          </Modal.Body>
-        </Modal>
-        </>
+      </div>
+      <Modal show={this.state.showLoading} centered>
+        <Modal.Body className='modal-box'>
+          Sedang diproses ...
+        </Modal.Body>
+      </Modal>
+      </>
       }
       </div>
     )

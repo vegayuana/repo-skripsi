@@ -12,7 +12,7 @@ export class Register extends Component {
     npm: '', 
     email:'',
     pass:'',
-    passCheck: '', 
+    rePass: '', 
     message: '', 
     status:'',
     displayForm1:'block',
@@ -27,7 +27,7 @@ export class Register extends Component {
     this.setState({
       showLoading:true,
     })
-    let {npm, pass,email}= this.state
+    let {npm, pass, email}= this.state
     let name = this.refs.name.value
     let data={
       name:name,
@@ -122,18 +122,6 @@ export class Register extends Component {
       [e.target.id] : e.target.value,
     })
   }
-  handleRetype = (e) =>{
-    let {pass} = this.state
-    if (e.target.value !== pass ){
-      this.setState({
-        passCheck: false
-      })
-    } else {
-      this.setState({
-        passCheck: true
-      })
-    }
-  }
   handleFile = e => {
     if (e.target.files[0]) {
       this.setState({
@@ -150,7 +138,7 @@ export class Register extends Component {
     this.setState(this.initialState)
   }
   render() {
-    let {npm, email, pass, passCheck, message, status, showLoading} =this.state
+    let {npm, email, pass, rePass, message, status, showLoading} =this.state
     if (this.props.token){
       return <Redirect to={'/'} />
     }
@@ -174,11 +162,11 @@ export class Register extends Component {
                   <input type='text' id='email' onBlur={this.handleInput} className='form-control' placeholder='Email'/>
                 </div>
                 {email.length>0 && !email.includes('@')? 
-                    <div className='alert alert-warning' role='alert'>
-                      Mohon inputkan Email yang valid
-                    </div>
-                    :<></>
-                  }
+                  <div className='alert alert-warning' role='alert'>
+                    Mohon inputkan Email yang valid
+                  </div>
+                  :<></>
+                }
                 <div className='form-group'>
                   <label>NPM</label>
                   <input type='number' id='npm' onBlur={this.handleInput} className='form-control' placeholder='NPM'/>
@@ -191,18 +179,18 @@ export class Register extends Component {
                 }
                 <div className='form-group'>
                   <label>Password</label>
-                  <input type='password' onBlur={this.handleInput} id='pass' className='form-control' placeholder='Password'/>
+                  <input type='password' onChange={this.handleInput} id='pass' className='form-control' placeholder='Password'/>
                 </div>
                 <div className='form-group'>
                   <label>Konfirmasi Password</label>
-                  <input type='password' onChange={this.handleRetype} className='form-control' placeholder='Password'/>
+                  <input type='password' onChange={this.handleInput} id='rePass' className='form-control' placeholder='Password'/>
                 </div>
-                {passCheck === true || !pass ? ( <></> ) : (
+                {rePass === pass || !rePass ? ( <></> ) : (
                   <div className='alert alert-warning' role='alert'>
                     Password tidak cocok
                   </div>
                 )}
-                <button type='next' className='btn btn-primary' onClick={e => this.next(e)} disabled={!npm || npm.length!==12 || !email || !email.includes('@') ||!pass ||!passCheck}>
+                <button type='next' className='btn btn-primary' onClick={e => this.next(e)} disabled={!npm || npm.length!==12 || !email || !email.includes('@') || !pass || !rePass || rePass!==pass }>
                   Lanjut
                 </button>
                 {message === '' ? ( <></> ) : (
