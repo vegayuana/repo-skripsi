@@ -4,7 +4,7 @@ import createEncryptor from 'redux-persist-transform-encrypt'
 import storage from 'redux-persist/lib/storage'
 import allReducers from './reducers'
 import authReducer from './reducers/authReducer'
-import  expireReducer from 'redux-persist-expire'
+import expireReducer from 'redux-persist-expire'
 
 import thunk from 'redux-thunk'
 

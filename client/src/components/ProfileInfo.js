@@ -67,6 +67,7 @@ export class ProfileInfo extends Component {
       this.setState({
         newPass:'',
         oldPass:'',
+        confirmPass:'',
         message:res.data.message,
         status:res.data.status,
         showLoading:false
@@ -94,9 +95,9 @@ export class ProfileInfo extends Component {
     this.setState({
       newPass:'',
       oldPass:'',
+      confirmPass:'',
       message:'',
       status:null,
-      confirmPass:''  
     })
   }
   render() {

@@ -22,11 +22,6 @@ export class Nav extends PureComponent {
     showLoading:false,
     justLoggedIn:false, //ketika pertama kali login, agar refresh tidak redirect
   }
-  // componentDidMount(){
-  //   if(cookie.get('token')===undefined){
-  //     this.props.logout()
-  //   }
-  // }
   handleInput = (e) =>{
     this.setState({
       status:'',

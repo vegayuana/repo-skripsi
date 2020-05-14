@@ -3,6 +3,8 @@ import axios from 'axios'
 import ListCard from './ListCard'
 import { FaSearch } from 'react-icons/fa'
 import Pagination from './Pagination'
+import { connect } from 'react-redux'
+import { setList, delList } from '../reducers/listReducer'
 
 export class Content extends PureComponent {
   state={
@@ -33,7 +35,8 @@ export class Content extends PureComponent {
           return year.published_year
         }))].sort()
       })
-      localStorage.setItem('list', JSON.stringify(res.data))
+      this.props.set_list(res.data)
+      // localStorage.setItem('list', JSON.stringify(res.data))
     }).catch((err) => { 
       if(err.response) console.log(err.response)
     })
@@ -46,16 +49,29 @@ export class Content extends PureComponent {
       })
     }
     else{
-      if (localStorage.getItem('list')){
-        let data = JSON.parse(localStorage.getItem('list'))
+      // if (localStorage.getItem('list')){
+        // let data = JSON.parse(localStorage.getItem('list'))
+        // this.setState({ 
+        //   skripsi: data,
+        //   isLoaded: true,
+        //   skripsiFiltered:data,
+        //   skripsiFilteredTemp:data,
+        //   skripsiFilteredCat:data,
+        //   skripsiFilteredYear:data,
+        //   years: [...new Set(data.map((year)=>{
+        //     return year.published_year
+        //   }))].sort()
+        // })
+        let {listSkripsi} = this.props
+        if (listSkripsi){
         this.setState({ 
-          skripsi: data,
+          skripsi: listSkripsi,
           isLoaded: true,
-          skripsiFiltered:data,
-          skripsiFilteredTemp:data,
-          skripsiFilteredCat:data,
-          skripsiFilteredYear:data,
-          years: [...new Set(data.map((year)=>{
+          skripsiFiltered:listSkripsi,
+          skripsiFilteredTemp:listSkripsi,
+          skripsiFilteredCat:listSkripsi,
+          skripsiFilteredYear:listSkripsi,
+          years: [...new Set(listSkripsi.map((year)=>{
             return year.published_year
           }))].sort()
         })
@@ -179,7 +195,6 @@ export class Content extends PureComponent {
   }
   render() {
     let {isLoaded, skripsiFiltered, years, yearSelection, cat, currentPage, postsPerPage} = this.state
-    console.log(cat)
     const indexOfLastPost = currentPage * postsPerPage
     const indexOfFirstPost = indexOfLastPost - postsPerPage
     const currentPosts = skripsiFiltered.slice(indexOfFirstPost, indexOfLastPost)
@@ -251,4 +266,15 @@ export class Content extends PureComponent {
   }
 }
 
-export default Content
+const mapDispatchToProps = dispatch => {
+  return {
+    set_list: (data) => dispatch(setList(data)),
+    del_list: () => dispatch(delList())
+  }
+}
+const mapStateToProps = state => {
+  return{
+    listSkripsi: state.list.skripsi,
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Content)

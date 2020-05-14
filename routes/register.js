@@ -49,13 +49,13 @@ router.post('/register', (req, res) =>{
     if (!req.file){
       return utils.template_response(res, 500, 'File tidak boleh kosong' , null)
     }
-    let encryptPassword = await bcrypt.hash(password, 10)
+    let hashPassword = await bcrypt.hash(password, 10)
     let expired=moment().add(30, 'minutes').format()
     let data = {
       name: name,
       email:email, 
       npm: npm,
-      password: encryptPassword,
+      password: hashPassword,
       ktm_url:req.file.path,
       created_at:moment().format(),
       token: uuid(),

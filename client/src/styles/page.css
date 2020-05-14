@@ -479,6 +479,11 @@ body.offline{
 .table-skripsi .status{
   width: 90px;
 }
+.table .offline-text{
+  padding-top:20px;
+  padding-bottom:20px;
+  font-size: 1.02rem;
+}
 /* Admin */
 .admin-page{
   display: flex;
