@@ -104,7 +104,7 @@ export class ForumList extends Component {
           </div>
           <div style={{width:'120px'}}>
             {selectedUser===null? <button className='btn btn-blue btn-send'>Kirim Pesan</button> 
-            : <Link to={'/admin-forum/'+selectedUser.npm} ><button className='btn btn-blue' style={{height:'56px', float:'right'}}>Kirim Pesan</button></Link>}
+            : <Link to={'/admin-forum/'+selectedUser.npm} ><button className='btn btn-blue btn-send'>Kirim Pesan</button></Link>}
           </div>
         </div>
         {offline? <div className="text-middle"><p>Anda sedang offline. Cek koneksi anda dan refresh </p> </div>
