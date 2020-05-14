@@ -14,7 +14,6 @@ export class Content extends PureComponent {
     year:null,
     yearSelection: 'Tahun',
     cat:null,
-    categorySelection: 'Bidang Minat',
     currentPage:1,
     postsPerPage:10
   }
@@ -130,7 +129,6 @@ export class Content extends PureComponent {
   }
   categoryFilter = (e)=>{
     let cat = e.target.id
-    let text = e.target.innerText
     let {skripsi, year} = this.state
     this.setState({
       currentPage:1
@@ -155,7 +153,6 @@ export class Content extends PureComponent {
       }
       this.setState({
         cat:null,
-        categorySelection:'Bidang Minat',
       })
     } 
     //Costumize
@@ -175,14 +172,14 @@ export class Content extends PureComponent {
       }
       this.setState({
         cat:cat,
-        categorySelection:text,
         skripsiFiltered:filteredData,
         skripsiFilteredTemp:filteredData,
       })
     }
   }
   render() {
-    let {isLoaded, skripsiFiltered, years, yearSelection, categorySelection, currentPage, postsPerPage} = this.state
+    let {isLoaded, skripsiFiltered, years, yearSelection, cat, currentPage, postsPerPage} = this.state
+    console.log(cat)
     const indexOfLastPost = currentPage * postsPerPage
     const indexOfFirstPost = indexOfLastPost - postsPerPage
     const currentPosts = skripsiFiltered.slice(indexOfFirstPost, indexOfLastPost)
@@ -226,14 +223,14 @@ export class Content extends PureComponent {
               <div className="col-12"> 
                 <div className="dropdown">
                   <button className="btn filter btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {categorySelection}
+                    {cat==='1' ? <>SCSG</> : cat==='2' ? <>SIRPL</> : cat==='3' ? <>JKKD</> : cat==='4'? <>IKMN</> : <>Bidang Minat</> }
                   </button>
                   <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <button className="dropdown-item" onClick={this.categoryFilter} id="all">Semua</button>
                     <button className="dropdown-item" onClick={this.categoryFilter} id={1}>Sistem Cerdas dan Sistem Grafika (SCSG)</button>
-                    <button className="dropdown-item" onClick={this.categoryFilter} id={2}>Minat Sistem Informasi dan Rekayasa Perangkat Lunak (SIRPL)</button>
-                    <button className="dropdown-item" onClick={this.categoryFilter} id={3}>Minat Sistem Cerdas dan Sistem Grafika (SCSG)</button>
-                    <button className="dropdown-item" onClick={this.categoryFilter} id={4}>Minat Ilmu Komputasi dan Metode Numerik (IKMN)</button>
+                    <button className="dropdown-item" onClick={this.categoryFilter} id={2}>Sistem Informasi dan Rekayasa Perangkat Lunak (SIRPL)</button>
+                    <button className="dropdown-item" onClick={this.categoryFilter} id={3}>Jaringan Komputer dan Komunikasi Data (JKKD)</button>
+                    <button className="dropdown-item" onClick={this.categoryFilter} id={4}>Ilmu Komputasi dan Metode Numerik (IKMN)</button>
                   </div>
                 </div>
               </div>

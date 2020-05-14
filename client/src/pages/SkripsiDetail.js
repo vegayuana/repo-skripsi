@@ -86,7 +86,7 @@ export class SkripsiDetail extends Component {
   render() {
     let { isLoaded, skripsi, offline, pageNumber, numPages} = this.state 
     return (
-      <div className="main-box"> 
+      <div className="main-box skripsi-detail"> 
         { offline ? 
         <div className="row">
           <div className="col-12">

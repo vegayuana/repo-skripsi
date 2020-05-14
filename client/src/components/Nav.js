@@ -10,6 +10,7 @@ import '../styles/nav.css'
 import axios from 'axios'
 import { scrollToTop } from '../helpers/autoScroll'
 import MediaQuery from 'react-responsive'
+import $ from 'jquery'
 
 export class Nav extends PureComponent {
   state = {
@@ -87,6 +88,14 @@ export class Nav extends PureComponent {
   handleClose = () => {
     this.setState({
       showLogin:false
+    })
+  }
+  componentDidMount(){
+    $(function () {
+      $(document).scroll(function () {
+        var $nav = $('.navbar')
+        $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height())
+      })
     })
   }
   render() {

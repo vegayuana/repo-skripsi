@@ -85,7 +85,7 @@ export class SkripsiStatus extends Component {
                         skripsi.category===2 ? <>Sistem Informasi dan Rekayasa Perangkat Lunak (SIRPL)</> : 
                         skripsi.category===3 ? <>Jaringan Komputer dan Komunikasi Data (JKKD)</> : 
                         skripsi.category===4 ? <>Ilmu Komputasi dan Metode Numerik (IKMN)</> 
-                        : <></> }
+                        : <>-</> }
                     </p> 
                 </td>
                </tr>
