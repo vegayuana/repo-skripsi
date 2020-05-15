@@ -11,6 +11,7 @@ import bg from './icons/bg.png'
 import './styles/page.css'
 import {store, persistor} from './store'
 import 'typeface-oswald'
+import 'typeface-lato'
 import ChangePage from './helpers/ChangePage'
 
 export class App extends Component {
