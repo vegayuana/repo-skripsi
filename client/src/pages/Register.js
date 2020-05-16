@@ -9,6 +9,7 @@ import { connect } from 'react-redux'
 export class Register extends Component {
   initialState = {
     showLoading:false,
+    name:'',
     npm: '', 
     email:'',
     pass:'',
@@ -27,8 +28,7 @@ export class Register extends Component {
     this.setState({
       showLoading:true,
     })
-    let {npm, pass, email}= this.state
-    let name = this.refs.name.value
+    let {name, npm, pass, email}= this.state
     let data={
       name:name,
       email:email,
@@ -71,8 +71,7 @@ export class Register extends Component {
     this.setState({
       showLoading:true,
     })
-    let { npm, pass, file,email } = this.state
-    let name = this.refs.name.value
+    let { name, npm, pass, file, email } = this.state
     const formData = new FormData()
     formData.append('ktm', file)
     formData.append('npm', npm)
@@ -138,7 +137,7 @@ export class Register extends Component {
     this.setState(this.initialState)
   }
   render() {
-    let {npm, email, pass, rePass, message, status, showLoading} =this.state
+    let {name, npm, email, pass, rePass, message, status, showLoading} =this.state
     if (this.props.token){
       return <Redirect to={'/'} />
     }
@@ -155,13 +154,13 @@ export class Register extends Component {
               <fieldset style={{ display: this.state.displayForm1 }}>
                 <div className='form-group'>
                   <label>Nama</label>
-                  <input type='text' ref='name' className='form-control' placeholder='Nama'/>
+                  <input type='text' id='name' onBlur={this.handleInput} className='form-control' placeholder='Nama'/>
                 </div>
                 <div className='form-group'>
                   <label>Email</label>
                   <input type='text' id='email' onBlur={this.handleInput} className='form-control' placeholder='Email'/>
                 </div>
-                {email.length>0 && !email.includes('@')? 
+                {email && !email.includes('@')? 
                   <div className='alert alert-warning' role='alert'>
                     Mohon inputkan Email yang valid
                   </div>
@@ -171,9 +170,9 @@ export class Register extends Component {
                   <label>NPM</label>
                   <input type='number' id='npm' onBlur={this.handleInput} className='form-control' placeholder='NPM'/>
                 </div>
-                {npm.length !== 12 && npm.length > 0 ? 
+                {npm.length !== 12 && npm ? 
                   <div className='alert alert-warning' role='alert'>
-                    <strong>NPM salah! </strong>memerlukan 12 digit
+                    <strong>NPM tidak valid! </strong>memerlukan 12 digit
                   </div>
                  : <></>
                 }
@@ -181,6 +180,11 @@ export class Register extends Component {
                   <label>Password</label>
                   <input type='password' onChange={this.handleInput} id='pass' className='form-control' placeholder='Password'/>
                 </div>
+                {pass.match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9!@#$%^&*]{8,})$/) || !pass ? <></> : 
+                  <div className='alert alert-warning' role='alert'>
+                    Password memerlukan 8-20 karakter. Memiliki 1 angka, 1 uppercase, dan 1 lowercase
+                  </div>
+                }
                 <div className='form-group'>
                   <label>Konfirmasi Password</label>
                   <input type='password' onChange={this.handleInput} id='rePass' className='form-control' placeholder='Password'/>
@@ -190,7 +194,12 @@ export class Register extends Component {
                     Password tidak cocok
                   </div>
                 )}
-                <button type='next' className='btn btn-primary' onClick={e => this.next(e)} disabled={!npm || npm.length!==12 || !email || !email.includes('@') || !pass || !rePass || rePass!==pass }>
+                <button type='next' className='btn btn-primary' onClick={e => this.next(e)} 
+                disabled={!name || 
+                          !npm || npm.length!==12 || 
+                          !email || !email.includes('@') ||
+                          !pass || !pass.match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9!@#$%^&*]{8,})$/) ||
+                          !rePass || rePass!==pass }>
                   Lanjut
                 </button>
                 {message === '' ? ( <></> ) : (
