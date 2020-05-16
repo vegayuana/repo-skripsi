@@ -180,9 +180,9 @@ export class Register extends Component {
                   <label>Password</label>
                   <input type='password' onChange={this.handleInput} id='pass' className='form-control' placeholder='Password'/>
                 </div>
-                {pass.match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9!@#$%^&*]{8,})$/) || !pass ? <></> : 
+                {pass.match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9!@#$%^&*]{8,25})$/) || !pass ? <></> : 
                   <div className='alert alert-warning' role='alert'>
-                    Password memerlukan 8-20 karakter. Memiliki 1 angka, 1 uppercase, dan 1 lowercase
+                    Password memerlukan 8-25 karakter. Memiliki 1 angka, 1 uppercase, dan 1 lowercase
                   </div>
                 }
                 <div className='form-group'>
@@ -198,7 +198,7 @@ export class Register extends Component {
                 disabled={!name || 
                           !npm || npm.length!==12 || 
                           !email || !email.includes('@') ||
-                          !pass || !pass.match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9!@#$%^&*]{8,})$/) ||
+                          !pass || !pass.match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9!@#$%^&*]{8,25})$/) ||
                           !rePass || rePass!==pass }>
                   Lanjut
                 </button>
