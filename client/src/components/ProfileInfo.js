@@ -144,6 +144,11 @@ export class ProfileInfo extends Component {
                 <label>Password Baru</label>
                 <input type="password" id="newPass" className="form-control" placeholder="Password" onChange={this.handleInput}/>
               </div>
+              {newPass.match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9!@#$%^&*]{8,25})$/) || !newPass ? <></> : 
+                  <div className='alert alert-warning' role='alert'>
+                    Password memerlukan 8-25 karakter. Memiliki 1 angka, 1 uppercase, dan 1 lowercase
+                  </div>
+                }
               <div className="form-group">
                 <label>Konfirmasi Password Baru</label>
                 <input type="password" id='confirmPass' className="form-control" placeholder="Konfirmasi Password" onChange={this.handleInput}/>
@@ -167,7 +172,7 @@ export class ProfileInfo extends Component {
                 { status===200? <>Tutup</> : <>Batalkan</>}
               </button>
               { status===200? <></> :
-              <button type="button" className="btn btn-primary" onClick={this.submit} disabled={ !newPass || !oldPass || !confirmPass || confirmPass!==newPass }>
+              <button type="button" className="btn btn-primary" onClick={this.submit} disabled={ !newPass || !oldPass || !confirmPass || confirmPass!==newPass || !newPass.match(/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9!@#$%^&*]{8,25})$/) }>
                 Simpan Perubahan
               </button>
               }
