@@ -59,7 +59,7 @@ app.use('/admin', auth.admin, adminRoutes)
 
 //----------delete unverified data
 // var CronJob = require('cron').CronJob
-// var job = new CronJob('*/1 * * * *', function() {
+// var job = new CronJob('*/30 * * * *', function() {
 //   console.log('delete data unverified every 30 mins')
   
 //   const db = require('./db/db')

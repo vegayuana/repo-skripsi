@@ -42,13 +42,13 @@ export class Content extends PureComponent {
     })
   }
   componentDidMount(){
-    if (navigator.onLine){
+    // if (navigator.onLine){
       this.getSkripsi()
       this.setState({
         offline:false
       })
-    }
-    else{
+    // }
+    // else{
       // if (localStorage.getItem('list')){
         // let data = JSON.parse(localStorage.getItem('list'))
         // this.setState({ 
@@ -62,21 +62,23 @@ export class Content extends PureComponent {
         //     return year.published_year
         //   }))].sort()
         // })
-        let {listSkripsi} = this.props
-        if (listSkripsi){
-        this.setState({ 
-          skripsi: listSkripsi,
-          isLoaded: true,
-          skripsiFiltered:listSkripsi,
-          skripsiFilteredTemp:listSkripsi,
-          skripsiFilteredCat:listSkripsi,
-          skripsiFilteredYear:listSkripsi,
-          years: [...new Set(listSkripsi.map((year)=>{
-            return year.published_year
-          }))].sort()
-        })
-      }
-    }
+
+        // ----------------------------------------
+      //   let {listSkripsi} = this.props
+      //   if (listSkripsi){
+      //   this.setState({ 
+      //     skripsi: listSkripsi,
+      //     isLoaded: true,
+      //     skripsiFiltered:listSkripsi,
+      //     skripsiFilteredTemp:listSkripsi,
+      //     skripsiFilteredCat:listSkripsi,
+      //     skripsiFilteredYear:listSkripsi,
+      //     years: [...new Set(listSkripsi.map((year)=>{
+      //       return year.published_year
+      //     }))].sort()
+      //   })
+      // }
+    // }
   }
   onChange =(e)=>{
     let text = e.target.value.toLowerCase().trim()
