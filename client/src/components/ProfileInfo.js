@@ -29,22 +29,14 @@ export class ProfileInfo extends Component {
         user: res.data,
         isLoaded: true
       })
-    }).catch(err=>{
-      console.log(err.response)
-    })
-  }
-  componentDidMount(){
-    if (navigator.onLine){
-      this.getProfile()
-      this.setState({
-        offline:false
-      })
-    }
-    else{
+    }).catch(()=>{
       this.setState({
         offline:true,
       })
-    }
+    })
+  }
+  componentDidMount(){
+    this.getProfile()
   }
   submit=(e)=>{
     e.preventDefault()
@@ -76,11 +68,19 @@ export class ProfileInfo extends Component {
       this.setState({
         showLoading:false
       })
-      if(err.response){
+      if (!navigator.onLine){
         this.setState({
-          message:err.response.data.message,
-          status:err.response.data.status,
+          message:'Anda sedang offline. Anda harus online untuk mengubah password',
+          status:500,
         })
+      }
+      else{
+        if(err.response){
+          this.setState({
+            message:err.response.data.message,
+            status:err.response.data.status,
+          })
+        }
       }
     })
   }
@@ -158,7 +158,7 @@ export class ProfileInfo extends Component {
                   Password tidak cocok
                 </div> 
               }
-              {status===400? 
+              {status===400 || status===500? 
                   <div className="alert alert-danger" role="alert">
                     <strong>{message}</strong>
                   </div>

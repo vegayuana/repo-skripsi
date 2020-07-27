@@ -31,25 +31,15 @@ export class SkripsiVerification extends Component {
         skripsiFiltered:res.data,
         isLoaded: true
       })
-    }).catch((err) => { 
-      if(err.response){
-      console.log(err.response.statusText)
-      }
-    })
-  }
-  componentDidMount(){
-    if (navigator.onLine){
-      this.getData()
-      this.setState({
-        offline:false
-      })
-    }
-    else{
+    }).catch(() => { 
       this.setState({
         isLoaded:true,
         offline:true,
       })
-    }
+    })
+  }
+  componentDidMount(){
+    this.getData()
   }
   unapproved = (id) => {
     this.setState({
@@ -73,11 +63,18 @@ export class SkripsiVerification extends Component {
         showLoading:false,
         showAlert:true
       })
-      if(err.response){
-        console.log(err.response.statusText)
+      if(!navigator.onLine){
         this.setState({
-          message:err.response.data.message
+          message:'Anda sedang offline.'
         })
+      }
+      else{
+        if(err.response){
+          console.log(err.response.statusText)
+          this.setState({
+            message:err.response.data.message
+          })
+        }
       }
     })
   }
@@ -91,7 +88,7 @@ export class SkripsiVerification extends Component {
       headers: {
         Authorization: this.props.token
       } 
-    }).then(res=>{
+    }).then(()=>{
       this.setState({
         showLoading:false
       })
@@ -101,11 +98,18 @@ export class SkripsiVerification extends Component {
         showLoading:false,
         showAlert:true
       })
-      if(err.response){
-        console.log(err.response)
+      if(!navigator.onLine){
         this.setState({
-          message:err.response.data.message
+          message:'Anda sedang offline.'
         })
+      }
+      else{
+        if(err.response){
+          console.log(err.response)
+          this.setState({
+            message:err.response.data.message
+          })
+        }
       }
     })
   }  

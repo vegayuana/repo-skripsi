@@ -30,9 +30,21 @@ export class App extends Component {
           <div className="alert alert-secondary alert-offline" id="alert-offline" role="alert">
             Anda sedang offline
           </div>
+          
           <img src={bg} alt="Logo" className="bg"/>
           <div className="fullscreen">
             <Routes/>
+          </div>
+          <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
+            <div class="toast-header">
+              <strong class="mr-auto">Repo-Skripsi</strong>
+              <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="toast-body">
+              Anda sedang offline
+            </div>
           </div>
           <Footer/>
         </Router>

@@ -107,7 +107,7 @@ export class ForumList extends Component {
             : <Link to={'/admin-forum/'+selectedUser.npm} ><button className='btn btn-blue btn-send'>Kirim Pesan</button></Link>}
           </div>
         </div>
-        {offline? <div className="text-middle"><p>Anda sedang offline. Cek koneksi anda dan refresh </p> </div>
+        {offline? <div className="text-middle"><p style={{color:'black'}}>Anda sedang offline. Cek koneksi anda dan refresh </p> </div>
         : !isLoaded ? <div className="text-middle"><Spinner animation="border" variant="secondary"/></div>
         : !forums ? <div style={{textAlign:'center'}}>Tidak ada pertanyaan</div>
         : forums.length===0 ? <div style={{textAlign:'center'}}>Tidak ada pertanyaan</div> :

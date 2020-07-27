@@ -30,10 +30,10 @@ export class SkripsiDetail extends Component {
           skripsi: res.data[0],
           isLoaded: true
         })
-      }).catch(err=>{
-        if(err.response){
-        console.log(err.response)
-        }
+      }).catch(()=>{
+        this.setState({
+          offline:true,
+        })
       })
     }
     else{
@@ -48,10 +48,10 @@ export class SkripsiDetail extends Component {
           skripsi: res.data[0],
           isLoaded: true
         })
-      }).catch(err=>{
-        if(err.response){
-        console.log(err.response)
-        }
+      }).catch(()=>{
+        this.setState({
+          offline:true,
+        })
       })
     }
   }
@@ -71,17 +71,7 @@ export class SkripsiDetail extends Component {
     }
   }
   componentDidMount(){
-    if (navigator.onLine){
-      this.getData()
-      this.setState({
-        offline:false
-      })
-    }
-    else{
-      this.setState({
-        offline:true,
-      })
-    }
+    this.getData()
   }
   render() {
     let { isLoaded, skripsi, offline, pageNumber, numPages} = this.state 

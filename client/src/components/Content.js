@@ -3,8 +3,6 @@ import axios from 'axios'
 import ListCard from './ListCard'
 import { FaSearch } from 'react-icons/fa'
 import Pagination from './Pagination'
-import { connect } from 'react-redux'
-import { setList, delList } from '../reducers/listReducer'
 
 export class Content extends PureComponent {
   state={
@@ -35,50 +33,14 @@ export class Content extends PureComponent {
           return year.published_year
         }))].sort()
       })
-      this.props.set_list(res.data)
-      // localStorage.setItem('list', JSON.stringify(res.data))
-    }).catch((err) => { 
-      if(err.response) console.log(err.response)
+    }).catch(() => { 
+      this.setState({
+        offline:true
+      })
     })
   }
   componentDidMount(){
-    // if (navigator.onLine){
-      this.getSkripsi()
-      this.setState({
-        offline:false
-      })
-    // }
-    // else{
-      // if (localStorage.getItem('list')){
-        // let data = JSON.parse(localStorage.getItem('list'))
-        // this.setState({ 
-        //   skripsi: data,
-        //   isLoaded: true,
-        //   skripsiFiltered:data,
-        //   skripsiFilteredTemp:data,
-        //   skripsiFilteredCat:data,
-        //   skripsiFilteredYear:data,
-        //   years: [...new Set(data.map((year)=>{
-        //     return year.published_year
-        //   }))].sort()
-        // })
-
-        // ----------------------------------------
-      //   let {listSkripsi} = this.props
-      //   if (listSkripsi){
-      //   this.setState({ 
-      //     skripsi: listSkripsi,
-      //     isLoaded: true,
-      //     skripsiFiltered:listSkripsi,
-      //     skripsiFilteredTemp:listSkripsi,
-      //     skripsiFilteredCat:listSkripsi,
-      //     skripsiFilteredYear:listSkripsi,
-      //     years: [...new Set(listSkripsi.map((year)=>{
-      //       return year.published_year
-      //     }))].sort()
-      //   })
-      // }
-    // }
+    this.getSkripsi()
   }
   onChange =(e)=>{
     let text = e.target.value.toLowerCase().trim()
@@ -268,15 +230,4 @@ export class Content extends PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    set_list: (data) => dispatch(setList(data)),
-    del_list: () => dispatch(delList())
-  }
-}
-const mapStateToProps = state => {
-  return{
-    listSkripsi: state.list.skripsi,
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Content)
+export default Content

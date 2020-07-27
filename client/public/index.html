@@ -16,7 +16,10 @@
     <meta name='apple-mobile-web-app-status-bar-style' content='#379683'>
     <meta name='apple-mobile-web-app-capable' content='yes'>
     <link rel='apple-touch-icon' href='%PUBLIC_URL%/icon-180x180.png'/>
-        
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>    
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Oswald:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Preconnect Prefetch Preload -->
     <link rel='preconnect' href='http:\\localhost:5000' crossorigin>
     <link rel='dns-prefetch' href='http:\\localhost:5000'>
@@ -53,7 +56,17 @@
     <div id='startingLoader'>
       <img src='%PUBLIC_URL%/logo-192.png'>
       <b>REPOSITORI SKRIPSI</b>
-      <p>Harap tunggu..</p>
+      <div class='d-flex'>
+        <div class="spinner-grow" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
     </div>
     <script>
       function checkOnline(){

@@ -31,25 +31,15 @@ export class AccountVerification extends Component {
         usersFiltered:res.data,
         isLoaded: true
       })
-    }).catch((err) => { 
-      if(err.response){
-      console.log(err.response.statusText)
-      }
-    })
-  }
-  componentDidMount(){
-    if (navigator.onLine){
-      this.getData()
-      this.setState({
-        offline:false
-      })
-    }
-    else{
+    }).catch(() => { 
       this.setState({
         isLoaded:true,
         offline:true,
       })
-    }
+    })
+  }
+  componentDidMount(){
+    this.getData()
   }
   deleteAcc = (id) => {
     this.setState({
@@ -73,11 +63,18 @@ export class AccountVerification extends Component {
         showLoading:false,
         showAlert:true
       })
-      if(err.response){
-        console.log(err.response)
+      if(!navigator.onLine){
         this.setState({
-          message:err.response.data.message
+          message:'Anda sedang offline.'
         })
+      }
+      else{
+        if(err.response){
+          console.log(err.response)
+          this.setState({
+            message:err.response.data.message
+          })
+        }
       }
     })
   }
@@ -101,11 +98,18 @@ export class AccountVerification extends Component {
         showLoading:false,
         showAlert:true
       })
-      if(err.response){
-        console.log(err.response)
+      if (!navigator.onLine){
         this.setState({
-          message:err.response.data.message
+          message:'Anda sedang offline.'
         })
+      }
+      else{
+        if(err.response){
+          console.log(err.response)
+          this.setState({
+            message:err.response.data.message
+          })
+        }
       }
     })
   }  

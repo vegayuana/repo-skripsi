@@ -24,24 +24,14 @@ export class SkripsiStatus extends Component {
         skripsi: res.data,
         isLoaded: true
       })
-    }).catch(err=>{
-      if(err.response){
-      console.log(err.response)
-      }
-    })
-  }
-  componentDidMount(){
-    if (navigator.onLine){
-      this.getSkripsi()
-      this.setState({
-        offline:false
-      })
-    }
-    else{
+    }).catch(()=>{
       this.setState({
         offline:true,
       })
-    }
+    })
+  }
+  componentDidMount(){
+    this.getSkripsi()
   }
   render() {
     let { isLoaded, offline, skripsi} = this.state
