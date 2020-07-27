@@ -9,9 +9,10 @@ const isLocalhost = Boolean(
     )
 )
 
+
 export function register(config) {
   //Cek apakah service worker support pada browser
-  if ('serviceWorker' in navigator) {
+  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href)
     //Service worker tidak jalan jika public file diluar url
     if (publicUrl.origin !== window.location.origin) {
@@ -20,7 +21,7 @@ export function register(config) {
 
     //Ketika halaman telah di load 
     window.addEventListener('load', () => {
-      const swUrl = `${process.env.PUBLIC_URL}/custom-sw.js`
+      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`
       if (isLocalhost) {
         checkValidServiceWorker(swUrl, config)
         navigator.serviceWorker.ready.then(() => {
