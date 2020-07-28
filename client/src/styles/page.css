@@ -20,12 +20,12 @@ h3{
 a{
   cursor: pointer;
 }
-body.offline{
-  /* -moz-filter: grayscale(100%);
+/* body.offline{
+  -moz-filter: grayscale(100%);
   -webkit-filter: grayscale(100%);
   filter: gray;
-  filter: grayscale(100%); */
-}
+  filter: grayscale(100%);
+} */
 .alert-offline{
   margin:2%;
   position: fixed;

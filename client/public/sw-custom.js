@@ -5,6 +5,8 @@ if (workbox)
 else
   console.log(`Workbox gagal dimuat`)
 
+workbox.precaching.precacheAndRoute(self.__precacheManifest || [])
+
 workbox.routing.registerRoute('/', workbox.strategies.staleWhileRevalidate())
 
 workbox.routing.registerRoute(
