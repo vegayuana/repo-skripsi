@@ -1,4 +1,5 @@
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js')
+importScripts('precache-manifest.ada2ad1098b752ca46e58307c8ec0a37')
 
 if (workbox)
   console.log(`Workbox berhasil dimuat`)
