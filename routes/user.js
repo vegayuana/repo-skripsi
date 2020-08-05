@@ -145,7 +145,7 @@ router.post('/upload/', (req, res) =>{
       }
       let path_url = req.file.path
       let post = {
-        id: uuid().substring(0,5), 
+        id: uuid(), 
         npm: payload.npm,
         title: title,
         abstrak:abstrak,
